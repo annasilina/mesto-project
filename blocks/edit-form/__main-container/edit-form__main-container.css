@@ -4,3 +4,9 @@
 	flex-direction: column;
 	justify-content: space-between;
 }
+
+@media screen and (max-width: 520px) {
+	.edit-form__main-container {
+		padding: 25px 22px;
+	}
+}

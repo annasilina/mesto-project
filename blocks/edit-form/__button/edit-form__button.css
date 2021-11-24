@@ -3,8 +3,10 @@
 	border: 0;
 	background-color: #000;
 	color: #fff;
-	padding: 14px 0 18px;
+	padding: 14px 0 14px;
 	border-radius: 2px;
+	font-size: 1.13rem;
+	line-height: 1.22;
 }
 
 .edit-form__button:hover {

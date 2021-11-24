@@ -2,5 +2,6 @@
 	border: 0;
 	margin: 0;
 	padding: 0;
-	width: 358px;
+	max-width: 358px;
 }
+
