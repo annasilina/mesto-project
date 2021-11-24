@@ -1,0 +1,9 @@
+.gallery__caption {
+	color: #000;
+	font-weight: 900;
+	font-size: 1.5rem;
+	line-height: 1.1;
+	padding: 25px 15px 31px 21px;
+	display: flex;
+	justify-content: space-between;
+}

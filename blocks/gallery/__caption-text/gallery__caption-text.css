@@ -1,0 +1,7 @@
+.gallery__caption-text {
+	width: 190px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow-x: hidden;
+	margin: 0;
+}

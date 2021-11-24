@@ -1,0 +1,22 @@
+.gallery {
+	width: calc(100% - 400px);
+	margin: auto;
+}
+
+@media screen and (max-width: 1279px) {
+.gallery {
+	width: calc(100% - 200px);
+	}
+}
+
+@media screen and (max-width: 1078px) {
+	.gallery {
+		width: 100%
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.gallery {
+		width: calc(100% - 38px);
+	}
+}

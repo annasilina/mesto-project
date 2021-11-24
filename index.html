@@ -14,18 +14,9 @@
 		<img class="logo logo_place_header" src="images/logo.svg" alt="логотип место">
 	</header>
 	<main class="content">
-		<section class="profile">
-			<img class="profile__photo" src="images/profile-photo.jpg" alt="фото профиля">
-			<h1 class="profile__user-name">Жак-Ив Кусто</h1>
-			<h2 class="profile__user-bio">Исследователь океана</h2>
-			<button class="profile__edit-button"></button>
-			<button class="profile__add-button"></button>
-		</section>
 		<section class="popup">
 			<div class="popup__container">
-				<div class="popup__toggle">
-					<img class="popup__toggle-image" src="images/close-icon.svg" alt="закрыть">
-				</div>
+				<button type="button" class="popup__toggle button"></button>
 				<form class="edit-form">
 					<div class="edit-form__main-container">
 						<h2 class="edit-form__heading">Редактировать профиль</h2>
@@ -38,13 +29,82 @@
 										 class="edit-form__item edit-form__item_el_bio">
 						</fieldset>
 						<fieldset class="edit-form__handlers">
-							<input type="submit" class="edit-form__button" value="Сохранить">
+							<button type="submit" class="edit-form__button button" value="Сохранить"></button>
 						</fieldset>
 					</div>
 				</form>
 			</div>
 		</section>
+		<section class="profile">
+			<img class="profile__photo" src="images/profile-photo.jpg" alt="фото профиля">
+			<div class="profile__user-container">
+				<h1 class="profile__user-name">Жак-Ив Кусто</h1>
+				<h2 class="profile__user-bio">Исследователь океана</h2>
+				<button type="button" class="profile__button-edit button"></button>
+			</div>
+			<button type="button" class="profile__button-add button"></button>
+		</section>
+		<section class="gallery">
+			<ul class="gallery__items list">
+				<li>
+					<figure class="gallery__item-container">
+						<img class="gallery__photo" src="/images/karachaevsk.jpg" alt="карачаевск">
+						<figcaption class="gallery__caption">
+							<p class="gallery__caption-text">Карачаевск</p>
+							<button type="button" class="gallery__like-button button"></button>
+						</figcaption>
+					</figure>
+				</li>
+				<li>
+					<figure class="gallery__item-container">
+						<img class="gallery__photo" src="/images/elbrus.jpg" alt="эльбрус">
+						<figcaption class="gallery__caption">
+							<p class="gallery__caption-text">Гора Эльбрус</p>
+							<button type="button" class="gallery__like-button button"></button>
+						</figcaption>
+					</figure>
+				</li>
+				<li>
+					<figure class="gallery__item-container">
+						<img class="gallery__photo" src="/images/dombai.jpg" alt="домбай">
+						<figcaption class="gallery__caption">
+							<p class="gallery__caption-text">Домбай</p>
+							<button type="button" class="gallery__like-button button"></button>
+						</figcaption>
+					</figure>
+				</li>
+				<li>
+					<figure class="gallery__item-container">
+						<img class="gallery__photo" src="/images/elbrus.jpg" alt="эльбрус">
+						<figcaption class="gallery__caption">
+							<p class="gallery__caption-text">Гора Эльбрус</p>
+							<button type="button" class="gallery__like-button button"></button>
+						</figcaption>
+					</figure>
+				</li>
+				<li>
+					<figure class="gallery__item-container">
+						<img class="gallery__photo" src="/images/dombai.jpg" alt="домбай">
+						<figcaption class="gallery__caption">
+							<p class="gallery__caption-text">Домбай</p>
+							<button type="button" class="gallery__like-button button"></button>
+						</figcaption>
+					</figure>
+				</li>
+				<li>
+					<figure class="gallery__item-container">
+						<img class="gallery__photo" src="/images/karachaevsk.jpg" alt="карачаевск">
+						<figcaption class="gallery__caption">
+							<p class="gallery__caption-text">Карачаево-Черкесия</p>
+							<button type="button" class="gallery__like-button button"></button>
+						</figcaption>
+					</figure>
+				</li>
+			</ul>
+		</section>
 	</main>
-	<footer class="footer"></footer>
+	<footer class="footer">
+		<p class="footer__copyright">&copy; 2020 Mesto Russia</p>
+	</footer>
 </body>
 </html>

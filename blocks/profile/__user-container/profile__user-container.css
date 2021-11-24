@@ -1,0 +1,12 @@
+.profile__user-container {
+	display: grid;
+	grid-template-columns: repeat(3, auto);
+	grid-template-rows: repeat(2, auto);
+	row-gap: .5rem;
+}
+
+@media screen and (max-width: 690px) {
+	.profile__user-container {
+		justify-items: center;
+	}
+}
