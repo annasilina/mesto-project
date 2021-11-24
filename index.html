@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Страница про интересные места">
+	<meta name="keywords" content="">
+	<link rel="stylesheet" href="pages/index.css">
+	<title>Mesto</title>
+</head>
+<body class="page">
+	<header class="header">
+		<img class="logo logo_place_header" src="images/logo.svg" alt="логотип место">
+	</header>
+	<main class="content">
+		<section class="profile">
+			<img class="profile__photo" src="images/profile-photo.jpg" alt="фото профиля">
+			<h1 class="profile__user-name">Жак-Ив Кусто</h1>
+			<h2 class="profile__user-bio">Исследователь океана</h2>
+			<button class="profile__edit-button"></button>
+			<button class="profile__add-button"></button>
+		</section>
+		<section class="popup">
+			<div class="popup__container">
+				<div class="popup__toggle">
+					<img class="popup__toggle-image" src="images/close-icon.svg" alt="закрыть">
+				</div>
+				<form class="edit-form">
+					<div class="edit-form__main-container">
+						<h2 class="edit-form__heading">Редактировать профиль</h2>
+						<fieldset class="edit-form__input-container">
+							<label for="user-name"></label>
+							<input type="text" id="user-name" name="user-name" placeholder="Жак-Ив Кусто"
+										 class="edit-form__item edit-form__item_el_user-name">
+							<label for="bio"></label>
+							<input type="text" id="bio" name="bio" placeholder="Исследователь океана"
+										 class="edit-form__item edit-form__item_el_bio">
+						</fieldset>
+						<fieldset class="edit-form__handlers">
+							<input type="submit" class="edit-form__button" value="Сохранить">
+						</fieldset>
+					</div>
+				</form>
+			</div>
+		</section>
+	</main>
+	<footer class="footer"></footer>
+</body>
+</html>

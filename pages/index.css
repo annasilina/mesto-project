@@ -1,0 +1,17 @@
+@import url('../vendor/normalize.css');
+@import url('../vendor/fonts.css');
+@import url('../blocks/page/page.css');
+@import url('../blocks/logo/_place/logo_place_header.css');
+@import url('../blocks/header/header.css');
+@import url('../blocks/profile/profile.css');
+@import url('../blocks/popup/popup.css');
+@import url('../blocks/popup/_opened/popup_opened.css');
+@import url('../blocks/popup/__toggle/popup__toggle.css');
+@import url('../blocks/popup/__container/popup__container.css');
+@import url('../blocks/edit-form/edit-form.css');
+@import url('../blocks/edit-form/__main-container/edit-form__main-container.css');
+@import url('../blocks/edit-form/__heading/edit-form__heading.css');
+@import url('../blocks/edit-form/__input-container/edit-form__input-container.css');
+@import url('../blocks/edit-form/__item/edit-form__item.css');
+@import url('../blocks/edit-form/__handlers/edit-form__handlers.css');
+@import url('../blocks/edit-form/__button/edit-form__button.css');

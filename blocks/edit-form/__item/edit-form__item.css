@@ -1,0 +1,29 @@
+.edit-form__item {
+	border: 0;
+	padding: 0 0 13px 0;
+	box-sizing: border-box;
+	margin-bottom: 30px;
+	width: 100%;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+	font-family: inherit;
+}
+
+.edit-form__item:last-child {
+	margin-bottom: 0;
+}
+
+.edit-form__item:focus {
+	outline: none;
+}
+
+.edit-form__item::placeholder {
+	font-size: 14px;
+	line-height: 17px;
+	color: #000;
+}
+
+.edit-form__item::-webkit-input-placeholder {
+	font-size: 14px;
+	line-height: 17px;
+	color: #000;
+}

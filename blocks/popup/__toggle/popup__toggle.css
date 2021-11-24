@@ -1,0 +1,13 @@
+.popup__toggle {
+	width: 32px;
+	height: 32px;
+	position: absolute;
+	top: -40px;
+	right: -40px;
+}
+
+.popup__toggle:hover {
+	cursor: pointer;
+	opacity: .5;
+	transition: opacity .5s;
+}
