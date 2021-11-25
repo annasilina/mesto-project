@@ -25,3 +25,5 @@ _____
 Основные разрешения сайта:
 - Экраны мобильных (320px)
 - Мониторы (1280px)
+----
+Проект выложен на GitHub Pages - https://annasilina.github.io/mesto-project/
