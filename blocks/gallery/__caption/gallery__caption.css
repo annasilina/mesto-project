@@ -1,9 +1,6 @@
 .gallery__caption {
-	color: #000;
-	font-weight: 900;
-	font-size: 1.5rem;
-	line-height: 1.1;
-	padding: 25px 15px 31px 21px;
+	width: calc(100% - 40px);
+	margin: 1.5rem auto;
 	display: flex;
 	justify-content: space-between;
 }

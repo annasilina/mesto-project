@@ -1,0 +1,29 @@
+.popup__form-item {
+	width: 100%;
+	margin-bottom: 1.88rem;
+	padding: 0 0 .7rem 0;
+	border: 0;
+	border-bottom: .06rem solid rgba(0, 0, 0, 0.2);
+	box-sizing: border-box;
+	font-family: inherit;
+}
+
+.popup__form-item:last-child {
+	margin-bottom: 0;
+}
+
+.popup__form-item:focus {
+	outline: none;
+}
+
+.popup__form-item::placeholder {
+	font-size: .88rem;
+	line-height: 1.21;
+	color: #000;
+}
+
+.popup__form-item::-webkit-input-placeholder {
+	font-size: .88rem;
+	line-height: 1.21;
+	color: #000;
+}

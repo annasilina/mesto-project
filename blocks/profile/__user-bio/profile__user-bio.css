@@ -11,10 +11,15 @@
 	grid-column: 1/3;
 }
 
+@media screen and (max-width: 879px) {
+	.profile__user-bio {
+		font-size: .88rem;
+	}
+}
+
 @media screen and (max-width: 690px) {
 	.profile__user-bio {
 		grid-column: 1/-1;
-		font-size: .88rem;
 		padding-bottom: 2.25rem;
 	}
 }

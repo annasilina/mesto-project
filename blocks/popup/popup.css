@@ -1,9 +1,11 @@
 .popup {
-	width: 100vw;
-	height: 100vh;
-	position: absolute;
-	top: 0; left: 0; bottom: 0; right: 0;
-	overflow-y: hidden;
-	display: none;
+	min-width: 100%;
+	min-height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
 	background-color: rgba(0, 0, 0, .5);
+	display: none;
 }

@@ -1,6 +1,6 @@
 .popup__toggle {
 	background-image: url('/images/close-icon.svg');
-	background-color: rgba(0, 0, 0, .5);
+	background-color: rgba(0, 0, 0, 0);
 	background-size: cover;
 	border: 0;
 	position: absolute;
@@ -10,12 +10,11 @@
 	top: -40px
 }
 
-@media screen and (max-width: 520px) {
+@media screen and (max-width: 579px) {
 	.popup__toggle {
 		width: 20px;
 		height: 20px;
 		right: 0;
-		top: -40px
 	}
 }
 

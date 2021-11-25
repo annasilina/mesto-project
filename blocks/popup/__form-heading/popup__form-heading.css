@@ -1,14 +1,15 @@
-.edit-form__heading {
+.popup__form-heading {
 	margin: 0;
+	padding: 0;
+	color: #000;
 	font-style: normal;
 	font-weight: 900;
 	font-size: 1.5rem;
 	line-height: 1.21;
-	color: #000;
 }
 
-@media screen and (max-width: 520px) {
-	.edit-form__main-container {
+@media screen and (max-width: 579px) {
+	.popup__form-heading {
 		font-size: 1.13rem;
 	}
 }
