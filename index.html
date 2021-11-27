@@ -2,7 +2,6 @@
 <html lang="ru">
 <head>
 	<meta charset="UTF-8">
-	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="фото-блог посвященный необычным местам">
 	<meta name="keywords" content="фото, путешествия, природа, блог">
@@ -18,66 +17,66 @@
 			<img class="profile__photo" src="images/profile-photo.jpg" alt="фото профиля">
 			<div class="profile__user-container">
 				<h1 class="profile__user-name">Жак-Ив Кусто</h1>
-				<h2 class="profile__user-bio">Исследователь океана</h2>
-				<button type="button" class="profile__button-edit button"></button>
+				<p class="profile__user-bio">Исследователь океана</p>
+				<button type="button" class="profile__button-edit button" aria-label="изменить"></button>
 			</div>
-			<button type="button" class="profile__button-add button"></button>
+			<button type="button" class="profile__button-add button" aria-label="добавить"></button>
 		</section>
 		<section class="gallery">
 			<ul class="gallery__items list">
 				<li>
-					<figure class="gallery__item-container">
+					<article class="gallery__item-container">
 						<img class="gallery__photo" src="images/karachaevsk.jpg" alt="карачаевск">
-						<figcaption class="gallery__caption">
-							<p class="gallery__caption-text">Карачаевск</p>
+						<div class="gallery__caption">
+							<h2 class="gallery__caption-text">Карачаевск</h2>
 							<button type="button" class="gallery__like-button button"></button>
-						</figcaption>
-					</figure>
+						</div>
+					</article>
 				</li>
 				<li>
-					<figure class="gallery__item-container">
+					<article class="gallery__item-container">
 						<img class="gallery__photo" src="images/elbrus.jpg" alt="эльбрус">
-						<figcaption class="gallery__caption">
-							<p class="gallery__caption-text">Гора Эльбрус</p>
+						<div class="gallery__caption">
+							<h2 class="gallery__caption-text">Гора Эльбрус</h2>
 							<button type="button" class="gallery__like-button button"></button>
-						</figcaption>
-					</figure>
+						</div>
+					</article>
 				</li>
 				<li>
-					<figure class="gallery__item-container">
+					<article class="gallery__item-container">
 						<img class="gallery__photo" src="images/dombai.jpg" alt="домбай">
-						<figcaption class="gallery__caption">
-							<p class="gallery__caption-text">Домбай</p>
+						<div class="gallery__caption">
+							<h2 class="gallery__caption-text">Домбай</h2>
 							<button type="button" class="gallery__like-button button"></button>
-						</figcaption>
-					</figure>
+						</div>
+					</article>
 				</li>
 				<li>
-					<figure class="gallery__item-container">
+					<article class="gallery__item-container">
 						<img class="gallery__photo" src="images/elbrus.jpg" alt="эльбрус">
-						<figcaption class="gallery__caption">
-							<p class="gallery__caption-text">Гора Эльбрус</p>
+						<div class="gallery__caption">
+							<h2 class="gallery__caption-text">Гора Эльбрус</h2>
 							<button type="button" class="gallery__like-button button"></button>
-						</figcaption>
-					</figure>
+						</div>
+					</article>
 				</li>
 				<li>
-					<figure class="gallery__item-container">
+					<article class="gallery__item-container">
 						<img class="gallery__photo" src="images/dombai.jpg" alt="домбай">
-						<figcaption class="gallery__caption">
-							<p class="gallery__caption-text">Домбай</p>
+						<div class="gallery__caption">
+							<h2 class="gallery__caption-text">Домбай</h2>
 							<button type="button" class="gallery__like-button button"></button>
-						</figcaption>
-					</figure>
+						</div>
+					</article>
 				</li>
 				<li>
-					<figure class="gallery__item-container">
+					<article class="gallery__item-container">
 						<img class="gallery__photo" src="images/karachaevsk.jpg" alt="карачаевск">
-						<figcaption class="gallery__caption">
-							<p class="gallery__caption-text">Карачаево-Черкесия</p>
+						<div class="gallery__caption">
+							<h2 class="gallery__caption-text">Карачаево-Черкесия</h2>
 							<button type="button" class="gallery__like-button button"></button>
-						</figcaption>
-					</figure>
+						</div>
+					</article>
 				</li>
 			</ul>
 		</section>
@@ -85,26 +84,24 @@
 	<footer class="footer">
 		<p class="footer__copyright">&copy; 2020 Mesto Russia</p>
 	</footer>
-	<section class="popup">
+	<div class="popup">
 		<div class="popup__container">
-			<button type="button" class="popup__toggle button"></button>
-			<form class="popup__edit-form">
-				<div class="popup__form-container">
-					<h2 class="popup__form-heading">Редактировать профиль</h2>
-					<fieldset class="popup__input-container">
-						<label for="user-name"></label>
-						<input type="text" id="user-name" name="user-name" placeholder="Жак-Ив Кусто"
-									 class="popup__form-item popup__form-item_el_user-name">
-						<label for="bio"></label>
-						<input type="text" id="bio" name="bio" placeholder="Исследователь океана"
-									 class="popup__form-item popup__form-item__item_el_bio">
-					</fieldset>
-					<fieldset class="popup__form-handlers">
-						<button type="submit" class="popup__form-button button">Сохранить</button>
-					</fieldset>
-				</div>
+			<button type="button" class="popup__close-button button"></button>
+			<form class="popup__form" name="profile-edit">
+				<h2 class="popup__form-heading">Редактировать профиль</h2>
+				<fieldset class="popup__input-container">
+					<label for="user-name"></label>
+					<input type="text" id="user-name" name="user-name" placeholder="Имя пользователя"
+								 class="popup__form-item popup__form-item_el_user-name">
+					<label for="bio"></label>
+					<input type="text" id="bio" name="bio" placeholder="Профессия пользователя"
+								 class="popup__form-item popup__form-item_el_bio">
+				</fieldset>
+				<fieldset class="popup__form-handlers">
+					<button type="submit" class="popup__form-button button">Сохранить</button>
+				</fieldset>
 			</form>
 		</div>
-	</section>
+	</div>
 </body>
 </html>

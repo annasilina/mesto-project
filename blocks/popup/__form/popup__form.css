@@ -1,11 +1,12 @@
-.popup__edit-form {
-	display: flex;
+.popup__form {
 	width: calc(100% - 72px);
 	margin: 0 auto;
+	padding: 2.1rem 0;
 }
 
 @media screen and (max-width: 579px) {
-	.popup__edit-form {
+	.popup__form {
 		width: calc(100% - 44px);
+		padding: 1.6rem 0;
 	}
 }
