@@ -1,0 +1,11 @@
+.gallery__item {
+	max-width: 282px;
+	height: 361px;
+	background-color: #fff;
+	border-radius: .63rem;
+	overflow: hidden;
+	display: grid;
+	grid-template-columns: 210px auto;
+	grid-template-rows: 282px auto;
+	align-items: center;
+}

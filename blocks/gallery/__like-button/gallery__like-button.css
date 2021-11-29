@@ -1,5 +1,6 @@
 .gallery__like-button {
 	padding: 0;
+	margin: 0 1.25rem 0 0;
 	width: 22px;
 	height: 19px;
 	background-image: url('../../../images/like-button.svg');
@@ -7,7 +8,7 @@
 	background-repeat: no-repeat;
 	border: none;
 	background-color: inherit;
-	align-self: center;
+	justify-self: end;
 }
 
 .gallery__like-button:hover {

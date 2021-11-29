@@ -1,6 +1,11 @@
 .gallery__caption {
-	width: calc(100% - 40px);
-	margin: 1.5rem auto;
-	display: flex;
-	justify-content: space-between;
+	padding: 0;
+	margin: 0 0 0 1.31rem;
+	color: #000;
+	font-weight: 900;
+	font-size: 1.5rem;
+	line-height: 1.2;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow-x: hidden;
 }
