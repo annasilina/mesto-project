@@ -1,14 +1,57 @@
+// массив карточек мест для блога
+const initialCards = [
+	{
+		name: 'Архыз',
+		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+	},
+	{
+		name: 'Челябинская область',
+		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+	},
+	{
+		name: 'Иваново',
+		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+	},
+	{
+		name: 'Камчатка',
+		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+	},
+	{
+		name: 'Холмогорский район',
+		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+	},
+	{
+		name: 'Байкал',
+		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+	}
+];
+
+// находим элемент контента на странице
+const content = document.querySelector('.content')
+
 // находим элементы профиля
-const profile = document.querySelector('.profile');
+const profile = content.querySelector('.profile');
 const userNameElement = profile.querySelector('.profile__user-name');
 const userBioElement = profile.querySelector('.profile__user-bio');
 
-// находим элементы галлереи мест
+// находим элемент галереи мест
+const gallery = content.querySelector('.gallery');
 
+// загрузка карточек мест в галерею
+initialCards.forEach(card => {
+	gallery.insertAdjacentHTML(`beforeend`, `
+		<article class="gallery__item">
+			<img class="gallery__photo" src=${card.link} alt=${card.name}>
+			<h2 class="gallery__caption">${card.name}</h2>
+			<button type="button" class="gallery__like-button button"></button>
+			<button type="button" class="gallery__delete-button button"></button>
+		</article>`);
+});
 
-// находим кнопки: редактирование профиля, добавление карточки, лайк, удаление
+// находим кнопки: редактирование профиля, добавление места, лайк, удаление места
 const editButton = profile.querySelector('.profile__button-edit');
 const addButton = profile.querySelector('.profile__button-add');
+const likeButtons = gallery.querySelectorAll('.gallery__like-button');
 
 // находим форму редактирования профиля и поля ввода для нее
 const profileForm = document.querySelector('.popup_type_profile-edit');
@@ -49,3 +92,11 @@ function closePopup() {
 // вызов обработчика события для закрытия формы редактирования по кликам на кнопки: закрыть/сохранить
 closeButton.addEventListener('click', closePopup);
 saveButton.addEventListener('click', closePopup);
+
+
+// вызов обработчика события для лайка
+likeButtons.forEach(button => {
+	button.addEventListener('click', function () {
+		button.classList.toggle('gallery__like-button_active');
+	});
+});
