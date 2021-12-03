@@ -42,33 +42,156 @@ initialItems.forEach(item => {
 			<h2 class="gallery__caption">${item.name}</h2>
 			<button type="button" class="gallery__like-button button"></button>
 			<button type="button" class="gallery__delete-button button"></button>
-		</article>`)
+		</article>`);
 });
 
-// находим элементы фото и названий мест
-const itemPhotoElement = galleryElement.querySelectorAll('.gallery__photo');
-const itemNameElement = galleryElement.querySelectorAll('.gallery__caption');
-
+// находим элементы карточек в галерее
+let galleryItemElements = galleryElement.querySelectorAll('.gallery__item');
 
 // находим форму редактирования профиля и поля ввода именя и подписи пользователя
 const profileEditForm = document.querySelector('.popup_type_profile-edit');
 const userNameInput = profileEditForm.querySelector('.popup__form-item_el_user-name');
-const userBioInput = profileEditForm.querySelector('.popup__form-item_el_user-bio');
+const userBioInput = profileEditForm.querySelector('.popup__form-item_el_bio');
 
 // находим форму добавления карточки места в галерею
 const itemAddForm = document.querySelector('.popup_type_add-item');
+const itemPhotoInput = itemAddForm.querySelector('.popup__form-item_el_place-link');
+const itemNameInput = itemAddForm.querySelector('.popup__form-item_el_place-name');
 
-// находим кнопки открытия и закрытия форм
-const openProfileEditForm = profileElement.querySelector('.profile__button-edit');
-const closeProfileEditForm = profileEditForm.querySelector('.popup__close-button');
-const openItemAddForm = profileElement.querySelector('.profile__button-add');
-const closeItemAddForm = itemAddForm.querySelector('.popup__close-button');
+// находим попап просмотра увеличенной фотографии места
+const itemPhotoPopup = document.querySelector('.popup_type_item-photo');
+const itemPhoto = itemPhotoPopup.querySelector('.popup__item-photo');
+const itemPhotoCaption = itemPhotoPopup.querySelector('.popup__item-caption')
+
+// находим кнопки открытия и закрытия форм и попапов
+const openProfileEditFormButton = profileElement.querySelector('.profile__button-edit');
+const closeProfileEditFormButton = profileEditForm.querySelector('.popup__close-button');
+const openItemAddFormButton = profileElement.querySelector('.profile__button-add');
+const closeItemAddFormButton = itemAddForm.querySelector('.popup__close-button');
+const closePhotoPopupButton = itemPhotoPopup.querySelector('.popup__close-button');
 
 // находим кнопки лайков и удаления карточек
-const likeItemButton = galleryElement.querySelectorAll('.gallery__like-button');
-const deleteItemButton = galleryElement.querySelectorAll('.gallery__delete-button');
+let likeItemButtons = galleryElement.querySelectorAll('.gallery__like-button');
+let deleteItemButtons = galleryElement.querySelectorAll('.gallery__delete-button');
 
-// функция открытия форм
+// обработчик кнопок лайков для карточек мест
+likeItemButtons.forEach(button => {
+	button.addEventListener('click', () => {
+		button.classList.toggle('gallery__like-button_active');
+	});
+});
+
+// обработчик кнопок удаления карточек мест
+deleteItemButtons.forEach(button => {
+	button.addEventListener('click', () => {
+		let parentItem = button.parentNode;
+		parentItem.remove();
+	});
+});
+
+// функция для открытия форм
 function openForm(form) {
-	
+	form.classList.add('popup_opened');
 }
+
+// функция для закрытия форм
+function  closeForm(form) {
+	form.classList.remove('popup_opened');
+}
+
+// функция открытия формы редактирования профиля
+openProfileEditFormButton.addEventListener('click', () => {
+	openForm(profileEditForm)
+
+	userNameInput.value = userNameElement.textContent;
+	userBioInput.value = userBioElement.textContent;
+});
+
+
+// функция отправки формы редактирования профиля
+function profileEditFormSubmit(evt) {
+	evt.preventDefault();
+
+	userNameElement.textContent = userNameInput.value;
+	userBioElement.textContent = userBioInput.value;
+
+	closeForm(profileEditForm);
+}
+
+// обработчик отправки формы редактирования профиля
+profileEditForm.addEventListener('submit', profileEditFormSubmit);
+
+// функция открытия формы добавления места
+openItemAddFormButton.addEventListener('click', () => {
+	openForm(itemAddForm)
+});
+
+// функция отправки формы редактирования профиля
+function itemAddFormSubmit(evt) {
+	evt.preventDefault();
+
+	galleryElement.insertAdjacentHTML('afterbegin', `
+		<article class="gallery__item">
+			<img class="gallery__photo" src="${itemPhotoInput.value}" alt="${itemNameInput.value}">
+			<h2 class="gallery__caption">${itemNameInput.value}</h2>
+			<button type="button" class="gallery__like-button button"></button>
+			<button type="button" class="gallery__delete-button button"></button>
+		</article>
+`);
+
+	likeItemButtons = galleryElement.querySelectorAll('.gallery__like-button');
+	deleteItemButtons = galleryElement.querySelectorAll('.gallery__delete-button');
+	galleryItemElements = galleryElement.querySelectorAll('.gallery__item');
+
+	// обработчик кнопок лайков для карточек мест
+	likeItemButtons.forEach(button => {
+		button.addEventListener('click', () => {
+			button.classList.toggle('gallery__like-button_active')
+		});
+	});
+
+	// обработчик кнопок удаления карточек мест
+	deleteItemButtons.forEach(button => {
+		button.addEventListener('click', () => {
+			let parentItem = button.parentNode;
+			parentItem.remove();
+		});
+	});
+
+	// обработчик открытия попапа просмотра фотографий карточки места
+	galleryItemElements.forEach(item => {
+		let galleryItemPhoto = item.querySelector('.gallery__photo');
+		let galleryItemCaption = item.querySelector('.gallery__caption');
+
+		galleryItemPhoto.addEventListener('click', () => {
+			openForm(itemPhotoPopup);
+
+			itemPhoto.setAttribute('src', galleryItemPhoto.getAttribute('src'));
+			itemPhotoCaption.textContent = galleryItemCaption.textContent;
+		});
+	})
+
+
+	closeForm(itemAddForm);
+}
+
+// обработчик отправки формы редактирования профиля
+itemAddForm.addEventListener('submit', itemAddFormSubmit);
+
+// обработчик открытия попапа просмотра фотографий карточки места
+galleryItemElements.forEach(item => {
+	let galleryItemPhoto = item.querySelector('.gallery__photo');
+	let galleryItemCaption = item.querySelector('.gallery__caption');
+
+	galleryItemPhoto.addEventListener('click', () => {
+		openForm(itemPhotoPopup);
+
+		itemPhoto.setAttribute('src', galleryItemPhoto.getAttribute('src'));
+		itemPhotoCaption.textContent = galleryItemCaption.textContent;
+	});
+})
+
+// обработчики кнопок закрытия форм
+closeProfileEditFormButton.addEventListener('click', () => closeForm(profileEditForm));
+closeItemAddFormButton.addEventListener('click', () => closeForm(itemAddForm));
+closePhotoPopupButton.addEventListener('click', () => closeForm(itemPhotoPopup));

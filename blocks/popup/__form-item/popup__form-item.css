@@ -19,11 +19,11 @@
 .popup__form-item::placeholder {
 	font-size: .88rem;
 	line-height: 1.21;
-	color: #000;
+	color: #c4c4c4;
 }
 
 .popup__form-item::-webkit-input-placeholder {
 	font-size: .88rem;
 	line-height: 1.21;
-	color: #000;
+	color: #c4c4c4;
 }
