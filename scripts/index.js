@@ -75,19 +75,25 @@ let likeItemButtons = galleryElement.querySelectorAll('.gallery__like-button');
 let deleteItemButtons = galleryElement.querySelectorAll('.gallery__delete-button');
 
 // обработчик кнопок лайков для карточек мест
-likeItemButtons.forEach(button => {
-	button.addEventListener('click', () => {
-		button.classList.toggle('gallery__like-button_active');
+function likeItem() {
+	likeItemButtons.forEach(button => {
+		button.addEventListener('click', () => {
+			button.classList.toggle('gallery__like-button_active');
+		});
 	});
-});
+}
+likeItem();
 
 // обработчик кнопок удаления карточек мест
-deleteItemButtons.forEach(button => {
-	button.addEventListener('click', () => {
-		let parentItem = button.parentNode;
-		parentItem.remove();
+function deleteItem() {
+	deleteItemButtons.forEach(button => {
+		button.addEventListener('click', () => {
+			let parentItem = button.parentNode;
+			parentItem.remove();
+		});
 	});
-});
+}
+deleteItem();
 
 // функция для открытия форм
 function openForm(form) {
@@ -143,22 +149,17 @@ function itemAddFormSubmit(evt) {
 	deleteItemButtons = galleryElement.querySelectorAll('.gallery__delete-button');
 	galleryItemElements = galleryElement.querySelectorAll('.gallery__item');
 
-	// обработчик кнопок лайков для карточек мест
-	likeItemButtons.forEach(button => {
-		button.addEventListener('click', () => {
-			button.classList.toggle('gallery__like-button_active')
-		});
-	});
+	likeItem();
+	deleteItem();
+	itemPhotoPopupOpen()
+	closeForm(itemAddForm);
+}
 
-	// обработчик кнопок удаления карточек мест
-	deleteItemButtons.forEach(button => {
-		button.addEventListener('click', () => {
-			let parentItem = button.parentNode;
-			parentItem.remove();
-		});
-	});
+// обработчик отправки формы редактирования профиля
+itemAddForm.addEventListener('submit', itemAddFormSubmit);
 
-	// обработчик открытия попапа просмотра фотографий карточки места
+// обработчик открытия попапа просмотра фотографий карточки места
+function itemPhotoPopupOpen() {
 	galleryItemElements.forEach(item => {
 		let galleryItemPhoto = item.querySelector('.gallery__photo');
 		let galleryItemCaption = item.querySelector('.gallery__caption');
@@ -167,29 +168,13 @@ function itemAddFormSubmit(evt) {
 			openForm(itemPhotoPopup);
 
 			itemPhoto.setAttribute('src', galleryItemPhoto.getAttribute('src'));
+			itemPhoto.setAttribute('alt', galleryItemPhoto.getAttribute('alt'));
 			itemPhotoCaption.textContent = galleryItemCaption.textContent;
 		});
-	})
-
-
-	closeForm(itemAddForm);
+	});
 }
 
-// обработчик отправки формы редактирования профиля
-itemAddForm.addEventListener('submit', itemAddFormSubmit);
-
-// обработчик открытия попапа просмотра фотографий карточки места
-galleryItemElements.forEach(item => {
-	let galleryItemPhoto = item.querySelector('.gallery__photo');
-	let galleryItemCaption = item.querySelector('.gallery__caption');
-
-	galleryItemPhoto.addEventListener('click', () => {
-		openForm(itemPhotoPopup);
-
-		itemPhoto.setAttribute('src', galleryItemPhoto.getAttribute('src'));
-		itemPhotoCaption.textContent = galleryItemCaption.textContent;
-	});
-})
+itemPhotoPopupOpen();
 
 // обработчики кнопок закрытия форм
 closeProfileEditFormButton.addEventListener('click', () => closeForm(profileEditForm));
