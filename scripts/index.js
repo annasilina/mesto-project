@@ -71,11 +71,13 @@ const closeItemAddFormButton = itemAddForm.querySelector('.popup__close-button')
 const closePhotoPopupButton = itemPhotoPopup.querySelector('.popup__close-button');
 
 // находим кнопки лайков и удаления карточек
-let likeItemButtons = galleryElement.querySelectorAll('.gallery__like-button');
-let deleteItemButtons = galleryElement.querySelectorAll('.gallery__delete-button');
+/*let likeItemButtons = galleryElement.querySelectorAll('.gallery__like-button');*/
+/*let deleteItemButtons = galleryElement.querySelectorAll('.gallery__delete-button');*/
 
 // обработчик кнопок лайков для карточек мест
 function likeItem() {
+	let likeItemButtons = galleryElement.querySelectorAll('.gallery__like-button');
+
 	likeItemButtons.forEach(button => {
 		button.addEventListener('click', () => {
 			button.classList.toggle('gallery__like-button_active');
@@ -86,6 +88,8 @@ likeItem();
 
 // обработчик кнопок удаления карточек мест
 function deleteItem() {
+	let deleteItemButtons = galleryElement.querySelectorAll('.gallery__delete-button');
+
 	deleteItemButtons.forEach(button => {
 		button.addEventListener('click', () => {
 			let parentItem = button.parentNode;
@@ -127,35 +131,38 @@ function profileEditFormSubmit(evt) {
 // обработчик отправки формы редактирования профиля
 profileEditForm.addEventListener('submit', profileEditFormSubmit);
 
+// работаем с галереей
 // функция открытия формы добавления места
 openItemAddFormButton.addEventListener('click', () => {
 	openForm(itemAddForm)
 });
 
-// функция отправки формы редактирования профиля
+//функция добавления места в галераю
+function itemAdd(itemName, itemPhoto) {
+	const itemTemplate = document.querySelector('#item-template').content;
+	const galleryItemElement = itemTemplate.querySelector('.gallery__item').cloneNode(true);
+
+	galleryItemElement.querySelector('.gallery__photo').setAttribute('src', itemPhoto);
+	galleryItemElement.querySelector('.gallery__photo').setAttribute('alt', itemName);
+	galleryItemElement.querySelector('.gallery__caption').textContent = itemName;
+
+	galleryElement.prepend(galleryItemElement);
+	galleryItemElements = galleryElement.querySelectorAll('.gallery__item');
+}
+
+// функция отправки формы с добавлением нового места в галерею
 function itemAddFormSubmit(evt) {
 	evt.preventDefault();
 
-	galleryElement.insertAdjacentHTML('afterbegin', `
-		<article class="gallery__item">
-			<img class="gallery__photo" src="${itemPhotoInput.value}" alt="${itemNameInput.value}">
-			<h2 class="gallery__caption">${itemNameInput.value}</h2>
-			<button type="button" class="gallery__like-button button"></button>
-			<button type="button" class="gallery__delete-button button"></button>
-		</article>
-`);
-
-	likeItemButtons = galleryElement.querySelectorAll('.gallery__like-button');
-	deleteItemButtons = galleryElement.querySelectorAll('.gallery__delete-button');
-	galleryItemElements = galleryElement.querySelectorAll('.gallery__item');
+	itemAdd(itemNameInput.value, itemPhotoInput.value);
 
 	likeItem();
 	deleteItem();
-	itemPhotoPopupOpen()
+	itemPhotoPopupOpen();
 	closeForm(itemAddForm);
 }
 
-// обработчик отправки формы редактирования профиля
+// обработчик отправки формы добавления нового места
 itemAddForm.addEventListener('submit', itemAddFormSubmit);
 
 // обработчик открытия попапа просмотра фотографий карточки места
