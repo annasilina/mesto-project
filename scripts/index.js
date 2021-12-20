@@ -27,19 +27,19 @@ const initialItems = [
 ];
 
 // находим профиль и элементы имени и подписи пользователя
-const profileElement = document.querySelector('.profile');
-const userNameElement = profileElement.querySelector('.profile__user-name');
-const userBioElement = profileElement.querySelector('.profile__user-bio');
+const profile = document.querySelector('.profile');
+const userName = profile.querySelector('.profile__user-name');
+const userBio = profile.querySelector('.profile__user-bio');
 
-// находим элемент галереи
-const galleryElement = document.querySelector('.gallery');
+// находим галерею мест
+const gallery = document.querySelector('.gallery');
 
-// находим форму редактирования профиля и поля ввода именя и подписи пользователя
+// находим попап-форму редактирования профиля и поля ввода имени и подписи пользователя
 const profileEditForm = document.querySelector('.popup_type_profile-edit');
 const userNameInput = profileEditForm.querySelector('.popup__form-item_el_user-name');
 const userBioInput = profileEditForm.querySelector('.popup__form-item_el_bio');
 
-// находим форму добавления карточки места в галерею и ее элемнты
+// находим попа-форму добавления карточки места в галерею и поля ввода для фото и названия места
 const itemAddForm = document.querySelector('.popup_type_add-item');
 const itemPhotoInput = itemAddForm.querySelector('.popup__form-item_el_place-link');
 const itemNameInput = itemAddForm.querySelector('.popup__form-item_el_place-name');
@@ -50,26 +50,26 @@ const itemBigPhoto = itemPhotoPopup.querySelector('.popup__item-photo');
 const itemBigPhotoCaption = itemPhotoPopup.querySelector('.popup__item-caption')
 
 // находим кнопки открытия и закрытия форм и попапов
-const openProfileEditFormButton = profileElement.querySelector('.profile__button-edit');
+const openProfileEditFormButton = profile.querySelector('.profile__button-edit');
 const closeProfileEditFormButton = profileEditForm.querySelector('.popup__close-button');
-const openItemAddFormButton = profileElement.querySelector('.profile__button-add');
+const openItemAddFormButton = profile.querySelector('.profile__button-add');
 const closeItemAddFormButton = itemAddForm.querySelector('.popup__close-button');
 const closePhotoPopupButton = itemPhotoPopup.querySelector('.popup__close-button');
 
-// рендерим карточки для галереи по умолчанию
+// рендерим и вставляем карточки для галереи по умолчанию
 initialItems.forEach(item => {
-	itemAdd(item);
+	gallery.append(createItem(item));
 });
 
-// задаем функцию для обработки лайка карточки места
-function likeElement(likeButton) {
+// задаем функцию для обработки кнопки лайка карточки места
+function likeItem(likeButton) {
 	likeButton.addEventListener('click', function (evt) {
 		evt.target.classList.toggle('gallery__like-button_active');
 	});
 }
 
-// задаем функцию для удаления карточки места
-function deleteElement(deleteButton) {
+// задаем функцию для обработки кнопки удаления карточки места
+function deleteItem(deleteButton) {
 	deleteButton.addEventListener('click', function (evt) {
 		evt.target.parentElement.remove();
 	});
@@ -85,20 +85,21 @@ function  closeForm(form) {
 	form.classList.remove('popup_opened');
 }
 
+// работаем с профилем
 // обработчик кнопки открытия формы редактирования профиля
 openProfileEditFormButton.addEventListener('click', () => {
 	openForm(profileEditForm)
 
-	userNameInput.value = userNameElement.textContent;
-	userBioInput.value = userBioElement.textContent;
+	userNameInput.value = userName.textContent;
+	userBioInput.value = userBio.textContent;
 });
 
 // функция отправки формы редактирования профиля
 function profileEditFormSubmit(evt) {
 	evt.preventDefault();
 
-	userNameElement.textContent = userNameInput.value;
-	userBioElement.textContent = userBioInput.value;
+	userName.textContent = userNameInput.value;
+	userBio.textContent = userBioInput.value;
 
 	closeForm(profileEditForm);
 }
@@ -113,7 +114,7 @@ openItemAddFormButton.addEventListener('click', () => {
 });
 
 //функция создания карточки места в галерее
-function itemAdd(itemData) {
+function createItem(itemData) {
 	const itemTemplate = document.querySelector('#item-template').content;
 	const galleryItemElement = itemTemplate.querySelector('.gallery__item').cloneNode(true);
 	const elementPhoto = galleryItemElement.querySelector('.gallery__photo');
@@ -126,11 +127,16 @@ function itemAdd(itemData) {
 	const elementLikeButton = galleryItemElement.querySelector('.gallery__like-button');
 	const elementDeleteButton = galleryItemElement.querySelector('.gallery__delete-button');
 
-	likeElement(elementLikeButton);
-	deleteElement(elementDeleteButton);
+	likeItem(elementLikeButton);
+	deleteItem(elementDeleteButton);
+	itemPhotoPopupOpen(elementPhoto, elementCaption);
 
-	galleryElement.prepend(galleryItemElement);
-	itemPhotoPopupOpen();
+	return galleryItemElement;
+}
+
+// функция добавления новой карточки места
+function addNewItem(itemElement) {
+	gallery.prepend(itemElement);
 }
 
 // функция отправки формы с добавлением нового места в галерею
@@ -139,7 +145,7 @@ function itemAddFormSubmit(evt) {
 
 	const itemData = {link: itemPhotoInput.value, name: itemNameInput.value};
 
-	itemAdd(itemData);
+	addNewItem(createItem(itemData));
 	closeForm(itemAddForm);
 }
 
@@ -147,20 +153,13 @@ function itemAddFormSubmit(evt) {
 itemAddForm.addEventListener('submit', itemAddFormSubmit);
 
 // функция для открытия попапа просмотра фотографий карточки места
-function itemPhotoPopupOpen() {
-	const galleryItemElements = galleryElement.querySelectorAll('.gallery__item');
+function itemPhotoPopupOpen(photo, caption) {
+	photo.addEventListener('click', () => {
+		openForm(itemPhotoPopup);
 
-	galleryItemElements.forEach(item => {
-		const galleryItemPhoto = item.querySelector('.gallery__photo');
-		const galleryItemCaption = item.querySelector('.gallery__caption');
-
-		galleryItemPhoto.addEventListener('click', () => {
-			openForm(itemPhotoPopup);
-
-			itemBigPhoto.src = galleryItemPhoto.src;
-			itemBigPhoto.alt = galleryItemPhoto.alt;
-			itemBigPhotoCaption.textContent = galleryItemCaption.textContent;
-		});
+		itemBigPhoto.src = photo.src;
+		itemBigPhoto.alt = photo.alt;
+		itemBigPhotoCaption.textContent = caption.textContent;
 	});
 }
 
