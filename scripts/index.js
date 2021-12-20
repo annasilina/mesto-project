@@ -1,4 +1,4 @@
-// массив карточек мест по умолчанию
+// массив элементов мест для галереи по умолчанию
 const initialItems = [
 	{
 		name: 'Архыз',
@@ -56,19 +56,19 @@ const openItemAddFormButton = profile.querySelector('.profile__button-add');
 const closeItemAddFormButton = itemAddForm.querySelector('.popup__close-button');
 const closePhotoPopupButton = itemPhotoPopup.querySelector('.popup__close-button');
 
-// рендерим и вставляем карточки для галереи по умолчанию
+// рендерим и вставляем элементы галереи по умолчанию
 initialItems.forEach(item => {
 	gallery.append(createItem(item));
 });
 
-// задаем функцию для обработки кнопки лайка карточки места
+// задаем функцию для обработки кнопки лайка элемента галереи
 function likeItem(likeButton) {
 	likeButton.addEventListener('click', function (evt) {
 		evt.target.classList.toggle('gallery__like-button_active');
 	});
 }
 
-// задаем функцию для обработки кнопки удаления карточки места
+// задаем функцию для обработки кнопки удаления элемента галереи
 function deleteItem(deleteButton) {
 	deleteButton.addEventListener('click', function (evt) {
 		evt.target.parentElement.remove();
@@ -108,12 +108,12 @@ function profileEditFormSubmit(evt) {
 profileEditForm.addEventListener('submit', profileEditFormSubmit);
 
 // работаем с галереей
-// функция открытия формы добавления места
+// функция открытия формы добавления элемента в галерею
 openItemAddFormButton.addEventListener('click', () => {
 	openForm(itemAddForm)
 });
 
-//функция создания карточки места в галерее
+//функция создания элемента галереи
 function createItem(itemData) {
 	const itemTemplate = document.querySelector('#item-template').content;
 	const galleryItemElement = itemTemplate.querySelector('.gallery__item').cloneNode(true);
@@ -134,12 +134,12 @@ function createItem(itemData) {
 	return galleryItemElement;
 }
 
-// функция добавления новой карточки места
+// функция добавления новогго элемента галереи
 function addNewItem(itemElement) {
 	gallery.prepend(itemElement);
 }
 
-// функция отправки формы с добавлением нового места в галерею
+// функция отправки формы с добавлением нового элемента в галерею
 function itemAddFormSubmit(evt) {
 	evt.preventDefault();
 
@@ -149,7 +149,7 @@ function itemAddFormSubmit(evt) {
 	closeForm(itemAddForm);
 }
 
-// обработчик отправки формы добавления нового места
+// обработчик отправки формы добавления нового элемента в галерею
 itemAddForm.addEventListener('submit', itemAddFormSubmit);
 
 // функция для открытия попапа просмотра фотографий карточки места
