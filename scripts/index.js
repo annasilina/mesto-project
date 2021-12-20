@@ -34,6 +34,9 @@ const userBio = profile.querySelector('.profile__user-bio');
 // находим галерею мест
 const gallery = document.querySelector('.gallery');
 
+//находим шаблон элемента галереи
+const itemTemplate = document.querySelector('#item-template').content;
+
 // находим попап-форму редактирования профиля и поля ввода имени и подписи пользователя
 const profileEditForm = document.querySelector('.popup_type_profile-edit');
 const userNameInput = profileEditForm.querySelector('.popup__form-item_el_user-name');
@@ -115,7 +118,6 @@ openItemAddFormButton.addEventListener('click', () => {
 
 //функция создания элемента галереи
 function createItem(itemData) {
-	const itemTemplate = document.querySelector('#item-template').content;
 	const galleryItemElement = itemTemplate.querySelector('.gallery__item').cloneNode(true);
 	const elementPhoto = galleryItemElement.querySelector('.gallery__photo');
 	const elementCaption = galleryItemElement.querySelector('.gallery__caption');
