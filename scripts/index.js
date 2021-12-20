@@ -72,7 +72,7 @@ const closePhotoPopupButton = itemPhotoPopup.querySelector('.popup__close-button
 
 // задаем функцию для обработки лайка карточки места
 function likeItem() {
-	let likeItemButtons = galleryElement.querySelectorAll('.gallery__like-button');
+	const likeItemButtons = galleryElement.querySelectorAll('.gallery__like-button');
 
 	likeItemButtons.forEach(button => {
 		button.addEventListener('click', function (evt) {
