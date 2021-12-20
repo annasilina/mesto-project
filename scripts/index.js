@@ -34,20 +34,6 @@ const userBioElement = profileElement.querySelector('.profile__user-bio');
 // находим элемент галереи
 const galleryElement = document.querySelector('.gallery');
 
-// рендерим карточки для галереи по умолчанию
-initialItems.forEach(item => {
-	galleryElement.insertAdjacentHTML('beforeend', `
-		<article class="gallery__item">
-			<img class="gallery__photo" src=${item.link} alt=${item.name}>
-			<h2 class="gallery__caption">${item.name}</h2>
-			<button type="button" class="gallery__like-button button"></button>
-			<button type="button" class="gallery__delete-button button"></button>
-		</article>`);
-});
-
-// находим элементы карточек в галерее
-let galleryItemElements = galleryElement.querySelectorAll('.gallery__item');
-
 // находим форму редактирования профиля и поля ввода именя и подписи пользователя
 const profileEditForm = document.querySelector('.popup_type_profile-edit');
 const userNameInput = profileEditForm.querySelector('.popup__form-item_el_user-name');
@@ -60,8 +46,8 @@ const itemNameInput = itemAddForm.querySelector('.popup__form-item_el_place-name
 
 // находим попап просмотра увеличенной фотографии места
 const itemPhotoPopup = document.querySelector('.popup_type_item-photo');
-const itemPhoto = itemPhotoPopup.querySelector('.popup__item-photo');
-const itemPhotoCaption = itemPhotoPopup.querySelector('.popup__item-caption')
+const itemBigPhoto = itemPhotoPopup.querySelector('.popup__item-photo');
+const itemBigPhotoCaption = itemPhotoPopup.querySelector('.popup__item-caption')
 
 // находим кнопки открытия и закрытия форм и попапов
 const openProfileEditFormButton = profileElement.querySelector('.profile__button-edit');
@@ -70,40 +56,31 @@ const openItemAddFormButton = profileElement.querySelector('.profile__button-add
 const closeItemAddFormButton = itemAddForm.querySelector('.popup__close-button');
 const closePhotoPopupButton = itemPhotoPopup.querySelector('.popup__close-button');
 
+// рендерим карточки для галереи по умолчанию
+initialItems.forEach(item => {
+	itemAdd(item);
+});
+
 // задаем функцию для обработки лайка карточки места
-function likeItem() {
-	const likeItemButtons = galleryElement.querySelectorAll('.gallery__like-button');
-
-	likeItemButtons.forEach(button => {
-		button.addEventListener('click', function (evt) {
-			const eventTarget = evt.target;
-
-			eventTarget.classList.toggle('gallery__like-button_active');
-		});
+function likeElement(likeButton) {
+	likeButton.addEventListener('click', function (evt) {
+		evt.target.classList.toggle('gallery__like-button_active');
 	});
 }
 
-// задаем функцию для обработки удаления карточки места
-function deleteItem() {
-	let deleteItemButtons = galleryElement.querySelectorAll('.gallery__delete-button');
-
-	deleteItemButtons.forEach(button => {
-		button.addEventListener('click', function (evt) {
-			evt.target.parentNode.remove();
-		});
+// задаем функцию для удаления карточки места
+function deleteElement(deleteButton) {
+	deleteButton.addEventListener('click', function (evt) {
+		evt.target.parentElement.remove();
 	});
 }
 
-// вызываем функции для обработки лайка места и удаления места
-likeItem();
-deleteItem();
-
-// функция для открытия форм
+// функция для открытия форм и попапов
 function openForm(form) {
 	form.classList.add('popup_opened');
 }
 
-// функция для закрытия форм
+// функция для закрытия форм и попапов
 function  closeForm(form) {
 	form.classList.remove('popup_opened');
 }
@@ -135,59 +112,57 @@ openItemAddFormButton.addEventListener('click', () => {
 	openForm(itemAddForm)
 });
 
-//функция добавления карточки места в галераю и обработки кнопок внутри карточки
-function itemAdd(itemName, itemPhoto) {
+//функция создания карточки места в галерее
+function itemAdd(itemData) {
 	const itemTemplate = document.querySelector('#item-template').content;
 	const galleryItemElement = itemTemplate.querySelector('.gallery__item').cloneNode(true);
+	const elementPhoto = galleryItemElement.querySelector('.gallery__photo');
+	const elementCaption = galleryItemElement.querySelector('.gallery__caption');
 
-	galleryItemElement.querySelector('.gallery__photo').setAttribute('src', itemPhoto);
-	galleryItemElement.querySelector('.gallery__photo').setAttribute('alt', itemName);
-	galleryItemElement.querySelector('.gallery__caption').textContent = itemName;
+	elementPhoto.setAttribute('src', itemData.link);
+	elementPhoto.setAttribute('alt', itemData.name);
+	elementCaption.textContent = itemData.name;
 
-	const likeButton = galleryItemElement.querySelector('.gallery__like-button');
-	const deleteButton = galleryItemElement.querySelector('.gallery__delete-button');
+	const elementLikeButton = galleryItemElement.querySelector('.gallery__like-button');
+	const elementDeleteButton = galleryItemElement.querySelector('.gallery__delete-button');
 
-	likeButton.addEventListener('click', function (evt) {
-		evt.target.classList.toggle('gallery__like-button_active');
-	});
-
-	deleteButton.addEventListener('click', function (evt) {
-		evt.target.parentNode.remove();
-	});
+	likeElement(elementLikeButton);
+	deleteElement(elementDeleteButton);
 
 	galleryElement.prepend(galleryItemElement);
-	galleryItemElements = galleryElement.querySelectorAll('.gallery__item');
+	itemPhotoPopupOpen();
 }
 
 // функция отправки формы с добавлением нового места в галерею
 function itemAddFormSubmit(evt) {
 	evt.preventDefault();
 
-	itemAdd(itemNameInput.value, itemPhotoInput.value);
-	itemPhotoPopupOpen();
+	const itemData = {link: itemPhotoInput.value, name: itemNameInput.value};
+
+	itemAdd(itemData);
 	closeForm(itemAddForm);
 }
 
 // обработчик отправки формы добавления нового места
 itemAddForm.addEventListener('submit', itemAddFormSubmit);
 
-// обработчик открытия попапа просмотра фотографий карточки места
+// функция для открытия попапа просмотра фотографий карточки места
 function itemPhotoPopupOpen() {
+	const galleryItemElements = galleryElement.querySelectorAll('.gallery__item');
+
 	galleryItemElements.forEach(item => {
-		let galleryItemPhoto = item.querySelector('.gallery__photo');
-		let galleryItemCaption = item.querySelector('.gallery__caption');
+		const galleryItemPhoto = item.querySelector('.gallery__photo');
+		const galleryItemCaption = item.querySelector('.gallery__caption');
 
 		galleryItemPhoto.addEventListener('click', () => {
 			openForm(itemPhotoPopup);
 
-			itemPhoto.setAttribute('src', galleryItemPhoto.getAttribute('src'));
-			itemPhoto.setAttribute('alt', galleryItemPhoto.getAttribute('alt'));
-			itemPhotoCaption.textContent = galleryItemCaption.textContent;
+			itemBigPhoto.src = galleryItemPhoto.src;
+			itemBigPhoto.alt = galleryItemPhoto.alt;
+			itemBigPhotoCaption.textContent = galleryItemCaption.textContent;
 		});
 	});
 }
-
-itemPhotoPopupOpen();
 
 // обработчики кнопок закрытия форм
 closeProfileEditFormButton.addEventListener('click', () => closeForm(profileEditForm));
