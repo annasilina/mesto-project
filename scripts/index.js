@@ -34,7 +34,7 @@ const userBio = profile.querySelector('.profile__user-bio');
 // находим галерею мест
 const gallery = document.querySelector('.gallery');
 
-//находим шаблон элемента галереи
+//находим шаблон элемента галереи и его элементы
 const itemTemplate = document.querySelector('#item-template').content;
 
 // находим попап-форму редактирования профиля и поля ввода имени и подписи пользователя
@@ -121,13 +121,12 @@ function createItem(itemData) {
 	const galleryItemElement = itemTemplate.querySelector('.gallery__item').cloneNode(true);
 	const elementPhoto = galleryItemElement.querySelector('.gallery__photo');
 	const elementCaption = galleryItemElement.querySelector('.gallery__caption');
+	const elementLikeButton = galleryItemElement.querySelector('.gallery__like-button');
+	const elementDeleteButton = galleryItemElement.querySelector('.gallery__delete-button');
 
 	elementPhoto.setAttribute('src', itemData.link);
 	elementPhoto.setAttribute('alt', itemData.name);
 	elementCaption.textContent = itemData.name;
-
-	const elementLikeButton = galleryItemElement.querySelector('.gallery__like-button');
-	const elementDeleteButton = galleryItemElement.querySelector('.gallery__delete-button');
 
 	likeItem(elementLikeButton);
 	deleteItem(elementDeleteButton);
