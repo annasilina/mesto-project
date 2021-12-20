@@ -31,10 +31,10 @@ const profileElement = document.querySelector('.profile');
 const userNameElement = profileElement.querySelector('.profile__user-name');
 const userBioElement = profileElement.querySelector('.profile__user-bio');
 
-// находим галерею мест
+// находим элемент галереи
 const galleryElement = document.querySelector('.gallery');
 
-// рендерим карточки для галереи мест по умолчанию
+// рендерим карточки для галереи по умолчанию
 initialItems.forEach(item => {
 	galleryElement.insertAdjacentHTML('beforeend', `
 		<article class="gallery__item">
@@ -53,7 +53,7 @@ const profileEditForm = document.querySelector('.popup_type_profile-edit');
 const userNameInput = profileEditForm.querySelector('.popup__form-item_el_user-name');
 const userBioInput = profileEditForm.querySelector('.popup__form-item_el_bio');
 
-// находим форму добавления карточки места в галерею
+// находим форму добавления карточки места в галерею и ее элемнты
 const itemAddForm = document.querySelector('.popup_type_add-item');
 const itemPhotoInput = itemAddForm.querySelector('.popup__form-item_el_place-link');
 const itemNameInput = itemAddForm.querySelector('.popup__form-item_el_place-name');
@@ -70,33 +70,32 @@ const openItemAddFormButton = profileElement.querySelector('.profile__button-add
 const closeItemAddFormButton = itemAddForm.querySelector('.popup__close-button');
 const closePhotoPopupButton = itemPhotoPopup.querySelector('.popup__close-button');
 
-// находим кнопки лайков и удаления карточек
-/*let likeItemButtons = galleryElement.querySelectorAll('.gallery__like-button');*/
-/*let deleteItemButtons = galleryElement.querySelectorAll('.gallery__delete-button');*/
-
-// обработчик кнопок лайков для карточек мест
+// задаем функцию для обработки лайка карточки места
 function likeItem() {
 	let likeItemButtons = galleryElement.querySelectorAll('.gallery__like-button');
 
 	likeItemButtons.forEach(button => {
-		button.addEventListener('click', () => {
-			button.classList.toggle('gallery__like-button_active');
+		button.addEventListener('click', function (evt) {
+			const eventTarget = evt.target;
+
+			eventTarget.classList.toggle('gallery__like-button_active');
 		});
 	});
 }
-likeItem();
 
-// обработчик кнопок удаления карточек мест
+// задаем функцию для обработки удаления карточки места
 function deleteItem() {
 	let deleteItemButtons = galleryElement.querySelectorAll('.gallery__delete-button');
 
 	deleteItemButtons.forEach(button => {
-		button.addEventListener('click', () => {
-			let parentItem = button.parentNode;
-			parentItem.remove();
+		button.addEventListener('click', function (evt) {
+			evt.target.parentNode.remove();
 		});
 	});
 }
+
+// вызываем функции для обработки лайка места и удаления места
+likeItem();
 deleteItem();
 
 // функция для открытия форм
@@ -109,14 +108,13 @@ function  closeForm(form) {
 	form.classList.remove('popup_opened');
 }
 
-// функция открытия формы редактирования профиля
+// обработчик кнопки открытия формы редактирования профиля
 openProfileEditFormButton.addEventListener('click', () => {
 	openForm(profileEditForm)
 
 	userNameInput.value = userNameElement.textContent;
 	userBioInput.value = userBioElement.textContent;
 });
-
 
 // функция отправки формы редактирования профиля
 function profileEditFormSubmit(evt) {
@@ -137,7 +135,7 @@ openItemAddFormButton.addEventListener('click', () => {
 	openForm(itemAddForm)
 });
 
-//функция добавления места в галераю
+//функция добавления карточки места в галераю и обработки кнопок внутри карточки
 function itemAdd(itemName, itemPhoto) {
 	const itemTemplate = document.querySelector('#item-template').content;
 	const galleryItemElement = itemTemplate.querySelector('.gallery__item').cloneNode(true);
@@ -145,6 +143,17 @@ function itemAdd(itemName, itemPhoto) {
 	galleryItemElement.querySelector('.gallery__photo').setAttribute('src', itemPhoto);
 	galleryItemElement.querySelector('.gallery__photo').setAttribute('alt', itemName);
 	galleryItemElement.querySelector('.gallery__caption').textContent = itemName;
+
+	const likeButton = galleryItemElement.querySelector('.gallery__like-button');
+	const deleteButton = galleryItemElement.querySelector('.gallery__delete-button');
+
+	likeButton.addEventListener('click', function (evt) {
+		evt.target.classList.toggle('gallery__like-button_active');
+	});
+
+	deleteButton.addEventListener('click', function (evt) {
+		evt.target.parentNode.remove();
+	});
 
 	galleryElement.prepend(galleryItemElement);
 	galleryItemElements = galleryElement.querySelectorAll('.gallery__item');
@@ -155,9 +164,6 @@ function itemAddFormSubmit(evt) {
 	evt.preventDefault();
 
 	itemAdd(itemNameInput.value, itemPhotoInput.value);
-
-	likeItem();
-	deleteItem();
 	itemPhotoPopupOpen();
 	closeForm(itemAddForm);
 }
