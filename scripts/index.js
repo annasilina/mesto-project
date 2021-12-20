@@ -74,7 +74,7 @@ function likeItem(likeButton) {
 // задаем функцию для обработки кнопки удаления элемента галереи
 function deleteItem(deleteButton) {
 	deleteButton.addEventListener('click', function (evt) {
-		evt.target.parentElement.remove();
+		evt.target.closest('article').remove();
 	});
 }
 
