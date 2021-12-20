@@ -147,6 +147,9 @@ function itemAddFormSubmit(evt) {
 
 	const itemData = {link: itemPhotoInput.value, name: itemNameInput.value};
 
+	itemPhotoInput.value = '';
+	itemNameInput.value = '';
+
 	addNewItem(createItem(itemData));
 	closeForm(itemAddForm);
 }
