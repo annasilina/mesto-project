@@ -34,6 +34,9 @@ const userBio = profile.querySelector('.profile__user-bio');
 // находим галерею мест
 const gallery = document.querySelector('.gallery');
 
+//находим все попапы
+const popups = document.querySelectorAll('.popup');
+
 // находим попап-форму редактирования профиля и поля ввода имени и подписи пользователя
 const profileEditForm = document.querySelector('.popup_type_profile-edit');
 const userNameInput = profileEditForm.querySelector('.popup__form-item_el_user-name');
@@ -167,3 +170,23 @@ function itemPhotoPopupOpen(photo, caption) {
 closeProfileEditFormButton.addEventListener('click', () => closeForm(profileEditForm));
 closeItemAddFormButton.addEventListener('click', () => closeForm(itemAddForm));
 closePhotoPopupButton.addEventListener('click', () => closeForm(itemPhotoPopup));
+
+//функция закрытия попапа по клику на overlay
+function closePopupOverlay(evt) {
+	if (evt.target.classList.contains('popup')) {
+		closeForm(evt.target);
+	}
+}
+
+//функция закрытия попапа по нажатию кнопки esc
+function closePopupEsc(evt) {
+	if (evt.key === 'Escape') {
+		const currentPopup = document.querySelector('.popup_opened');
+
+		closeForm(currentPopup);
+	}
+}
+
+//обработчик закрытия попапов по клику на оверлей и кнопку escape
+document.addEventListener('click', closePopupOverlay);
+document.addEventListener('keyup', closePopupEsc);
