@@ -4,6 +4,7 @@
 	height: 120px;
 	object-fit: cover;
 	border-radius: 50%;
+	opacity: 1;
 }
 
 @media screen and (max-width: 690px) {
@@ -11,4 +12,3 @@
 		margin: 0 0 1.63rem;
 	}
 }
-

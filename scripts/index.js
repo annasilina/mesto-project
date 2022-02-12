@@ -42,6 +42,10 @@ const profileEditForm = document.querySelector('.popup_type_profile-edit');
 const userNameInput = profileEditForm.querySelector('.popup__form-item_el_user-name');
 const userBioInput = profileEditForm.querySelector('.popup__form-item_el_bio');
 
+// находим попап-форму редактирования аватара и поля ввода имени и подписи пользователя
+const avatarChangeForm = document.querySelector('.popup_type_avatar-change');
+const avatarInput = avatarChangeForm.querySelector('.popup__form-item_el_avatar-link');
+
 // находим попа-форму добавления карточки места в галерею и поля ввода для фото и названия места
 const itemAddForm = document.querySelector('.popup_type_add-item');
 const itemPhotoInput = itemAddForm.querySelector('.popup__form-item_el_place-link');
@@ -53,10 +57,12 @@ const itemBigPhoto = itemPhotoPopup.querySelector('.popup__item-photo');
 const itemBigPhotoCaption = itemPhotoPopup.querySelector('.popup__item-caption')
 
 // находим кнопки открытия и закрытия форм и попапов
-const openProfileEditFormButton = profile.querySelector('.profile__button-edit');
+const openProfileEditFormButton = profile.querySelector('.profile__button-edit_el_info');
 const closeProfileEditFormButton = profileEditForm.querySelector('.popup__close-button');
 const openItemAddFormButton = profile.querySelector('.profile__button-add');
 const closeItemAddFormButton = itemAddForm.querySelector('.popup__close-button');
+const openAvatarChangeFormButton = profile.querySelector('.profile__button-edit_el_avatar')
+const closeAvatarChangeFormButton = avatarChangeForm.querySelector('.popup__close-button');
 const closePhotoPopupButton = itemPhotoPopup.querySelector('.popup__close-button');
 
 // рендерим и вставляем элементы галереи по умолчанию
@@ -89,6 +95,26 @@ function  closeForm(form) {
 }
 
 // работаем с профилем
+
+// обработчик открытия формы обновления аватара
+openAvatarChangeFormButton.addEventListener('click', () => {
+	openForm(avatarChangeForm);
+});
+
+// функция отправки формы обновления аватара
+function avatarChangFormSubmit(evt) {
+	evt.preventDefault();
+
+	const avatar = profile.querySelector('.profile__photo');
+	avatar.setAttribute('src', avatarInput.value);
+
+	avatarInput.value = '';
+	closeForm(avatarChangeForm);
+}
+
+// обработчик отправки формы обновления аватара
+avatarChangeForm.addEventListener('submit', avatarChangFormSubmit);
+
 // обработчик кнопки открытия формы редактирования профиля
 openProfileEditFormButton.addEventListener('click', () => {
 	openForm(profileEditForm)
@@ -111,7 +137,7 @@ function profileEditFormSubmit(evt) {
 profileEditForm.addEventListener('submit', profileEditFormSubmit);
 
 // работаем с галереей
-// функция открытия формы добавления элемента в галерею
+// обработчик открытия формы добавления элемента в галерею
 openItemAddFormButton.addEventListener('click', () => {
 	openForm(itemAddForm)
 });
@@ -168,6 +194,7 @@ function itemPhotoPopupOpen(photo, caption) {
 
 // обработчики кнопок закрытия форм
 closeProfileEditFormButton.addEventListener('click', () => closeForm(profileEditForm));
+closeAvatarChangeFormButton.addEventListener('click', () => closeForm(avatarChangeForm));
 closeItemAddFormButton.addEventListener('click', () => closeForm(itemAddForm));
 closePhotoPopupButton.addEventListener('click', () => closeForm(itemPhotoPopup));
 
