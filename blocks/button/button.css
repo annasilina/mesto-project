@@ -3,3 +3,7 @@
 	opacity: .6;
 	transition: opacity .3s;
 }
+
+.button:focus {
+	outline: 0;
+}
