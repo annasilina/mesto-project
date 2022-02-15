@@ -166,7 +166,6 @@ function itemPhotoPopupOpen(photo, caption) {
 	});
 }
 
-
 //функция закрытия попапа всеми методами - клик по кнопке закрытия, клик вне контейнера, нажатие кнопки escape
 function closePopupMethods(evt) {
 	const currentPopup = document.querySelector('.popup_opened');
