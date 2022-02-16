@@ -31,18 +31,21 @@
 	<div class="popup popup_type_profile-edit">
 		<div class="popup__container">
 			<button type="button" class="popup__close-button button"></button>
-			<form class="popup__form" name="profileEditForm" novalidate>
+			<form class="popup__form" name="profileEditForm">
 				<h2 class="popup__form-heading">Редактировать профиль</h2>
 				<fieldset class="popup__input-container">
 					<label for="userName"></label>
-					<input type="text" id="userName" name="userName" placeholder="Имя пользователя" minlength="1" required
+					<input type="text" id="userName" name="userName" placeholder="Имя" minlength="2" maxlength="40"
+								 required
 								 class="popup__form-item popup__form-item_el_user-name">
 					<label for="userBio"></label>
-					<input type="text" id="userBio" name="userBio" placeholder="Профессия пользователя" minlength="1" required
+					<input type="text" id="userBio" name="userBio" placeholder="О себе" minlength="2"
+								 maxlength="200" required
 								 class="popup__form-item popup__form-item_el_bio">
 				</fieldset>
 				<fieldset class="popup__form-handlers">
-					<button type="submit" class="popup__save-button button">Сохранить</button>
+					<button type="submit" class="popup__save-button popup__save-button_disabled button" disabled>Сохранить
+					</button>
 				</fieldset>
 			</form>
 		</div>
@@ -50,7 +53,7 @@
 	<div class="popup popup_type_add-item">
 		<div class="popup__container">
 			<button type="button" class="popup__close-button button"></button>
-			<form class="popup__form" name="itemAddForm" novalidate>
+			<form class="popup__form" name="itemAddForm">
 				<h2 class="popup__form-heading">Новое место</h2>
 				<fieldset class="popup__input-container">
 					<label for="placeName"></label>
@@ -61,7 +64,7 @@
 								 class="popup__form-item popup__form-item_el_place-link">
 				</fieldset>
 				<fieldset class="popup__form-handlers">
-					<button type="submit" class="popup__save-button button">Создать</button>
+					<button type="submit" class="popup__save-button popup__save-button_disabled button" disabled>Создать</button>
 				</fieldset>
 			</form>
 		</div>
