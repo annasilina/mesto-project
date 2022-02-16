@@ -44,7 +44,7 @@
 								 class="popup__form-item popup__form-item_el_bio">
 				</fieldset>
 				<fieldset class="popup__form-handlers">
-					<button type="submit" class="popup__save-button popup__save-button_disabled button" disabled>Сохранить
+					<button type="submit" class="popup__save-button button">Сохранить
 					</button>
 				</fieldset>
 			</form>
@@ -57,10 +57,11 @@
 				<h2 class="popup__form-heading">Новое место</h2>
 				<fieldset class="popup__input-container">
 					<label for="placeName"></label>
-					<input type="text" id="placeName" name="placeName" placeholder="Название" minlength="1" required
+					<input type="text" id="placeName" name="placeName" placeholder="Название" minlength="2" maxlength="30"
+								 required
 								 class="popup__form-item popup__form-item_el_place-name">
 					<label for="placeLink"></label>
-					<input type="url" id="placeLink" name="placeLink" placeholder="Ссылка на картинку" minlength="12" required
+					<input type="url" id="placeLink" name="placeLink" placeholder="Ссылка на картинку" required
 								 class="popup__form-item popup__form-item_el_place-link">
 				</fieldset>
 				<fieldset class="popup__form-handlers">

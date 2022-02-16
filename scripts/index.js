@@ -37,17 +37,19 @@ const gallery = document.querySelector('.gallery');
 //находим все попапы
 const popups = document.querySelectorAll('.popup');
 
-// находим попап-форму редактирования профиля и поля ввода имени и подписи пользователя
+// находим попап и форму редактирования профиля и поля ввода имени и подписи пользователя
 const profileEditPopup = document.querySelector('.popup_type_profile-edit');
 const profileEditForm = document.forms.profileEditForm;
 const userNameInput = profileEditForm.elements.userName;
 const userBioInput = profileEditForm.elements.userBio;
+const profileSubmitButton = profileEditPopup.querySelector('.popup__save-button');
 
-// находим попа-форму добавления карточки места в галерею и поля ввода для фото и названия места
+// находим попап и форму добавления карточки места в галерею и поля ввода для фото и названия места
 const itemAddPopup = document.querySelector('.popup_type_add-item');
 const itemAddForm = document.forms.itemAddForm;
 const itemPhotoInput = itemAddForm.elements.placeLink;
 const itemNameInput = itemAddForm.elements.placeName;
+const itemSubmitButton = itemAddPopup.querySelector('.popup__save-button');
 
 // находим попап просмотра увеличенной фотографии места
 const itemPhotoPopup = document.querySelector('.popup_type_item-photo');
@@ -183,3 +185,35 @@ document.addEventListener('click', closePopupMethods);
 
 //обработчик закрытия попапов по нажатию кнопки escape
 document.addEventListener('keyup', closePopupMethods);
+
+//функция активации/деактивации кнопок сохранения в форме в зависимости от корректности значений
+function setSubmitButtonState(isFormValid, submitButton) {
+	if (isFormValid) {
+		submitButton.removeAttribute('disabled');
+		submitButton.classList.remove('popup__save-button_disabled');
+	} else {
+		submitButton.setAttribute('disabled', true);
+		submitButton.classList.add('popup__save-button_disabled');
+	}
+}
+
+//валидация форм
+
+//функция проверки инпута
+function checkInput(input) {
+	return input.validity.valid;
+}
+
+//проверяем поля ввода формы изменения профиля
+profileEditForm.addEventListener('input', function () {
+	const isValid = checkInput(userNameInput) && checkInput(userBioInput);
+
+	setSubmitButtonState(isValid, profileSubmitButton);
+});
+
+//проверяем поля ввода формы добавления места
+itemAddForm.addEventListener('input', function () {
+	const isValid = checkInput(itemNameInput) && checkInput(itemPhotoInput)
+
+	setSubmitButtonState(isValid, itemSubmitButton);
+});
