@@ -1,0 +1,4 @@
+.popup__form-input_type_error {
+	border-bottom-color: #FF0000;
+	margin-bottom: .3125rem;
+}

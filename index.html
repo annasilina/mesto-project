@@ -31,17 +31,17 @@
 	<div class="popup popup_type_profile-edit">
 		<div class="popup__container">
 			<button type="button" class="popup__close-button button"></button>
-			<form class="popup__form" name="profileEditForm">
+			<form class="popup__form" name="profileEditForm" novalidate>
 				<h2 class="popup__form-heading">Редактировать профиль</h2>
 				<fieldset class="popup__input-container">
-					<label for="userName"></label>
-					<input type="text" id="userName" name="userName" placeholder="Имя" minlength="2" maxlength="40"
+					<input type="text" id="user-name" name="userName" placeholder="Имя" minlength="2" maxlength="40"
 								 required
-								 class="popup__form-item popup__form-item_el_user-name">
-					<label for="userBio"></label>
-					<input type="text" id="userBio" name="userBio" placeholder="О себе" minlength="2"
+								 class="popup__form-input popup__form-input_el_user-name">
+					<span class="user-name-error popup__input-error"></span>
+					<input type="text" id="user-bio" name="userBio" placeholder="О себе" minlength="2"
 								 maxlength="200" required
-								 class="popup__form-item popup__form-item_el_bio">
+								 class="popup__form-input popup__form-input_el_bio">
+					<span class="user-bio-error popup__input-error"></span>
 				</fieldset>
 				<fieldset class="popup__form-handlers">
 					<button type="submit" class="popup__save-button button">Сохранить
@@ -50,19 +50,19 @@
 			</form>
 		</div>
 	</div>
-	<div class="popup popup_type_add-item">
+	<div class="popup popup_type_add-place">
 		<div class="popup__container">
 			<button type="button" class="popup__close-button button"></button>
-			<form class="popup__form" name="itemAddForm">
+			<form class="popup__form" name="placeAddForm">
 				<h2 class="popup__form-heading">Новое место</h2>
 				<fieldset class="popup__input-container">
-					<label for="placeName"></label>
-					<input type="text" id="placeName" name="placeName" placeholder="Название" minlength="2" maxlength="30"
+					<input type="text" id="place-name" name="placeName" placeholder="Название" minlength="2" maxlength="30"
 								 required
-								 class="popup__form-item popup__form-item_el_place-name">
-					<label for="placeLink"></label>
-					<input type="url" id="placeLink" name="placeLink" placeholder="Ссылка на картинку" required
-								 class="popup__form-item popup__form-item_el_place-link">
+								 class="popup__form-input popup__form-input_el_place-name">
+					<span class="place-name-error popup__input-error"></span>
+					<input type="url" id="place-link" name="placeLink" placeholder="Ссылка на картинку" required
+								 class="popup__form-input popup__form-input_el_place-link">
+					<span class="place-link-error popup__input-error"></span>
 				</fieldset>
 				<fieldset class="popup__form-handlers">
 					<button type="submit" class="popup__save-button popup__save-button_disabled button" disabled>Создать</button>
@@ -70,15 +70,15 @@
 			</form>
 		</div>
 	</div>
-	<div class="popup popup_type_item-photo">
-		<div class="popup__image">
+	<div class="popup popup_type_place-photo">
+		<div class="popup__photo-container">
 			<button type="button" class="popup__close-button button"></button>
-			<img class="popup__item-photo" src="" alt="">
-			<p class="popup__item-caption"></p>
+			<img class="popup__place-photo" src="" alt="">
+			<p class="popup__place-caption"></p>
 		</div>
 	</div>
 	<template id="item-template">
-		<article class="gallery__item">
+		<article class="gallery__place">
 			<img class="gallery__photo" src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg"
 					 alt="Архыз">
 			<h2 class="gallery__caption">Архыз</h2>

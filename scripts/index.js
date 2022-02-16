@@ -45,16 +45,16 @@ const userBioInput = profileEditForm.elements.userBio;
 const profileSubmitButton = profileEditPopup.querySelector('.popup__save-button');
 
 // находим попап и форму добавления карточки места в галерею и поля ввода для фото и названия места
-const itemAddPopup = document.querySelector('.popup_type_add-item');
-const itemAddForm = document.forms.itemAddForm;
-const itemPhotoInput = itemAddForm.elements.placeLink;
-const itemNameInput = itemAddForm.elements.placeName;
-const itemSubmitButton = itemAddPopup.querySelector('.popup__save-button');
+const placeAddPopup = document.querySelector('.popup_type_add-place');
+const placeAddForm = document.forms.placeAddForm;
+const placeLinkInput = placeAddForm.elements.placeLink;
+const placeNameInput = placeAddForm.elements.placeName;
+const placeSubmitButton = placeAddPopup.querySelector('.popup__save-button');
 
 // находим попап просмотра увеличенной фотографии места
-const itemPhotoPopup = document.querySelector('.popup_type_item-photo');
-const itemBigPhoto = itemPhotoPopup.querySelector('.popup__item-photo');
-const itemBigPhotoCaption = itemPhotoPopup.querySelector('.popup__item-caption')
+const placePhotoPopup = document.querySelector('.popup_type_place-photo');
+const placeBigPhoto = placePhotoPopup.querySelector('.popup__place-photo');
+const placeCaption = placePhotoPopup.querySelector('.popup__place-caption')
 
 // находим кнопки открытия и закрытия форм и попапов
 const openProfileEditPopupButton = profile.querySelector('.profile__button-edit');
@@ -114,13 +114,13 @@ profileEditForm.addEventListener('submit', profileEditFormSubmit);
 // работаем с галереей
 // функция открытия формы добавления элемента в галерею
 openItemAddPopupButton.addEventListener('click', () => {
-	openPopup(itemAddPopup)
+	openPopup(placeAddPopup)
 });
 
 //функция создания элемента галереи
 function createItem(itemData) {
 	const itemTemplate = document.querySelector('#item-template').content;
-	const galleryItemElement = itemTemplate.querySelector('.gallery__item').cloneNode(true);
+	const galleryItemElement = itemTemplate.querySelector('.gallery__place').cloneNode(true);
 	const elementPhoto = galleryItemElement.querySelector('.gallery__photo');
 	const elementCaption = galleryItemElement.querySelector('.gallery__caption');
 
@@ -147,24 +147,24 @@ function addNewItem(itemElement) {
 function itemAddFormSubmit(evt) {
 	evt.preventDefault();
 
-	const itemData = {link: itemPhotoInput.value, name: itemNameInput.value};
+	const itemData = {link: placeLinkInput.value, name: placeNameInput.value};
 
 	addNewItem(createItem(itemData));
-	itemAddForm.reset();
-	closePopup(itemAddPopup);
+	placeAddForm.reset();
+	closePopup(placeAddPopup);
 }
 
 // обработчик отправки формы добавления нового элемента в галерею
-itemAddForm.addEventListener('submit', itemAddFormSubmit);
+placeAddForm.addEventListener('submit', itemAddFormSubmit);
 
 // функция для открытия попапа просмотра фотографий карточки места
 function itemPhotoPopupOpen(photo, caption) {
 	photo.addEventListener('click', () => {
-		openPopup(itemPhotoPopup);
+		openPopup(placePhotoPopup);
 
-		itemBigPhoto.src = photo.src;
-		itemBigPhoto.alt = photo.alt;
-		itemBigPhotoCaption.textContent = caption.textContent;
+		placeBigPhoto.src = photo.src;
+		placeBigPhoto.alt = photo.alt;
+		placeCaption.textContent = caption.textContent;
 	});
 }
 
@@ -186,6 +186,8 @@ document.addEventListener('click', closePopupMethods);
 //обработчик закрытия попапов по нажатию кнопки escape
 document.addEventListener('keyup', closePopupMethods);
 
+//валидация форм
+
 //функция активации/деактивации кнопок сохранения в форме в зависимости от корректности значений
 function setSubmitButtonState(isFormValid, submitButton) {
 	if (isFormValid) {
@@ -197,23 +199,48 @@ function setSubmitButtonState(isFormValid, submitButton) {
 	}
 }
 
-//валидация форм
+//
+function findError(input, form) {
+	return form.querySelector(`.${input.id}-error`);
+}
+
+//функция стилизации инпута с ошибкой
+function showInputError(input, form, errorMessage) {
+	const inputError = findError(input, form);
+
+	inputError.textContent = errorMessage;
+	inputError.classList.add('popup__input-error_active');
+	input.classList.add('popup__form-input_type_error');
+}
+
+//функция стилизации инпута с ошибкой
+function hideInputError(input, form) {
+	const inputError = findError(input, form);
+
+	inputError.textContent = '';
+	input.classList.remove('popup__form-input_type_error');
+	inputError.classList.remove('popup__input-error_active');
+}
 
 //функция проверки инпута
-function checkInput(input) {
+function checkInput(input, form) {
+	if (!input.validity.valid) {
+		showInputError(input, form, input.validationMessage);
+	} else hideInputError(input, form)
+
 	return input.validity.valid;
 }
 
 //проверяем поля ввода формы изменения профиля
 profileEditForm.addEventListener('input', function () {
-	const isValid = checkInput(userNameInput) && checkInput(userBioInput);
+	const isValid = checkInput(userNameInput, profileEditForm) && checkInput(userBioInput, profileEditForm);
 
 	setSubmitButtonState(isValid, profileSubmitButton);
 });
 
 //проверяем поля ввода формы добавления места
-itemAddForm.addEventListener('input', function () {
-	const isValid = checkInput(itemNameInput) && checkInput(itemPhotoInput)
+placeAddForm.addEventListener('input', function () {
+	const isValid = checkInput(placeNameInput, placeAddForm) && checkInput(placeLinkInput, placeAddForm);
 
-	setSubmitButtonState(isValid, itemSubmitButton);
+	setSubmitButtonState(isValid, placeSubmitButton);
 });
