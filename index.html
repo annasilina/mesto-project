@@ -35,14 +35,17 @@
 				<h2 class="popup__form-heading">Редактировать профиль</h2>
 				<fieldset class="popup__input-container">
 					<label for="userName"></label>
-					<input type="text" id="userName" name="userName" placeholder="Имя пользователя"
+					<input type="text" id="userName" name="userName" placeholder="Имя" minlength="2" maxlength="40"
+								 required
 								 class="popup__form-item popup__form-item_el_user-name">
 					<label for="userBio"></label>
-					<input type="text" id="userBio" name="userBio" placeholder="Профессия пользователя"
+					<input type="text" id="userBio" name="userBio" placeholder="О себе" minlength="2"
+								 maxlength="200" required
 								 class="popup__form-item popup__form-item_el_bio">
 				</fieldset>
 				<fieldset class="popup__form-handlers">
-					<button type="submit" class="popup__save-button button">Сохранить</button>
+					<button type="submit" class="popup__save-button popup__save-button_disabled button" disabled>Сохранить
+					</button>
 				</fieldset>
 			</form>
 		</div>
@@ -54,14 +57,14 @@
 				<h2 class="popup__form-heading">Новое место</h2>
 				<fieldset class="popup__input-container">
 					<label for="placeName"></label>
-					<input type="text" id="placeName" name="placeName" placeholder="Название"
+					<input type="text" id="placeName" name="placeName" placeholder="Название" minlength="1" required
 								 class="popup__form-item popup__form-item_el_place-name">
 					<label for="placeLink"></label>
-					<input type="text" id="placeLink" name="placeLink" placeholder="Ссылка на картинку"
+					<input type="url" id="placeLink" name="placeLink" placeholder="Ссылка на картинку" minlength="12" required
 								 class="popup__form-item popup__form-item_el_place-link">
 				</fieldset>
 				<fieldset class="popup__form-handlers">
-					<button type="submit" class="popup__save-button button">Создать</button>
+					<button type="submit" class="popup__save-button popup__save-button_disabled button" disabled>Создать</button>
 				</fieldset>
 			</form>
 		</div>
