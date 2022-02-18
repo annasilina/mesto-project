@@ -34,22 +34,17 @@ const userBio = profile.querySelector('.profile__user-bio');
 // находим галерею мест
 const gallery = document.querySelector('.gallery');
 
-//находим все попапы
-const popups = document.querySelectorAll('.popup');
-
 // находим попап и форму редактирования профиля и поля ввода имени и подписи пользователя
 const profileEditPopup = document.querySelector('.popup_type_profile-edit');
 const profileEditForm = document.forms.profileEditForm;
 const userNameInput = profileEditForm.elements.userName;
 const userBioInput = profileEditForm.elements.userBio;
-const profileSubmitButton = profileEditPopup.querySelector('.popup__save-button');
 
 // находим попап и форму добавления карточки места в галерею и поля ввода для фото и названия места
 const placeAddPopup = document.querySelector('.popup_type_add-place');
 const placeAddForm = document.forms.placeAddForm;
 const placeLinkInput = placeAddForm.elements.placeLink;
 const placeNameInput = placeAddForm.elements.placeName;
-const placeSubmitButton = placeAddPopup.querySelector('.popup__save-button');
 
 // находим попап просмотра увеличенной фотографии места
 const placePhotoPopup = document.querySelector('.popup_type_place-photo');
@@ -65,6 +60,7 @@ initialItems.forEach(item => {
 	gallery.append(createItem(item));
 });
 
+//работаем с кнопками
 // задаем функцию для обработки кнопки лайка элемента галереи
 function likeItem(likeButton) {
 	likeButton.addEventListener('click', function (evt) {
@@ -72,7 +68,7 @@ function likeItem(likeButton) {
 	});
 }
 
-// задаем функцию для обработки кнопки удаления элемента галереи
+// функция для обработки кнопки удаления элемента галереи
 function deleteItem(deleteButton) {
 	deleteButton.addEventListener('click', function (evt) {
 		evt.target.parentElement.remove();
@@ -86,16 +82,50 @@ function openPopup(popup) {
 
 // функция для закрытия форм и попапов
 function  closePopup(popup) {
-	popup.classList.remove('popup_opened');
+	//проверяем, содержит ли попап форму
+	if (popup.querySelector('.popup__form')) {
+		const currentForm = popup.querySelector('.popup__form');
+		const currentInputList = findInputs(currentForm);
+
+		resetAllErrors(currentInputList, currentForm); //обнуляем ошибки инпутов при закрытии формы
+		currentForm.reset(); //зачищаем поля формы
+	}
+
+	popup.classList.remove('popup_opened'); //закрываем попап
 }
 
+//функция закрытия попапа всеми методами - клик по кнопке закрытия, клик вне контейнера, нажатие кнопки escape
+function closePopupMethods(evt) {
+	const currentPopup = document.querySelector('.popup_opened');
+	const targetClassList = evt.target.classList;
+
+	if (targetClassList.contains('popup__close-button')
+		|| targetClassList.contains('popup_opened')
+		|| evt.key === 'Escape') {
+		closePopup(currentPopup);
+	}
+}
+
+//обработчик закрытия попапов по клику на оверлей и кнопки закрытия
+document.addEventListener('click', closePopupMethods);
+
+//обработчик закрытия попапов по нажатию кнопки escape
+document.addEventListener('keyup', closePopupMethods);
+
+
 // работаем с профилем
-// обработчик кнопки открытия формы редактирования профиля
+// обработчик кнопки открытия попапа с формой редактирования профиля
 openProfileEditPopupButton.addEventListener('click', () => {
-	openPopup(profileEditPopup)
+	const profileSubmitButton = profileEditPopup.querySelector('.popup__save-button');
+	const profileInputsList = findInputs(profileEditForm);
 
 	userNameInput.value = userName.textContent;
 	userBioInput.value = userBio.textContent;
+
+	openPopup(profileEditPopup);
+	setButtonState(profileInputsList, profileSubmitButton); // в эту форму при открытии подтягиваются данные профиля
+	// со страницы. валидация форм настроена по изменению в полях ввода пользователем по событию input.
+	// если не вызвать здесь эту 	функцию - при открытии попапа с формой редактирования профиля кнопка по умолчанию будет неактивна.
 });
 
 // функция отправки формы редактирования профиля
@@ -114,7 +144,7 @@ profileEditForm.addEventListener('submit', profileEditFormSubmit);
 // работаем с галереей
 // функция открытия формы добавления элемента в галерею
 openItemAddPopupButton.addEventListener('click', () => {
-	openPopup(placeAddPopup)
+	openPopup(placeAddPopup);
 });
 
 //функция создания элемента галереи
@@ -150,7 +180,6 @@ function itemAddFormSubmit(evt) {
 	const itemData = {link: placeLinkInput.value, name: placeNameInput.value};
 
 	addNewItem(createItem(itemData));
-	placeAddForm.reset();
 	closePopup(placeAddPopup);
 }
 
@@ -168,79 +197,94 @@ function itemPhotoPopupOpen(photo, caption) {
 	});
 }
 
-//функция закрытия попапа всеми методами - клик по кнопке закрытия, клик вне контейнера, нажатие кнопки escape
-function closePopupMethods(evt) {
-	const currentPopup = document.querySelector('.popup_opened');
-	const targetClassList = evt.target.classList;
-
-	if (targetClassList.contains('popup__close-button')
-		|| targetClassList.contains('popup_opened')
-		|| evt.key === 'Escape') {
-		closePopup(currentPopup);
-	}
-}
-
-//обработчик закрытия попапов по клику на оверлей и кнопки закрытия
-document.addEventListener('click', closePopupMethods);
-
-//обработчик закрытия попапов по нажатию кнопки escape
-document.addEventListener('keyup', closePopupMethods);
-
 //валидация форм
-
-//функция активации/деактивации кнопок сохранения в форме в зависимости от корректности значений
-function setSubmitButtonState(isFormValid, submitButton) {
-	if (isFormValid) {
-		submitButton.removeAttribute('disabled');
-		submitButton.classList.remove('popup__save-button_disabled');
-	} else {
+//функция активации/деактивации кнопок сабмита в форме в зависимости от валидности формы
+function setButtonState(inputList, submitButton) {
+	if (hasInvalidInput(inputList)) {
 		submitButton.setAttribute('disabled', true);
 		submitButton.classList.add('popup__save-button_disabled');
+	} else {
+		submitButton.removeAttribute('disabled');
+		submitButton.classList.remove('popup__save-button_disabled');
 	}
 }
 
-//
+// функция проверки списка инпутов
+function hasInvalidInput(inputList) {
+	return inputList.some(input => {
+		return !input.validity.valid;
+	});
+}
+
+// функция поиска спана для ошибки в форме
 function findError(input, form) {
 	return form.querySelector(`.${input.id}-error`);
 }
 
-//функция стилизации инпута с ошибкой
+// функция поиска всех инпутов в форме
+function findInputs(form) {
+	return Array.from(form.querySelectorAll('.popup__form-input'));
+}
+
+// функция показа текста ошибки для полей ввода
 function showInputError(input, form, errorMessage) {
 	const inputError = findError(input, form);
 
-	inputError.textContent = errorMessage;
 	inputError.classList.add('popup__input-error_active');
 	input.classList.add('popup__form-input_type_error');
+	inputError.textContent = errorMessage;
 }
 
-//функция стилизации инпута с ошибкой
+//функция зачищения текста ошибки для одного инпута
 function hideInputError(input, form) {
 	const inputError = findError(input, form);
 
-	inputError.textContent = '';
 	input.classList.remove('popup__form-input_type_error');
 	inputError.classList.remove('popup__input-error_active');
+	inputError.textContent = '';
 }
 
-//функция проверки инпута
+// функция очистки текстов ошибок для всех инпутов в форме
+function resetAllErrors(inputList, form) {
+	inputList.forEach(input => {
+		hideInputError(input, form);
+	});
+}
+
+//функция проверки полей ввода
 function checkInput(input, form) {
 	if (!input.validity.valid) {
 		showInputError(input, form, input.validationMessage);
-	} else hideInputError(input, form)
-
-	return input.validity.valid;
+	} else hideInputError(input, form);
 }
 
-//проверяем поля ввода формы изменения профиля
-profileEditForm.addEventListener('input', function () {
-	const isValid = checkInput(userNameInput, profileEditForm) && checkInput(userBioInput, profileEditForm);
+// функция проверки валидности полей ввода в формах
+function setListeners(form) {
+	const inputList = findInputs(form);
+	const submitButton = form.querySelector('.popup__save-button');
+	setButtonState(inputList, submitButton); // устанавливаем статус кнопки в зависимости от валидности инпутов
 
-	setSubmitButtonState(isValid, profileSubmitButton);
-});
+	inputList.forEach(input => {
+		input.addEventListener('input', function() {
 
-//проверяем поля ввода формы добавления места
-placeAddForm.addEventListener('input', function () {
-	const isValid = checkInput(placeNameInput, placeAddForm) && checkInput(placeLinkInput, placeAddForm);
+			checkInput(input, form); // проверяем каждый инпут и если некорреткный - выводим для него ошибку
+			setButtonState(inputList, submitButton); // устанавливаем статус кнопки в зависимости от валидности инпутов
+		});
+	});
+}
 
-	setSubmitButtonState(isValid, placeSubmitButton);
-});
+// функция запуска валидации всех форм на странице
+function enableValidation() {
+	const formList = Array.from(document.forms);
+
+	formList.forEach(form => {
+		form.addEventListener('submit', function (evt) {
+			evt.preventDefault();
+		});
+
+		setListeners(form);
+	});
+}
+
+// запускаем валидацию форм на странице
+enableValidation();
