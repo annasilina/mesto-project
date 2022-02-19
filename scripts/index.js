@@ -84,8 +84,8 @@ function openPopup(popup) {
 function  closePopup(popup) {
 	popup.classList.remove('popup_opened'); //закрываем попап
 
-	if (hasForm(popup)) { // проверяем, есть ли в попапе форма
-		resetFormData(popup); //зачищаем данные в форме
+	if (findForm(popup)) { // проверяем, есть ли в попапе форма
+		resetFormData(findForm(popup)); //зачищаем данные в этой форме
 	}
 }
 
@@ -102,17 +102,14 @@ function closePopupByEvents(evt) {
 }
 
 // функция проверки наличия формы в попапе
-function hasForm(popup) {
+function findForm(popup) {
 	return popup.querySelector('.popup__form');
 }
 
-// функция очистки данных в форме внутри попапа
-function resetFormData(popup) {
-	const currentForm = popup.querySelector('.popup__form');
-	const currentInputList = findInputs(currentForm);
-
-	resetAllErrors(currentInputList, currentForm); //обнуляем ошибки инпутов при закрытии формы
-	currentForm.reset(); //зачищаем поля формы по умолчанию
+// функция очистки данных в форме
+function resetFormData(currentForm) {
+	currentForm.reset(); //зачищаем поля формы
+	resetAllErrors(findInputs(currentForm), currentForm); //обнуляем ошибки инпутов в форме
 }
 
 //обработчик закрытия попапов по клику на все возможные элементы: кнопка закрытия, escape, overlay
@@ -152,7 +149,7 @@ openPopupPlaceAddButton.addEventListener('click', () => {
 	openPopup(popupPlaceAdd);
 });
 
-//функция создания элемента галереи
+// функция создания элемента галереи
 function createPlace(placeData) {
 	const placeTemplate = document.querySelector('#place-template').content;
 	const placeElement = placeTemplate.querySelector('.gallery__place').cloneNode(true);
@@ -202,25 +199,7 @@ function openPopupPlaceShow(photo, caption) {
 	});
 }
 
-//валидация форм
-//функция активации/деактивации кнопок сабмита в форме в зависимости от валидности инпутов в форме
-function setButtonStateGeneral(inputList, buttonSubmit) {
-	if (hasInvalidInput(inputList)) {
-		buttonSubmit.setAttribute('disabled', true);
-		buttonSubmit.classList.add('popup__button-save_disabled');
-	} else {
-		buttonSubmit.removeAttribute('disabled');
-		buttonSubmit.classList.remove('popup__button-save_disabled');
-	}
-}
-
-// функция активации/деавктивации кнопки при открытии формы в зависиомтси от данных в инпутах
-function setButtonStateInOpenForm(form) {
-	const buttonSave = form.querySelector('.popup__button-save');
-	const inputList = findInputs(form);
-
-	setButtonStateGeneral(inputList, buttonSave);
-}
+// валидация форм
 
 // функция проверки списка инпутов на наличие инпута с ошибкой
 function hasInvalidInput(inputList) {
@@ -269,6 +248,25 @@ function checkInput(input, form) {
 	if (!input.validity.valid) {
 		showInputError(input, form, input.validationMessage);
 	} else hideInputError(input, form);
+}
+
+// функция активации/деактивации кнопок сохранения в форме в зависимости от валидности инпутов
+function setButtonStateGeneral(inputList, buttonSubmit) {
+	if (hasInvalidInput(inputList)) {
+		buttonSubmit.setAttribute('disabled', true);
+		buttonSubmit.classList.add('popup__button-save_disabled');
+	} else {
+		buttonSubmit.removeAttribute('disabled');
+		buttonSubmit.classList.remove('popup__button-save_disabled');
+	}
+}
+
+// функция активации/деавктивации кнопки при открытии формы в зависиомтси от данных в инпутах
+function setButtonStateInOpenForm(form) {
+	const buttonSave = form.querySelector('.popup__button-save');
+	const inputList = findInputs(form);
+
+	setButtonStateGeneral(inputList, buttonSave);
 }
 
 // функция проверки валидности полей ввода в формах
