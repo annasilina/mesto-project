@@ -52,16 +52,17 @@ const placePhoto = popupPlaceShow.querySelector('.popup__place-photo');
 const placeCaption = popupPlaceShow.querySelector('.popup__place-caption')
 
 // находим кнопки открытия попапов с формами
-const openPopupProfileEditButton = profile.querySelector('.profile__button-edit');
-const openPopupPlaceAddButton = profile.querySelector('.profile__button-add');
+const buttonOpenPopupProfileEdit = profile.querySelector('.profile__button-edit');
+const buttonOpenPopupPlaceAdd = profile.querySelector('.profile__button-add');
 
 // рендерим и вставляем элементы галереи по умолчанию
 initialPlaces.forEach(place => {
 	gallery.append(createPlace(place));
 });
 
-//работаем с кнопками
-// задаем функцию для обработки кнопки лайка элемента галереи
+// работаем с кнопками в галерее
+
+// функция для обработки кнопки лайка элемента галереи
 function likePlace(buttonLike) {
 	buttonLike.addEventListener('click', function (evt) {
 		evt.target.classList.toggle('gallery__button-like_active');
@@ -74,6 +75,8 @@ function deletePlace(buttonDelete) {
 		evt.target.parentElement.remove();
 	});
 }
+
+// общие функции для попопов (открытие/закрытие, зачищение данных в формах)
 
 // функция для открытия попапов
 function openPopup(popup) {
@@ -120,8 +123,9 @@ document.addEventListener('keyup', closePopupByEvents);
 
 
 // работаем с профилем
+
 // обработчик кнопки открытия попапа с формой редактирования профиля
-openPopupProfileEditButton.addEventListener('click', () => {
+buttonOpenPopupProfileEdit.addEventListener('click', () => {
 	userNameInput.value = userName.textContent;
 	userBioInput.value = userBio.textContent;
 
@@ -143,8 +147,9 @@ function submitFormProfileEdit(evt) {
 formProfileEdit.addEventListener('submit', submitFormProfileEdit);
 
 // работаем с галереей
-// функция открытия формы добавления элемента в галерею
-openPopupPlaceAddButton.addEventListener('click', () => {
+
+// функция открытия попапа с формой добавления элемента в галерею
+buttonOpenPopupPlaceAdd.addEventListener('click', () => {
 	setButtonStateInOpenForm(formPlaceAdd) // устанавливаем статус кнопки сохранения при открытии формы
 	openPopup(popupPlaceAdd);
 });
