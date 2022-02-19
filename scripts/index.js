@@ -1,5 +1,5 @@
 // массив элементов мест для галереи по умолчанию
-const initialItems = [
+const initialPlaces = [
 	{
 		name: 'Архыз',
 		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -35,42 +35,42 @@ const userBio = profile.querySelector('.profile__user-bio');
 const gallery = document.querySelector('.gallery');
 
 // находим попап и форму редактирования профиля и поля ввода имени и подписи пользователя
-const profileEditPopup = document.querySelector('.popup_type_profile-edit');
-const profileEditForm = document.forms.profileEditForm;
-const userNameInput = profileEditForm.elements.userName;
-const userBioInput = profileEditForm.elements.userBio;
+const popupProfileEdit = document.querySelector('.popup_type_profile-edit');
+const formProfileEdit = document.forms.formProfileEdit;
+const userNameInput = formProfileEdit.elements.userName;
+const userBioInput = formProfileEdit.elements.userBio;
 
 // находим попап и форму добавления карточки места в галерею и поля ввода для фото и названия места
-const placeAddPopup = document.querySelector('.popup_type_add-place');
-const placeAddForm = document.forms.placeAddForm;
-const placeLinkInput = placeAddForm.elements.placeLink;
-const placeNameInput = placeAddForm.elements.placeName;
+const popupPlaceAdd = document.querySelector('.popup_type_place-add');
+const formPlaceAdd = document.forms.formPlaceAdd;
+const placeLinkInput = formPlaceAdd.elements.placeLink;
+const placeNameInput = formPlaceAdd.elements.placeName;
 
 // находим попап просмотра увеличенной фотографии места
-const placePhotoPopup = document.querySelector('.popup_type_place-photo');
-const placeBigPhoto = placePhotoPopup.querySelector('.popup__place-photo');
-const placeCaption = placePhotoPopup.querySelector('.popup__place-caption')
+const popupPlaceShow = document.querySelector('.popup_type_place-photo');
+const placeBigPhoto = popupPlaceShow.querySelector('.popup__place-photo');
+const placeCaption = popupPlaceShow.querySelector('.popup__place-caption')
 
 // находим кнопки открытия и закрытия форм и попапов
-const openProfileEditPopupButton = profile.querySelector('.profile__button-edit');
-const openItemAddPopupButton = profile.querySelector('.profile__button-add');
+const openPopupProfileEditButton = profile.querySelector('.profile__button-edit');
+const openPopupPlaceAddButton = profile.querySelector('.profile__button-add');
 
 // рендерим и вставляем элементы галереи по умолчанию
-initialItems.forEach(item => {
-	gallery.append(createItem(item));
+initialPlaces.forEach(place => {
+	gallery.append(createPlace(place));
 });
 
 //работаем с кнопками
 // задаем функцию для обработки кнопки лайка элемента галереи
-function likeItem(likeButton) {
-	likeButton.addEventListener('click', function (evt) {
-		evt.target.classList.toggle('gallery__like-button_active');
+function likePlace(buttonLike) {
+	buttonLike.addEventListener('click', function (evt) {
+		evt.target.classList.toggle('gallery__button-like_active');
 	});
 }
 
 // функция для обработки кнопки удаления элемента галереи
-function deleteItem(deleteButton) {
-	deleteButton.addEventListener('click', function (evt) {
+function deletePlace(buttonDelete) {
+	buttonDelete.addEventListener('click', function (evt) {
 		evt.target.parentElement.remove();
 	});
 }
@@ -82,8 +82,7 @@ function openPopup(popup) {
 
 // функция для закрытия форм и попапов
 function  closePopup(popup) {
-	//проверяем, содержит ли попап форму
-	if (popup.querySelector('.popup__form')) {
+	if (popup.querySelector('.popup__form')) { //если попапа содержит форму
 		const currentForm = popup.querySelector('.popup__form');
 		const currentInputList = findInputs(currentForm);
 
@@ -95,7 +94,7 @@ function  closePopup(popup) {
 }
 
 //функция закрытия попапа всеми методами - клик по кнопке закрытия, клик вне контейнера, нажатие кнопки escape
-function closePopupMethods(evt) {
+function closePopupByEvents(evt) {
 	const currentPopup = document.querySelector('.popup_opened');
 	const targetClassList = evt.target.classList;
 
@@ -107,89 +106,88 @@ function closePopupMethods(evt) {
 }
 
 //обработчик закрытия попапов по клику на оверлей и кнопки закрытия
-document.addEventListener('click', closePopupMethods);
+document.addEventListener('click', closePopupByEvents);
 
 //обработчик закрытия попапов по нажатию кнопки escape
-document.addEventListener('keyup', closePopupMethods);
+document.addEventListener('keyup', closePopupByEvents);
 
 
 // работаем с профилем
 // обработчик кнопки открытия попапа с формой редактирования профиля
-openProfileEditPopupButton.addEventListener('click', () => {
-	const profileSubmitButton = profileEditPopup.querySelector('.popup__save-button');
-	const profileInputsList = findInputs(profileEditForm);
+openPopupProfileEditButton.addEventListener('click', () => {
+	const profileButtonSave = popupProfileEdit.querySelector('.popup__button-save');
+	const profileInputsList = findInputs(formProfileEdit);
 
 	userNameInput.value = userName.textContent;
 	userBioInput.value = userBio.textContent;
 
-	openPopup(profileEditPopup);
-	setButtonState(profileInputsList, profileSubmitButton); // в эту форму при открытии подтягиваются данные профиля
-	// со страницы. валидация форм настроена по изменению в полях ввода пользователем по событию input.
-	// если не вызвать здесь эту 	функцию - при открытии попапа с формой редактирования профиля кнопка по умолчанию будет неактивна.
+	openPopup(popupProfileEdit);
+	setButtonState(profileInputsList, profileButtonSave); // активрируем кнопку сохранить для формы, так как при ее
+	// открытии поля заполняются автоматически
 });
 
 // функция отправки формы редактирования профиля
-function profileEditFormSubmit(evt) {
+function submitFormProfileEdit(evt) {
 	evt.preventDefault();
 
 	userName.textContent = userNameInput.value;
 	userBio.textContent = userBioInput.value;
 
-	closePopup(profileEditPopup);
+	closePopup(popupProfileEdit);
 }
 
 // обработчик отправки формы редактирования профиля
-profileEditForm.addEventListener('submit', profileEditFormSubmit);
+formProfileEdit.addEventListener('submit', submitFormProfileEdit);
 
 // работаем с галереей
 // функция открытия формы добавления элемента в галерею
-openItemAddPopupButton.addEventListener('click', () => {
-	openPopup(placeAddPopup);
+openPopupPlaceAddButton.addEventListener('click', () => {
+	openPopup(popupPlaceAdd);
 });
 
 //функция создания элемента галереи
-function createItem(itemData) {
-	const itemTemplate = document.querySelector('#item-template').content;
-	const galleryItemElement = itemTemplate.querySelector('.gallery__place').cloneNode(true);
-	const elementPhoto = galleryItemElement.querySelector('.gallery__photo');
-	const elementCaption = galleryItemElement.querySelector('.gallery__caption');
+function createPlace(placeData) {
+	const placeTemplate = document.querySelector('#place-template').content;
+	const placeElement = placeTemplate.querySelector('.gallery__place').cloneNode(true);
+	const placePhoto = placeElement.querySelector('.gallery__place-photo');
+	const placeCaption = placeElement.querySelector('.gallery__place-caption');
 
-	elementPhoto.setAttribute('src', itemData.link);
-	elementPhoto.setAttribute('alt', itemData.name);
-	elementCaption.textContent = itemData.name;
+	placePhoto.setAttribute('src', placeData.link);
+	placePhoto.setAttribute('alt', placeData.name);
+	placeCaption.textContent = placeData.name;
 
-	const elementLikeButton = galleryItemElement.querySelector('.gallery__like-button');
-	const elementDeleteButton = galleryItemElement.querySelector('.gallery__delete-button');
+	const placeButtonLike = placeElement.querySelector('.gallery__button-like');
+	const placeButtonDelete = placeElement.querySelector('.gallery__button-delete');
 
-	likeItem(elementLikeButton);
-	deleteItem(elementDeleteButton);
-	itemPhotoPopupOpen(elementPhoto, elementCaption);
+	likePlace(placeButtonLike);
+	deletePlace(placeButtonDelete);
+	openPopupPlaceShow(placePhoto, placeCaption);
 
-	return galleryItemElement;
+	return placeElement;
 }
 
-// функция добавления новогго элемента галереи
-function addNewItem(itemElement) {
-	gallery.prepend(itemElement);
+// функция добавления нового элемента галереи
+function addNewPlace(placeElement) {
+	gallery.prepend(placeElement);
 }
 
 // функция отправки формы с добавлением нового элемента в галерею
-function itemAddFormSubmit(evt) {
+function submitPlaceAddForm(evt) {
 	evt.preventDefault();
 
-	const itemData = {link: placeLinkInput.value, name: placeNameInput.value};
+	const placeData = {link: placeLinkInput.value, name: placeNameInput.value};
 
-	addNewItem(createItem(itemData));
-	closePopup(placeAddPopup);
+	addNewPlace(createPlace(placeData));
+	closePopup(popupPlaceAdd);
 }
 
 // обработчик отправки формы добавления нового элемента в галерею
-placeAddForm.addEventListener('submit', itemAddFormSubmit);
+formPlaceAdd.addEventListener('submit', submitPlaceAddForm);
 
 // функция для открытия попапа просмотра фотографий карточки места
-function itemPhotoPopupOpen(photo, caption) {
+function openPopupPlaceShow(photo, caption) {
 	photo.addEventListener('click', () => {
-		openPopup(placePhotoPopup);
+		openPopup(popupPlaceShow);
 
 		placeBigPhoto.src = photo.src;
 		placeBigPhoto.alt = photo.alt;
@@ -199,13 +197,13 @@ function itemPhotoPopupOpen(photo, caption) {
 
 //валидация форм
 //функция активации/деактивации кнопок сабмита в форме в зависимости от валидности формы
-function setButtonState(inputList, submitButton) {
+function setButtonState(inputList, buttonSubmit) {
 	if (hasInvalidInput(inputList)) {
-		submitButton.setAttribute('disabled', true);
-		submitButton.classList.add('popup__save-button_disabled');
+		buttonSubmit.setAttribute('disabled', true);
+		buttonSubmit.classList.add('popup__button-save_disabled');
 	} else {
-		submitButton.removeAttribute('disabled');
-		submitButton.classList.remove('popup__save-button_disabled');
+		buttonSubmit.removeAttribute('disabled');
+		buttonSubmit.classList.remove('popup__button-save_disabled');
 	}
 }
 
@@ -261,14 +259,14 @@ function checkInput(input, form) {
 // функция проверки валидности полей ввода в формах
 function setListeners(form) {
 	const inputList = findInputs(form);
-	const submitButton = form.querySelector('.popup__save-button');
-	setButtonState(inputList, submitButton); // устанавливаем статус кнопки в зависимости от валидности инпутов
+	const buttonSave = form.querySelector('.popup__button-save');
+	setButtonState(inputList, buttonSave); // устанавливаем статус кнопки в зависимости от валидности инпутов
 
 	inputList.forEach(input => {
 		input.addEventListener('input', function() {
 
 			checkInput(input, form); // проверяем каждый инпут и если некорреткный - выводим для него ошибку
-			setButtonState(inputList, submitButton); // устанавливаем статус кнопки в зависимости от валидности инпутов
+			setButtonState(inputList, buttonSave); // устанавливаем статус кнопки в зависимости от валидности инпутов
 		});
 	});
 }

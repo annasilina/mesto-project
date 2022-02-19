@@ -1,4 +1,4 @@
-.gallery__photo {
+.gallery__place-photo {
 	width: 282px;
 	height: 282px;
 	object-fit: cover;
@@ -6,6 +6,6 @@
 	grid-column: 1/-1;
 }
 
-.gallery__photo:hover {
+.gallery__place-photo:hover {
 	cursor: pointer;
 }

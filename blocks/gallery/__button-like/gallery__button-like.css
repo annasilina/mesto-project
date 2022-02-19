@@ -1,4 +1,4 @@
-.gallery__like-button {
+.gallery__button-like {
 	padding: 0;
 	margin: 0 1.25rem 0 0;
 	width: 22px;
@@ -11,7 +11,7 @@
 	justify-self: end;
 }
 
-.gallery__like-button:hover {
+.gallery__button-like:hover {
 	opacity: .5;
 	transition: opacity .5s;
 }

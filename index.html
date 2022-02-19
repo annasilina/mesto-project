@@ -30,8 +30,9 @@
 	</footer>
 	<div class="popup popup_type_profile-edit">
 		<div class="popup__container">
-			<button type="button" class="popup__close-button button"></button>
-			<form class="popup__form" name="profileEditForm" novalidate>
+			<button type="button" class="popup__button-close button"></button>
+			<form class="popup__form" name="formProfileEdit"
+						novalidate>
 				<h2 class="popup__form-heading">Редактировать профиль</h2>
 				<fieldset class="popup__input-container">
 					<input type="text" id="user-name" name="userName" placeholder="Имя" minlength="2" maxlength="40"
@@ -44,16 +45,16 @@
 					<span class="user-bio-error popup__input-error"></span>
 				</fieldset>
 				<fieldset class="popup__form-handlers">
-					<button type="submit" class="popup__save-button button">Сохранить
+					<button type="submit" class="popup__button-save button">Сохранить
 					</button>
 				</fieldset>
 			</form>
 		</div>
 	</div>
-	<div class="popup popup_type_add-place">
+	<div class="popup popup_type_place-add">
 		<div class="popup__container">
-			<button type="button" class="popup__close-button button"></button>
-			<form class="popup__form" name="placeAddForm">
+			<button type="button" class="popup__button-close button"></button>
+			<form class="popup__form" name="formPlaceAdd">
 				<h2 class="popup__form-heading">Новое место</h2>
 				<fieldset class="popup__input-container">
 					<input type="text" id="place-name" name="placeName" placeholder="Название" minlength="2" maxlength="30"
@@ -65,25 +66,25 @@
 					<span class="place-link-error popup__input-error"></span>
 				</fieldset>
 				<fieldset class="popup__form-handlers">
-					<button type="submit" class="popup__save-button button">Создать</button>
+					<button type="submit" class="popup__button-save button">Создать</button>
 				</fieldset>
 			</form>
 		</div>
 	</div>
 	<div class="popup popup_type_place-photo">
 		<div class="popup__photo-container">
-			<button type="button" class="popup__close-button button"></button>
+			<button type="button" class="popup__button-close button"></button>
 			<img class="popup__place-photo" src="" alt="">
 			<p class="popup__place-caption"></p>
 		</div>
 	</div>
-	<template id="item-template">
+	<template id="place-template">
 		<article class="gallery__place">
-			<img class="gallery__photo" src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg"
+			<img class="gallery__place-photo" src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg"
 					 alt="Архыз">
-			<h2 class="gallery__caption">Архыз</h2>
-			<button type="button" class="gallery__like-button button"></button>
-			<button type="button" class="gallery__delete-button button"></button>
+			<h2 class="gallery__place-caption">Архыз</h2>
+			<button type="button" class="gallery__button-like button"></button>
+			<button type="button" class="gallery__button-delete button"></button>
 		</article>
 	</template>
 	<script src="scripts/index.js"></script>
