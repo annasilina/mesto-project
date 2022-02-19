@@ -26,6 +26,16 @@ const initialPlaces = [
 	}
 ];
 
+// объект-конфиг с селекторами элементов для работы с формами и попапами
+const formConfig = {
+	formSelector: '.popup__form',
+	inputSelector: '.popup__form-input',
+	buttonSubmitSelector: '.popup__button-save',
+	buttonSubmitInactiveClass: 'popup__button-save_disabled',
+	inputWithErrorClass: 'popup__form-input_type_error',
+	errorMessageClass: 'popup__error-message_active'
+}
+
 // находим профиль и элементы имени и подписи пользователя
 const profile = document.querySelector('.profile');
 const userName = profile.querySelector('.profile__user-name');
@@ -87,8 +97,8 @@ function openPopup(popup) {
 function  closePopup(popup) {
 	popup.classList.remove('popup_opened'); //закрываем попап
 
-	if (findForm(popup)) { // проверяем, есть ли в попапе форма
-		resetFormData(findForm(popup)); //зачищаем данные в этой форме
+	if (findForm(popup, formConfig)) { // проверяем, есть ли в попапе форма
+		resetFormData(findForm(popup, formConfig), formConfig); //зачищаем данные в этой форме
 	}
 }
 
@@ -97,22 +107,11 @@ function closePopupByEvents(evt) {
 	const currentPopup = document.querySelector('.popup_opened');
 	const targetClassList = evt.target.classList;
 
-	if (targetClassList.contains('popup__close-button')
+	if (targetClassList.contains('popup__button-close')
 		|| targetClassList.contains('popup_opened')
 		|| evt.key === 'Escape') {
 		closePopup(currentPopup);
 	}
-}
-
-// функция проверки наличия формы в попапе
-function findForm(popup) {
-	return popup.querySelector('.popup__form');
-}
-
-// функция очистки данных в форме
-function resetFormData(currentForm) {
-	currentForm.reset(); //зачищаем поля формы
-	resetAllErrors(findInputs(currentForm), currentForm); //обнуляем ошибки инпутов в форме
 }
 
 //обработчик закрытия попапов по клику на все возможные элементы: кнопка закрытия, escape, overlay
@@ -129,7 +128,9 @@ buttonOpenPopupProfileEdit.addEventListener('click', () => {
 	userNameInput.value = userName.textContent;
 	userBioInput.value = userBio.textContent;
 
-	setButtonStateInOpenForm(formProfileEdit); // устанавливаем статус кнопки сохранения при открытии формы
+	setButtonState(formProfileEdit, formConfig); // устанавливаем статус кнопки сохранения при открытии формы в
+	// зависимости от наполнения инпутов. Так как эта форма всегда заполненна данными, указанными в профиле, кнопка
+	// сохранения должна быть доступна при любом открытии.
 	openPopup(popupProfileEdit);
 });
 
@@ -150,7 +151,9 @@ formProfileEdit.addEventListener('submit', submitFormProfileEdit);
 
 // функция открытия попапа с формой добавления элемента в галерею
 buttonOpenPopupPlaceAdd.addEventListener('click', () => {
-	setButtonStateInOpenForm(formPlaceAdd) // устанавливаем статус кнопки сохранения при открытии формы
+	setButtonState(formPlaceAdd, formConfig) // устанавливаем статус кнопки сохранения при открытии формы в
+	// зависимости от наполнения инпутов в каждый момент открытия - это важно при повторном открытии формы, если при
+	// первом обращении пользователь ввел данные, но закрыл форму без отправки данных
 	openPopup(popupPlaceAdd);
 });
 
@@ -206,6 +209,11 @@ function openPopupPlaceShow(photo, caption) {
 
 // валидация форм
 
+// функция проверки наличия формы в попапе
+function findForm(popup, config) {
+	return popup.querySelector(config.formSelector);
+}
+
 // функция проверки списка инпутов на наличие инпута с ошибкой
 function hasInvalidInput(inputList) {
 	return inputList.some(input => {
@@ -214,93 +222,111 @@ function hasInvalidInput(inputList) {
 }
 
 // функция поиска спана для ошибки в форме
-function findError(input, form) {
+function findErrorBlock(form, input) {
 	return form.querySelector(`#error-${input.name}`);
 }
 
 // функция поиска всех инпутов в форме
-function findInputs(form) {
-	return Array.from(form.querySelectorAll('.popup__form-input'));
+function findInputs(form, config) {
+	return Array.from(form.querySelectorAll(config.inputSelector));
+}
+
+// функция поиска кнопки сабмита в форме
+function findButtonSubmit(form, config) {
+	return form.querySelector(config.buttonSubmitSelector);
 }
 
 // функция показа текста ошибки для полей ввода
-function showInputError(input, form, errorMessage) {
-	const inputError = findError(input, form);
-
-	inputError.classList.add('popup__input-error_active');
-	input.classList.add('popup__form-input_type_error');
+function showInputError(input, inputError, errorMessage, config) {
+	input.classList.add(config.inputWithErrorClass);
+	inputError.classList.add(config.errorMessageClass);
 	inputError.textContent = errorMessage;
 }
 
 //функция зачищения текста ошибки для одного инпута
-function hideInputError(input, form) {
-	const inputError = findError(input, form);
-
-	input.classList.remove('popup__form-input_type_error');
-	inputError.classList.remove('popup__input-error_active');
+function hideInputError(input, inputError, config) {
+	input.classList.remove(config.inputWithErrorClass);
+	inputError.classList.remove(config.errorMessageClass);
 	inputError.textContent = '';
 }
 
 // функция очистки текстов ошибок для всех инпутов в форме
-function resetAllErrors(inputList, form) {
+function resetAllErrors(form, config) {
+	const inputList = findInputs(form, config);
+
 	inputList.forEach(input => {
-		hideInputError(input, form);
+		const inputError = findErrorBlock(form, input);
+
+		hideInputError(input, inputError, config);
 	});
 }
 
+// функция очистки данных в форме
+function resetFormData(currentForm, config) {
+	currentForm.reset(); //зачищаем поля формы
+	resetAllErrors(currentForm, config); //обнуляем ошибки инпутов в форме
+}
+
 //функция проверки полей ввода
-function checkInput(input, form) {
+function checkInput(form, input, config) {
+	const inputError = findErrorBlock(form, input);
+
 	if (!input.validity.valid) {
-		showInputError(input, form, input.validationMessage);
-	} else hideInputError(input, form);
+		showInputError(input, inputError, input.validationMessage, config);
+	} else hideInputError(input, inputError, config);
+}
+
+// функция активации кнопки сохранения в форме
+function enableButton(button, config) {
+	button.disabled = false;
+	button.classList.remove(config.buttonSubmitInactiveClass);
+}
+
+// функция деактивации кнопки сохранения в форме
+function disableButton(button, config) {
+	button.disabled = true;
+	button.classList.add(config.buttonSubmitInactiveClass);
 }
 
 // функция активации/деактивации кнопок сохранения в форме в зависимости от валидности инпутов
-function setButtonStateGeneral(inputList, buttonSubmit) {
+function setButtonState(form, config) {
+	const inputList = findInputs(form, config);
+	const buttonSave = findButtonSubmit(form, config);
+
 	if (hasInvalidInput(inputList)) {
-		buttonSubmit.setAttribute('disabled', true);
-		buttonSubmit.classList.add('popup__button-save_disabled');
+		disableButton(buttonSave, config);
 	} else {
-		buttonSubmit.removeAttribute('disabled');
-		buttonSubmit.classList.remove('popup__button-save_disabled');
+		enableButton(buttonSave, config);
 	}
 }
 
-// функция активации/деавктивации кнопки при открытии формы в зависиомтси от данных в инпутах
-function setButtonStateInOpenForm(form) {
-	const buttonSave = form.querySelector('.popup__button-save');
-	const inputList = findInputs(form);
-
-	setButtonStateGeneral(inputList, buttonSave);
-}
-
 // функция проверки валидности полей ввода в формах
-function setListeners(form) {
-	const inputList = findInputs(form);
-	const buttonSave = form.querySelector('.popup__button-save');
-	setButtonStateGeneral(inputList, buttonSave); // устанавливаем статус кнопки в зависимости от валидности инпутов
+function setEventListeners(form, config) {
+	setButtonState(form, config); // устанавливаем статус кнопки в зависимости от данных в инпуте при первом обращении
+	// к форме
 
-	inputList.forEach(input => {
+	findInputs(form, config).forEach(input => {
 		input.addEventListener('input', function() {
 
-			checkInput(input, form); // проверяем каждый инпут и если некорреткный - выводим для него ошибку
-			setButtonStateGeneral(inputList, buttonSave); // устанавливаем статус кнопки в зависимости от валидности инпутов
+			checkInput(form, input, config); // проверяем каждый инпут и если некорреткный - выводим для него ошибку
+			setButtonState(form, config); // устанавливаем статус кнопки в зависимости от валидности инпутов при каждом
+			// изменении в инпутах
 		});
 	});
 }
 
 // функция запуска валидации всех форм на странице
-function enableValidation() {
-	const formList = Array.from(document.forms);
+function enableValidation(config) {
+	const formList = Array.from(document.querySelectorAll(config.formSelector));
 
 	formList.forEach(form => {
 		form.addEventListener('submit', function (evt) {
 			evt.preventDefault();
 		});
 
-		setListeners(form);
+		setEventListeners(form, config);
 	});
 }
 
 // запускаем валидацию форм на странице
-enableValidation();
+enableValidation(formConfig);
