@@ -215,7 +215,7 @@ function hasInvalidInput(inputList) {
 
 // функция поиска спана для ошибки в форме
 function findError(input, form) {
-	return form.querySelector(`.${input.id}-error`);
+	return form.querySelector(`#error-${input.name}`);
 }
 
 // функция поиска всех инпутов в форме
