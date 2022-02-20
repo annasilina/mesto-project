@@ -262,9 +262,9 @@ function resetAllErrors(form, config) {
 }
 
 // функция очистки данных в форме
-function resetFormData(currentForm, config) {
-	currentForm.reset(); //зачищаем поля формы
-	resetAllErrors(currentForm, config); //обнуляем ошибки инпутов в форме
+function resetFormData(form, config) {
+	form.reset(); //зачищаем поля формы
+	resetAllErrors(form, config); //обнуляем ошибки инпутов в форме
 }
 
 //функция проверки полей ввода
