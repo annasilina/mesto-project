@@ -3,14 +3,14 @@ import { initialPlaces, gallery, createPlace } from './card.js';
 import { formConfig } from './constants.js';
 import { enableValidation } from './validate.js';
 import {
-	openPopupProfileEdit,
-	openPopupPlaceAdd,
-	closePopupByEvents,
 	profile,
 	formProfileEdit,
 	formPlaceAdd,
+	closePopup,
+	openPopupProfileEdit,
+	openPopupPlaceAdd,
 	submitFormProfileEdit,
-	submitFormPlaceAdd,
+	submitFormPlaceAdd, popups,
 } from '/src/components/modal.js';
 
 
@@ -28,11 +28,18 @@ buttonOpenPopupProfileEdit.addEventListener('click', openPopupProfileEdit);
 buttonOpenPopupPlaceAdd.addEventListener('click', openPopupPlaceAdd);
 
 
-//обработчик закрытия попапов по клику на все возможные элементы: кнопка закрытия, escape, overlay
-document.addEventListener('click', closePopupByEvents);
+//обработчик закрытия попапов по клику на кнопку закрытия и overlay
+popups.forEach(popup => {
+	popup.addEventListener('click', (evt) => {
+		if (evt.target.classList.contains('popup_opened')) {
+			closePopup(popup);
+		}
 
-//обработчик закрытия попапов по нажатию кнопки escape
-document.addEventListener('keyup', closePopupByEvents);
+		if (evt.target.classList.contains('popup__button-close')) {
+			closePopup(popup);
+		}
+	});
+});
 
 
 // обработчик отправки формы редактирования профиля

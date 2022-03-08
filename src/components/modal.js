@@ -2,6 +2,9 @@ import { formConfig } from './constants.js';
 import { setButtonState, resetFormData, findForm } from './validate.js';
 import { addNewPlace, createPlace } from './card.js';
 
+//находим все попапы
+const popups = document.querySelectorAll('.popup');
+
 // находим профиль и элементы имени и подписи пользователя
 const profile = document.querySelector('.profile');
 const userName = profile.querySelector('.profile__user-name');
@@ -29,6 +32,8 @@ const placeCaption = popupPlaceShow.querySelector('.popup__place-caption')
 // функция для открытия попапов
 function openPopup(popup) {
 	popup.classList.add('popup_opened');
+
+	document.addEventListener('keyup', closePopupByEcs);
 }
 
 // функция для закрытия попапов
@@ -38,16 +43,15 @@ function  closePopup(popup) {
 	if (findForm(popup, formConfig)) { // проверяем, есть ли в попапе форма
 		resetFormData(findForm(popup, formConfig), formConfig); //зачищаем данные в этой форме
 	}
+
+	document.removeEventListener('keyup', closePopupByEcs);
 }
 
 //функция закрытия попапа всеми методами - клик по кнопке закрытия, клик вне контейнера, нажатие кнопки escape
-function closePopupByEvents(evt) {
-	const currentPopup = document.querySelector('.popup_opened');
-	const targetClassList = evt.target.classList;
+function closePopupByEcs(evt) {
+	if (evt.key === 'Escape') {
+		const currentPopup = document.querySelector('.popup_opened');
 
-	if (targetClassList.contains('popup__button-close')
-		|| targetClassList.contains('popup_opened')
-		|| evt.key === 'Escape') {
 		closePopup(currentPopup);
 	}
 }
@@ -103,10 +107,11 @@ function submitFormPlaceAdd(evt) {
 }
 
 export {
+	popups,
 	profile,
 	formProfileEdit,
 	formPlaceAdd,
-	closePopupByEvents,
+	closePopup,
 	openPopupProfileEdit,
 	openPopupPlaceAdd,
 	openPopupPlaceShow,
