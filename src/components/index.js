@@ -11,7 +11,7 @@ import {
 	openPopupPlaceAdd,
 	submitFormProfileEdit,
 	submitFormPlaceAdd, popups,
-} from '/src/components/modal.js';
+} from './modal.js';
 
 
 // находим кнопки открытия попапов с формами
