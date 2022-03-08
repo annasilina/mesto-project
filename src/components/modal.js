@@ -1,5 +1,5 @@
 import { formConfig } from './constants.js';
-import { setButtonState, resetFormData, findForm } from './validate.js';
+import { setButtonState, resetFormData } from './validate.js';
 import { addNewPlace, createPlace } from './card.js';
 
 //находим все попапы
@@ -46,10 +46,6 @@ function openPopup(popup) {
 function  closePopup(popup) {
 	popup.classList.remove('popup_opened'); //закрываем попап
 
-	if (findForm(popup, formConfig)) { // проверяем, есть ли в попапе форма
-		resetFormData(findForm(popup, formConfig), formConfig); //зачищаем данные в этой форме
-	}
-
 	document.removeEventListener('keyup', closePopupByEcs);
 }
 
@@ -75,15 +71,16 @@ function openPopupProfileEdit() {
 
 // функция открытия попапа редактирования аватапа
 function openPopupAvatarChange() {
+	resetFormData(formAvatarChange, formConfig)
 	setButtonState(formAvatarChange, formConfig) // устанавливаем статус кнопки сохранения при открытии формы в
 	// зависимости от наполнения инпутов в каждый момент открытия - это важно при повторном открытии формы, если при
 	// первом обращении пользователь ввел данные, но закрыл форму без отправки данных
 	openPopup(popupAvatarChange);
 }
 
-
 // функция открытия попапа добавления места
 function openPopupPlaceAdd() {
+	resetFormData(formPlaceAdd, formConfig)
 	setButtonState(formPlaceAdd, formConfig) // устанавливаем статус кнопки сохранения при открытии формы в
 	// зависимости от наполнения инпутов в каждый момент открытия - это важно при повторном открытии формы, если при
 	// первом обращении пользователь ввел данные, но закрыл форму без отправки данных

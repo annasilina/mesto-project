@@ -1,10 +1,5 @@
 // валидация форм
 
-// функция проверки наличия формы в попапе
-function findForm(popup, config) {
-	return popup.querySelector(config.formSelector);
-}
-
 // функция проверки списка инпутов на наличие инпута с ошибкой
 function hasInvalidInput(inputList) {
 	return inputList.some(input => {
@@ -119,4 +114,4 @@ function enableValidation(config) {
 	});
 }
 
-export { setButtonState, findForm, resetFormData, enableValidation };
+export { setButtonState, resetFormData, enableValidation };
