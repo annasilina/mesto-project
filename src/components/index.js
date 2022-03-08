@@ -19,9 +19,10 @@ import {
 
 
 // находим кнопки открытия попапов с формами
+const buttonOpenPopupAvatarChange = profile.querySelector('.profile__button-edit_el_avatar');
 const buttonOpenPopupProfileEdit = profile.querySelector('.profile__button-edit');
 const buttonOpenPopupPlaceAdd = profile.querySelector('.profile__button-add');
-const buttonOpenPopupAvatarChange = profile.querySelector('.profile__button');
+
 
 // рендерим и вставляем элементы галереи по умолчанию
 initialPlaces.forEach(place => {
