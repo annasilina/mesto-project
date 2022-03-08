@@ -9,6 +9,7 @@ import {
 	closePopup,
 	openPopupProfileEdit,
 	openPopupPlaceAdd,
+	openPopupAvatarChange,
 	submitFormProfileEdit,
 	submitFormPlaceAdd, popups,
 } from '/src/components/modal.js';
@@ -17,15 +18,17 @@ import {
 // находим кнопки открытия попапов с формами
 const buttonOpenPopupProfileEdit = profile.querySelector('.profile__button-edit');
 const buttonOpenPopupPlaceAdd = profile.querySelector('.profile__button-add');
+const buttonOpenPopupAvatarChange = profile.querySelector('.profile__button');
 
 // рендерим и вставляем элементы галереи по умолчанию
 initialPlaces.forEach(place => {
 	gallery.append(createPlace(place));
 });
 
-// обработчики кнопок открытия попапов редактирования профиля и добавления места
+// обработчики кнопок открытия попапов редактирования профиля, аватарки и добавления места
 buttonOpenPopupProfileEdit.addEventListener('click', openPopupProfileEdit);
 buttonOpenPopupPlaceAdd.addEventListener('click', openPopupPlaceAdd);
+buttonOpenPopupAvatarChange.addEventListener('click', openPopupAvatarChange)
 
 
 //обработчик закрытия попапов по клику на кнопку закрытия и overlay

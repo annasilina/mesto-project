@@ -72,6 +72,15 @@ function openPopupProfileEdit() {
 	openPopup(popupProfileEdit);
 }
 
+// функция открытия попапа редактирования аватапа
+function openPopupAvatarChange() {
+	setButtonState(formPlaceAdd, formConfig) // устанавливаем статус кнопки сохранения при открытии формы в
+	// зависимости от наполнения инпутов в каждый момент открытия - это важно при повторном открытии формы, если при
+	// первом обращении пользователь ввел данные, но закрыл форму без отправки данных
+	openPopup(popupAvatarChange);
+}
+
+
 // функция открытия попапа добавления места
 function openPopupPlaceAdd() {
 	setButtonState(formPlaceAdd, formConfig) // устанавливаем статус кнопки сохранения при открытии формы в
@@ -117,6 +126,7 @@ export {
 	formProfileEdit,
 	formPlaceAdd,
 	closePopup,
+	openPopupAvatarChange,
 	openPopupProfileEdit,
 	openPopupPlaceAdd,
 	openPopupPlaceShow,
