@@ -13,6 +13,7 @@ const userBio = profile.querySelector('.profile__user-bio');
 // находим попап-форму редактирования аватара и поле ввода ссылки на картинку
 const popupAvatarChange = document.querySelector('.popup_type_avatar-change');
 const formAvatarChange = popupAvatarChange.querySelector('.popup__form');
+const avatar = profile.querySelector('.profile__photo');
 const avatarInput = formAvatarChange.elements.avatarLink;
 
 // находим попап и форму редактирования профиля и поля ввода имени и подписи пользователя
@@ -100,6 +101,15 @@ function openPopupPlaceShow(photo, caption) {
 	});
 }
 
+// функция отправки формы обновления аватара
+function submitFormAvatarChange(evt) {
+	evt.preventDefault();
+
+	avatar.setAttribute('src', avatarInput.value);
+	avatarInput.value = '';
+	closePopup(popupAvatarChange);
+}
+
 // функция отправки формы редактирования профиля
 function submitFormProfileEdit(evt) {
 	evt.preventDefault();
@@ -123,6 +133,7 @@ function submitFormPlaceAdd(evt) {
 export {
 	popups,
 	profile,
+	formAvatarChange,
 	formProfileEdit,
 	formPlaceAdd,
 	closePopup,
@@ -131,5 +142,6 @@ export {
 	openPopupPlaceAdd,
 	openPopupPlaceShow,
 	submitFormProfileEdit,
+	submitFormAvatarChange,
 	submitFormPlaceAdd
 }

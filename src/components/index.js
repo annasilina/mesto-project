@@ -3,15 +3,18 @@ import { initialPlaces, gallery, createPlace } from './card.js';
 import { formConfig } from './constants.js';
 import { enableValidation } from './validate.js';
 import {
+	popups,
 	profile,
 	formProfileEdit,
 	formPlaceAdd,
+	formAvatarChange,
 	closePopup,
 	openPopupProfileEdit,
 	openPopupPlaceAdd,
 	openPopupAvatarChange,
 	submitFormProfileEdit,
-	submitFormPlaceAdd, popups,
+	submitFormAvatarChange,
+	submitFormPlaceAdd,
 } from '/src/components/modal.js';
 
 
@@ -44,6 +47,10 @@ popups.forEach(popup => {
 	});
 });
 
+
+
+// обработчик отправки формы обновления аватара
+formAvatarChange.addEventListener('submit', submitFormAvatarChange);
 
 // обработчик отправки формы редактирования профиля
 formProfileEdit.addEventListener('submit', submitFormProfileEdit);
