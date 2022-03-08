@@ -20,7 +20,7 @@ import {
 
 // находим кнопки открытия попапов с формами
 const buttonOpenPopupAvatarChange = profile.querySelector('.profile__button-edit_el_avatar');
-const buttonOpenPopupProfileEdit = profile.querySelector('.profile__button-edit');
+const buttonOpenPopupProfileEdit = profile.querySelector('.profile__button-edit_el_info');
 const buttonOpenPopupPlaceAdd = profile.querySelector('.profile__button-add');
 
 
