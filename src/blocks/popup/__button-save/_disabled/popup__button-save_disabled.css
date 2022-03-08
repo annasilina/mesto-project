@@ -1,0 +1,10 @@
+.popup__button-save_disabled {
+	border: .0625rem solid rgba(0, 0, 0, 0.2);
+	background-color: inherit;
+	color: rgba(0, 0, 0, 0.2);
+}
+
+.popup__button-save_disabled:hover {
+	opacity: unset;
+	cursor: default;
+}

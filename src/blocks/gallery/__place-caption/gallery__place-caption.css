@@ -1,0 +1,11 @@
+.gallery__place-caption {
+	padding: 0;
+	margin: 1.6rem 0 1.6rem 1.31rem;
+	color: #000;
+	font-weight: 900;
+	font-size: 1.5rem;
+	line-height: 1.2;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow-x: hidden;
+}
