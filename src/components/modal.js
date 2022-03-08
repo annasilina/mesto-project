@@ -1,5 +1,5 @@
 import { formConfig } from './constants.js';
-import { setButtonState, resetFormData, findForm } from './validate.js';
+import { setButtonState, resetFormData } from './validate.js';
 import { addNewPlace, createPlace } from './card.js';
 
 //находим все попапы
