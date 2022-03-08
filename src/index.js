@@ -1,6 +1,7 @@
-import { initialPlaces, gallery, createPlace } from './card.js';
-import { formConfig } from './constants.js';
-import { enableValidation } from './validate.js';
+import '../src/pages/index.css';
+import { initialPlaces, gallery, createPlace } from '/src/components/card.js';
+import { formConfig } from '/src/components/constants.js';
+import { enableValidation } from '/src/components/validate.js';
 import {
 	openPopupProfileEdit,
 	openPopupPlaceAdd,
@@ -10,7 +11,7 @@ import {
 	formPlaceAdd,
 	submitFormProfileEdit,
 	submitFormPlaceAdd,
-} from './modal.js';
+} from '/src/components/modal.js';
 
 
 // находим кнопки открытия попапов с формами
