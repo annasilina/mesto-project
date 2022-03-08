@@ -10,6 +10,11 @@ const profile = document.querySelector('.profile');
 const userName = profile.querySelector('.profile__user-name');
 const userBio = profile.querySelector('.profile__user-bio');
 
+// находим попап-форму редактирования аватара и поле ввода ссылки на картинку
+const popupAvatarChange = document.querySelector('.popup_type_avatar-change');
+const formAvatarChange = popupAvatarChange.querySelector('.popup__form');
+const avatarInput = formAvatarChange.elements.avatarLink;
+
 // находим попап и форму редактирования профиля и поля ввода имени и подписи пользователя
 const popupProfileEdit = document.querySelector('.popup_type_profile-edit');
 const formProfileEdit = popupProfileEdit.querySelector('.popup__form');
