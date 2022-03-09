@@ -14,11 +14,16 @@
 	</header>
 	<main class="content">
 		<section class="profile">
-			<img class="profile__photo" src="<%=require('./images/profile-photo.jpg')%>" alt="фото профиля">
+			<div class="profile__photo-container">
+				<img class="profile__photo" src="<%=require('./images/profile-photo.jpg')%>" alt="фото профиля">
+				<button type="button" class="profile__button-edit profile__button-edit_el_avatar button"
+								aria-label="изменить"></button>
+			</div>
 			<div class="profile__user-container">
 				<h1 class="profile__user-name">Жак-Ив Кусто</h1>
 				<p class="profile__user-bio">Исследователь океана</p>
-				<button type="button" class="profile__button-edit button" aria-label="изменить"></button>
+				<button type="button" class="profile__button-edit profile__button-edit_el_info button"
+								aria-label="изменить"></button>
 			</div>
 			<button type="button" class="profile__button-add button" aria-label="добавить"></button>
 		</section>
@@ -28,6 +33,22 @@
 	<footer class="footer">
 		<p class="footer__copyright">&copy; 2020 Mesto Russia</p>
 	</footer>
+	<div class="popup popup_type_avatar-change">
+		<div class="popup__container">
+			<button type="button" class="popup__button-close button"></button>
+			<form class="popup__form" name="formAvatarUpdate">
+				<h2 class="popup__form-heading">Обновить аватар</h2>
+				<fieldset class="popup__input-container">
+					<input type="url" name="avatarLink" placeholder="Ссылка на аватар" required
+								 class="popup__form-input popup__form-input_el_avatar-link">
+					<span id="error-avatarLink" class="popup__error-message"></span>
+				</fieldset>
+				<fieldset class="popup__form-handlers">
+					<button type="submit" class="popup__button-save button">Сохранить</button>
+				</fieldset>
+			</form>
+		</div>
+	</div>
 	<div class="popup popup_type_profile-edit">
 		<div class="popup__container">
 			<button type="button" class="popup__button-close button"></button>

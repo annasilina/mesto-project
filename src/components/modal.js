@@ -10,6 +10,12 @@ const profile = document.querySelector('.profile');
 const userName = profile.querySelector('.profile__user-name');
 const userBio = profile.querySelector('.profile__user-bio');
 
+// находим попап-форму редактирования аватара и поле ввода ссылки на картинку
+const popupAvatarChange = document.querySelector('.popup_type_avatar-change');
+const formAvatarChange = popupAvatarChange.querySelector('.popup__form');
+const avatar = profile.querySelector('.profile__photo');
+const avatarInput = formAvatarChange.elements.avatarLink;
+
 // находим попап и форму редактирования профиля и поля ввода имени и подписи пользователя
 const popupProfileEdit = document.querySelector('.popup_type_profile-edit');
 const formProfileEdit = popupProfileEdit.querySelector('.popup__form');
@@ -63,9 +69,18 @@ function openPopupProfileEdit() {
 	openPopup(popupProfileEdit);
 }
 
+// функция открытия попапа редактирования аватапа
+function openPopupAvatarChange() {
+	resetFormData(formAvatarChange, formConfig)
+	setButtonState(formAvatarChange, formConfig) // устанавливаем статус кнопки сохранения при открытии формы в
+	// зависимости от наполнения инпутов в каждый момент открытия - это важно при повторном открытии формы, если при
+	// первом обращении пользователь ввел данные, но закрыл форму без отправки данных
+	openPopup(popupAvatarChange);
+}
+
 // функция открытия попапа добавления места
 function openPopupPlaceAdd() {
-	resetFormData(formPlaceAdd, formConfig); //зачищаем данные в этой форме
+	resetFormData(formPlaceAdd, formConfig)
 	setButtonState(formPlaceAdd, formConfig) // устанавливаем статус кнопки сохранения при открытии формы в
 	// зависимости от наполнения инпутов в каждый момент открытия - это важно при повторном открытии формы, если при
 	// первом обращении пользователь ввел данные, но закрыл форму без отправки данных
@@ -81,6 +96,15 @@ function openPopupPlaceShow(photo, caption) {
 		placePhoto.alt = photo.alt;
 		placeCaption.textContent = caption.textContent;
 	});
+}
+
+// функция отправки формы обновления аватара
+function submitFormAvatarChange(evt) {
+	evt.preventDefault();
+
+	avatar.setAttribute('src', avatarInput.value);
+	avatarInput.value = '';
+	closePopup(popupAvatarChange);
 }
 
 // функция отправки формы редактирования профиля
@@ -106,12 +130,15 @@ function submitFormPlaceAdd(evt) {
 export {
 	popups,
 	profile,
+	formAvatarChange,
 	formProfileEdit,
 	formPlaceAdd,
 	closePopup,
+	openPopupAvatarChange,
 	openPopupProfileEdit,
 	openPopupPlaceAdd,
 	openPopupPlaceShow,
 	submitFormProfileEdit,
+	submitFormAvatarChange,
 	submitFormPlaceAdd
 }
