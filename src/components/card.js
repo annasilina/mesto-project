@@ -38,6 +38,7 @@ function createPlace(placeData) {
 	const placeElement = placeTemplate.querySelector('.gallery__place').cloneNode(true);
 	const placePhoto = placeElement.querySelector('.gallery__place-photo');
 	const placeCaption = placeElement.querySelector('.gallery__place-caption');
+	const placeLikeCounter = placeElement.querySelector('.gallery__like-counter');
 
 	placePhoto.setAttribute('src', placeData.link);
 	placePhoto.setAttribute('alt', placeData.name);
