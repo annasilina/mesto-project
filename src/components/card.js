@@ -54,7 +54,7 @@ function isLiked(likes, currentUserId) {
 
 function handleLikeToggle(placeButtonLike, placeLikeCounter, placeData, currentUserId) {
 	placeButtonLike.addEventListener('click', function (evt) {
-		if (isLiked(placeData.likes, currentUserId)) {
+		if (evt.target.classList.contains('gallery__button-like_active')) {
 			evt.target.classList.remove('gallery__button-like_active');
 			deleteLikeAtPlace(placeData['_id'])
 				.then(newPlaceData => {
@@ -62,13 +62,14 @@ function handleLikeToggle(placeButtonLike, placeLikeCounter, placeData, currentU
 				})
 				.catch(err => console.log(err))
 		} else {
+			evt.target.classList.add('gallery__button-like_active');
 			putLikeAtPlace(placeData['_id'])
 				.then(newPlaceData => {
 					renderLikes(newPlaceData.likes, currentUserId, placeButtonLike, placeLikeCounter);
 				})
 				.catch(err => console.log(err))
 		}
-	})
+	});
 }
 
 // функция для обработки кнопки удаления элемента галереи
