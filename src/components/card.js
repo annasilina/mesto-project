@@ -1,71 +1,85 @@
-import { openPopupPlaceShow } from './modal.js';
-
-// массив элементов мест для галереи по умолчанию
-const initialPlaces = [
-	{
-		name: 'Архыз',
-		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-	},
-	{
-		name: 'Челябинская область',
-		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-	},
-	{
-		name: 'Иваново',
-		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-	},
-	{
-		name: 'Камчатка',
-		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-	},
-	{
-		name: 'Холмогорский район',
-		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-	},
-	{
-		name: 'Байкал',
-		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-	}
-];
+import {openPopupPlaceShow} from './modal.js';
+import {deleteLikeAtPlace, putLikeAtPlace, removePlace} from './api.js';
+import {currentUserId} from './profile';
 
 // находим галерею мест
 const gallery = document.querySelector('.gallery');
 
-// функция создания элемента галереи
+// функция рендера галереи
+function renderGallery(places) {
+	places.forEach(place => {
+		gallery.append(createPlace(place, currentUserId));
+	})
+}
 
-function createPlace(placeData) {
+// функция создания элемента галереи
+function createPlace(placeData, currentUserId) {
 	const placeTemplate = document.querySelector('#place-template').content;
 	const placeElement = placeTemplate.querySelector('.gallery__place').cloneNode(true);
 	const placePhoto = placeElement.querySelector('.gallery__place-photo');
 	const placeCaption = placeElement.querySelector('.gallery__place-caption');
-
-	placePhoto.setAttribute('src', placeData.link);
-	placePhoto.setAttribute('alt', placeData.name);
-	placeCaption.textContent = placeData.name;
-
+	const placeLikeCounter = placeElement.querySelector('.gallery__like-counter');
 	const placeButtonLike = placeElement.querySelector('.gallery__button-like');
 	const placeButtonDelete = placeElement.querySelector('.gallery__button-delete');
 
-	likePlace(placeButtonLike);
-	deletePlace(placeButtonDelete);
+	let ownerId = placeData.owner['_id'];
+
+	if (ownerId === currentUserId) {
+		placeButtonDelete.classList.add('gallery__button-delete_active');
+	}
+
+	placePhoto.src = placeData.link;
+	placePhoto.alt = placeData.name;
+	placeCaption.textContent = placeData.name;
+
+	renderLikes(placeData.likes, currentUserId, placeButtonLike, placeLikeCounter);
+	handleLikeToggle(placeButtonLike, placeLikeCounter, placeData, currentUserId);
+	handlePlaceDelete(placeButtonDelete, placeData);
 	openPopupPlaceShow(placePhoto, placeCaption);
 
 	return placeElement;
 }
 
-// работаем с кнопками в галерее
+function renderLikes(likes, currentUserId, placeButtonLike, placeLikeCounter) {
+	if (isLiked(likes, currentUserId)) {
+		placeButtonLike.classList.add('gallery__button-like_active');
+	}
+	placeLikeCounter.textContent = likes.length;
+}
 
-// функция для обработки кнопки лайка элемента галереи
-function likePlace(buttonLike) {
-	buttonLike.addEventListener('click', function (evt) {
-		evt.target.classList.toggle('gallery__button-like_active');
+// работаем с кнопками в галерее
+function isLiked(likes, currentUserId) {
+	return likes.find(user => user['_id'] === currentUserId);
+}
+
+function handleLikeToggle(placeButtonLike, placeLikeCounter, placeData, currentUserId) {
+	placeButtonLike.addEventListener('click', function (evt) {
+		if (evt.target.classList.contains('gallery__button-like_active')) {
+			evt.target.classList.remove('gallery__button-like_active');
+			deleteLikeAtPlace(placeData['_id'])
+				.then(newPlaceData => {
+					renderLikes(newPlaceData.likes, currentUserId, placeButtonLike, placeLikeCounter);
+				})
+				.catch(err => console.log(err))
+		} else {
+			evt.target.classList.add('gallery__button-like_active');
+			putLikeAtPlace(placeData['_id'])
+				.then(newPlaceData => {
+					renderLikes(newPlaceData.likes, currentUserId, placeButtonLike, placeLikeCounter);
+				})
+				.catch(err => console.log(err))
+		}
 	});
 }
 
 // функция для обработки кнопки удаления элемента галереи
-function deletePlace(buttonDelete) {
+function handlePlaceDelete(buttonDelete, place) {
 	buttonDelete.addEventListener('click', function (evt) {
 		evt.target.parentElement.remove();
+
+		removePlace(place['_id'])
+			.then()
+			.catch((err) => console.log(err));
 	});
 }
 
@@ -74,5 +88,4 @@ function addNewPlace(placeElement) {
 	gallery.prepend(placeElement);
 }
 
-
-export { initialPlaces, gallery, createPlace, addNewPlace }
+export {gallery, createPlace, addNewPlace, renderGallery}

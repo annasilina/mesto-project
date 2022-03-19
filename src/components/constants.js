@@ -8,4 +8,4 @@ const formConfig = {
 	errorMessageClass: 'popup__error-message_active'
 }
 
-export { formConfig }
+export {formConfig}

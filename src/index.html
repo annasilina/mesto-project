@@ -2,112 +2,166 @@
 <html lang="ru">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="фото-блог посвященный необычным местам">
-	<meta name="keywords" content="фото, путешествия, природа, блог">
+	<meta content="width=device-width, initial-scale=1.0"
+				name="viewport">
+	<meta content="фото-блог посвященный необычным местам"
+				name="description">
+	<meta content="фото, путешествия, природа, блог"
+				name="keywords">
 	<!--<link rel="stylesheet" href="pages/index.css">-->
 	<title>Mesto</title>
 </head>
 <body class="page">
-	<header class="header">
-		<img class="logo logo_place_header" src="<%=require('./images/logo.svg')%>" alt="логотип место">
-	</header>
-	<main class="content">
-		<section class="profile">
-			<div class="profile__photo-container">
-				<img class="profile__photo" src="<%=require('./images/profile-photo.jpg')%>" alt="фото профиля">
-				<button type="button" class="profile__button-edit profile__button-edit_el_avatar button"
-								aria-label="изменить"></button>
-			</div>
-			<div class="profile__user-container">
-				<h1 class="profile__user-name">Жак-Ив Кусто</h1>
-				<p class="profile__user-bio">Исследователь океана</p>
-				<button type="button" class="profile__button-edit profile__button-edit_el_info button"
-								aria-label="изменить"></button>
-			</div>
-			<button type="button" class="profile__button-add button" aria-label="добавить"></button>
-		</section>
-		<section class="gallery">
-		</section>
-	</main>
-	<footer class="footer">
-		<p class="footer__copyright">&copy; 2020 Mesto Russia</p>
-	</footer>
-	<div class="popup popup_type_avatar-change">
-		<div class="popup__container">
-			<button type="button" class="popup__button-close button"></button>
-			<form class="popup__form" name="formAvatarUpdate">
-				<h2 class="popup__form-heading">Обновить аватар</h2>
-				<fieldset class="popup__input-container">
-					<input type="url" name="avatarLink" placeholder="Ссылка на аватар" required
-								 class="popup__form-input popup__form-input_el_avatar-link">
-					<span id="error-avatarLink" class="popup__error-message"></span>
-				</fieldset>
-				<fieldset class="popup__form-handlers">
-					<button type="submit" class="popup__button-save button">Сохранить</button>
-				</fieldset>
-			</form>
+<header class="header">
+	<img alt="логотип место"
+			 class="logo logo_place_header"
+			 src="<%=require('./images/logo.svg')%>">
+</header>
+<main class="content">
+	<section class="profile">
+		<div class="profile__photo-container">
+			<img alt="фото профиля"
+					 class="profile__photo"
+					 src="<%=require('./images/profile-photo-moсk.jpg')%>">
+			<button aria-label="изменить"
+							class="profile__button-edit profile__button-edit_el_avatar button"
+							type="button"></button>
 		</div>
-	</div>
-	<div class="popup popup_type_profile-edit">
-		<div class="popup__container">
-			<button type="button" class="popup__button-close button"></button>
-			<form class="popup__form" name="formProfileEdit"
-						novalidate>
-				<h2 class="popup__form-heading">Редактировать профиль</h2>
-				<fieldset class="popup__input-container">
-					<input type="text" name="userName" placeholder="Имя" minlength="2" maxlength="40"
-								 required
-								 class="popup__form-input popup__form-input_el_user-name">
-					<span id="error-userName" class="popup__error-message"></span>
-					<input type="text" name="userBio" placeholder="О себе" minlength="2"
-								 maxlength="200" required
-								 class="popup__form-input popup__form-input_el_bio">
-					<span id="error-userBio" class="popup__error-message"></span>
-				</fieldset>
-				<fieldset class="popup__form-handlers">
-					<button type="submit" class="popup__button-save button">Сохранить
-					</button>
-				</fieldset>
-			</form>
+		<div class="profile__user-container">
+			<h1 class="profile__user-name">Имя</h1>
+			<p class="profile__user-bio">Подпись</p>
+			<button aria-label="изменить"
+							class="profile__button-edit profile__button-edit_el_info button"
+							type="button"></button>
 		</div>
+		<button aria-label="добавить"
+						class="profile__button-add button"
+						type="button"></button>
+	</section>
+	<section class="gallery">
+	</section>
+</main>
+<footer class="footer">
+	<p class="footer__copyright">&copy; 2020 Mesto Russia</p>
+</footer>
+<div class="popup popup_type_avatar-change">
+	<div class="popup__container">
+		<button class="popup__button-close button"
+						type="button"></button>
+		<form class="popup__form"
+					name="formAvatarUpdate">
+			<h2 class="popup__form-heading">Обновить аватар</h2>
+			<fieldset class="popup__input-container">
+				<input class="popup__form-input popup__form-input_el_avatar-link"
+							 name="avatarLink"
+							 placeholder="Ссылка на аватар"
+							 required
+							 type="url">
+				<span class="popup__error-message"
+							id="error-avatarLink"></span>
+			</fieldset>
+			<fieldset class="popup__form-handlers">
+				<button class="popup__button-save button"
+								type="submit">Сохранить
+				</button>
+			</fieldset>
+		</form>
 	</div>
-	<div class="popup popup_type_place-add">
-		<div class="popup__container">
-			<button type="button" class="popup__button-close button"></button>
-			<form class="popup__form" name="formPlaceAdd">
-				<h2 class="popup__form-heading">Новое место</h2>
-				<fieldset class="popup__input-container">
-					<input type="text" name="placeName" placeholder="Название" minlength="2" maxlength="30"
-								 required
-								 class="popup__form-input popup__form-input_el_place-name">
-					<span id="error-placeName" class="popup__error-message"></span>
-					<input type="url" name="placeLink" placeholder="Ссылка на картинку" required
-								 class="popup__form-input popup__form-input_el_place-link">
-					<span id="error-placeLink" class="popup__error-message"></span>
-				</fieldset>
-				<fieldset class="popup__form-handlers">
-					<button type="submit" class="popup__button-save button">Создать</button>
-				</fieldset>
-			</form>
+</div>
+<div class="popup popup_type_profile-edit">
+	<div class="popup__container">
+		<button class="popup__button-close button"
+						type="button"></button>
+		<form class="popup__form"
+					name="formProfileEdit"
+					novalidate>
+			<h2 class="popup__form-heading">Редактировать профиль</h2>
+			<fieldset class="popup__input-container">
+				<input class="popup__form-input popup__form-input_el_user-name"
+							 maxlength="40"
+							 minlength="2"
+							 name="userName"
+							 placeholder="Имя"
+							 required
+							 type="text">
+				<span class="popup__error-message"
+							id="error-userName"></span>
+				<input class="popup__form-input popup__form-input_el_bio"
+							 maxlength="200"
+							 minlength="2"
+							 name="userBio"
+							 placeholder="О себе"
+							 required
+							 type="text">
+				<span class="popup__error-message"
+							id="error-userBio"></span>
+			</fieldset>
+			<fieldset class="popup__form-handlers">
+				<button class="popup__button-save button"
+								type="submit">Сохранить
+				</button>
+			</fieldset>
+		</form>
+	</div>
+</div>
+<div class="popup popup_type_place-add">
+	<div class="popup__container">
+		<button class="popup__button-close button"
+						type="button"></button>
+		<form class="popup__form"
+					name="formPlaceAdd">
+			<h2 class="popup__form-heading">Новое место</h2>
+			<fieldset class="popup__input-container">
+				<input class="popup__form-input popup__form-input_el_place-name"
+							 maxlength="30"
+							 minlength="2"
+							 name="placeName"
+							 placeholder="Название"
+							 required
+							 type="text">
+				<span class="popup__error-message"
+							id="error-placeName"></span>
+				<input class="popup__form-input popup__form-input_el_place-link"
+							 name="placeLink"
+							 placeholder="Ссылка на картинку"
+							 required
+							 type="url">
+				<span class="popup__error-message"
+							id="error-placeLink"></span>
+			</fieldset>
+			<fieldset class="popup__form-handlers">
+				<button class="popup__button-save button"
+								type="submit">Создать
+				</button>
+			</fieldset>
+		</form>
+	</div>
+</div>
+<div class="popup popup_type_place-show">
+	<div class="popup__place-container">
+		<button class="popup__button-close button"
+						type="button"></button>
+		<img alt=""
+				 class="popup__place-photo"
+				 src="">
+		<p class="popup__place-caption"></p>
+	</div>
+</div>
+<template id="place-template">
+	<article class="gallery__place">
+		<img alt="место"
+				 class="gallery__place-photo"
+				 src="#">
+		<h2 class="gallery__place-caption">место</h2>
+		<div class="gallery__like-container">
+			<button class="gallery__button-like button"
+							type="button"></button>
+			<p class="gallery__like-counter">0</p>
 		</div>
-	</div>
-	<div class="popup popup_type_place-show">
-		<div class="popup__place-container">
-			<button type="button" class="popup__button-close button"></button>
-			<img class="popup__place-photo" src="" alt="">
-			<p class="popup__place-caption"></p>
-		</div>
-	</div>
-	<template id="place-template">
-		<article class="gallery__place">
-			<img class="gallery__place-photo" src="#"
-					 alt="место">
-			<h2 class="gallery__place-caption">место</h2>
-			<button type="button" class="gallery__button-like button"></button>
-			<button type="button" class="gallery__button-delete button"></button>
-		</article>
-	</template>
-<!--	<script type="module" src="index.js"></script>-->
+		<button class="gallery__button-delete button"
+						type="button"></button>
+	</article>
+</template>
+<!--<script type="module" src="index.js"></script>-->
 </body>
 </html>
