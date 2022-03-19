@@ -33,7 +33,7 @@ const getUserInfo = () => {
 }
 
 const sendUserInfo = (name, about) => {
-	return fetch(`${config}/user/me`,{
+	return fetch(`${config.baseURL}/users/me`,{
 		method: 'PATCH',
 		headers: config.headers,
 		body: JSON.stringify({
@@ -45,7 +45,7 @@ const sendUserInfo = (name, about) => {
 }
 
 const sendNewCard = (name, link) => {
-	return fetch(`${config}/cards`,{
+	return fetch(`${config.baseURL}/cards`,{
 		method: 'POST',
 		headers: config.headers,
 		body: JSON.stringify({
@@ -57,44 +57,48 @@ const sendNewCard = (name, link) => {
 }
 
 const sendAvatar = (link) => {
-	return fetch(`${config}/user/me/avatar`,{
+	return fetch(`${config.baseURL}/users/me/avatar`,{
 		method: 'PATCH',
 		headers: config.headers,
 		body: JSON.stringify({
 			avatar: link,
 		})
 	}).then((res) => checkResponse(res))
-		.catch((err) => console.log(err));
 }
 
-const deletePlace = (placeId) => {
-	return fetch(`${config}/cards/${placeId}`,{
+const removePlace = (placeId) => {
+	return fetch(`${config.baseURL}/cards/${placeId}`,{
 		method: 'DELETE',
 		headers: {
 			authorization: config.headers.authorization
 		}
-	}).then((res) => checkResponse(res))
-		.catch((err) => console.log(err));
+	}).then((res) => checkResponse(res));
 }
 
-const likePlace = (placeId) => {
-	return fetch(`${config}/cards/likes/${placeId}`,{
+const putLikeAtPlace = (placeId) => {
+	return fetch(`${config.baseURL}/cards/likes/${placeId}`,{
 		method: 'PUT',
 		headers: {
 			authorization: config.headers.authorization
 		}
-	}).then((res) => checkResponse(res))
-		.catch((err) => console.log(err));
+	}).then((res) => checkResponse(res));
 }
 
-const deleteLikePlace = (placeId) => {
-	return fetch(`${config}/cards/likes/${placeId}`,{
+const deleteLikeAtPlace = (placeId) => {
+	return fetch(`${config.baseURL}/cards/likes/${placeId}`,{
 		method: 'DELETE',
 		headers: {
 			authorization: config.headers.authorization
 		}
 	}).then((res) => checkResponse(res))
-		.catch((err) => console.log(err));
+}
+
+const getLikesCount = (placeId) => {
+	return fetch(`${config.baseURL}/cards/likes/${placeId}`, {
+		headers: {
+			authorization: config.headers.authorization
+		}
+	}).then((res) => checkResponse(res));
 }
 
 export {
@@ -103,7 +107,8 @@ export {
 	sendNewCard,
 	sendAvatar,
 	sendUserInfo,
-	deletePlace,
-	likePlace,
-	deleteLikePlace
+	removePlace,
+	putLikeAtPlace,
+	deleteLikeAtPlace,
+	getLikesCount
 }

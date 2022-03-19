@@ -1,11 +1,11 @@
 import '../pages/index.css';
 import { getInitialPlaces, getUserInfo } from './api.js';
 import { gallery, createPlace } from './card.js';
+import { profile, avatar, userBio, userName } from './profile.js';
 import { formConfig } from './constants.js';
 import { enableValidation } from './validate.js';
 import {
 	popups,
-	profile,
 	formProfileEdit,
 	formPlaceAdd,
 	formAvatarChange,
@@ -17,19 +17,22 @@ import {
 	submitFormAvatarChange,
 	submitFormPlaceAdd,
 } from '/src/components/modal.js';
-import { avatar, userBio, userName } from './profile.js';
 
-// рендерим и вставляем элементы галереи по умолчанию
-getInitialPlaces().then(places => {
-	places.forEach(place => {
-		gallery.append(createPlace(place));
-	});
-})
+let currentUserId = {}
 
+// получаем данные профиля
 getUserInfo().then(userData => {
 	userName.textContent = userData.name;
 	userBio.textContent = userData.about;
-	avatar.setAttribute('src', userData.avatar);
+	avatar.src = userData.avatar;
+	currentUserId = userData['_id'];
+})
+
+// получаем и вставляем элементы галереи по умолчанию
+getInitialPlaces().then(places => {
+	places.forEach(place => {
+		gallery.append(createPlace(place, currentUserId));
+	});
 })
 
 // находим кнопки открытия попапов с формами
