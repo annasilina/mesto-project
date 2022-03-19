@@ -21,19 +21,23 @@ import {
 let currentUserId = {}
 
 // получаем данные профиля
-getUserInfo().then(userData => {
-	userName.textContent = userData.name;
-	userBio.textContent = userData.about;
-	avatar.src = userData.avatar;
-	currentUserId = userData['_id'];
-})
+getUserInfo()
+	.then(userData => {
+		userName.textContent = userData.name;
+		userBio.textContent = userData.about;
+		avatar.src = userData.avatar;
+		currentUserId = userData['_id'];
+	})
+	.catch((err) => console.log(err));
 
 // получаем и вставляем элементы галереи по умолчанию
-getInitialPlaces().then(places => {
-	places.forEach(place => {
-		gallery.append(createPlace(place, currentUserId));
-	});
-})
+getInitialPlaces()
+	.then(places => {
+		places.forEach(place => {
+			gallery.append(createPlace(place, currentUserId));
+		})
+	})
+	.catch((err) => console.log(err));
 
 // находим кнопки открытия попапов с формами
 const buttonOpenPopupAvatarChange = profile.querySelector('.profile__button-edit_el_avatar');

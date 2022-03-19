@@ -19,8 +19,7 @@ const getInitialPlaces = () => {
 		headers: {
 			authorization: config.headers.authorization
 		}
-	}).then((res) => checkResponse(res))
-		.catch((err) => console.log(err));
+	}).then((res) => checkResponse(res));
 }
 
 const getUserInfo = () => {
@@ -28,8 +27,7 @@ const getUserInfo = () => {
 		headers: {
 			authorization: config.headers.authorization
 		}
-	}).then((res) => checkResponse(res))
-		.catch((err) => console.log(err));
+	}).then((res) => checkResponse(res));
 }
 
 const sendUserInfo = (name, about) => {
@@ -40,8 +38,7 @@ const sendUserInfo = (name, about) => {
 			name: name,
 			about: about,
 		})
-	}).then((res) => checkResponse(res))
-		.catch((err) => console.log(err));
+	}).then((res) => checkResponse(res));
 }
 
 const sendNewCard = (name, link) => {
@@ -52,8 +49,7 @@ const sendNewCard = (name, link) => {
 			name: name,
 			link: link,
 		})
-	}).then((res) => checkResponse(res))
-		.catch((err) => console.log(err));
+	}).then((res) => checkResponse(res));
 }
 
 const sendAvatar = (link) => {
