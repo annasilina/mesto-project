@@ -1,46 +1,36 @@
 import '../pages/index.css';
-import { getInitialPlaces, getUserInfo } from './api.js';
-import { gallery, createPlace } from './card.js';
-import { profile, avatar, userBio, userName } from './profile.js';
-import { formConfig } from './constants.js';
-import { enableValidation } from './validate.js';
+import {getInitialPlaces, getUserInfo} from './api.js';
+import {renderGallery} from './card.js';
+import {profile, setProfileParams} from './profile.js';
+import {formConfig} from './constants.js';
+import {enableValidation} from './validate.js';
 import {
-	popups,
-	formProfileEdit,
-	formPlaceAdd,
-	formAvatarChange,
 	closePopup,
-	openPopupProfileEdit,
-	openPopupPlaceAdd,
+	formAvatarChange,
+	formPlaceAdd,
+	formProfileEdit,
 	openPopupAvatarChange,
-	submitFormProfileEdit,
+	openPopupPlaceAdd,
+	openPopupProfileEdit,
+	popups,
 	submitFormAvatarChange,
 	submitFormPlaceAdd,
+	submitFormProfileEdit,
 } from '/src/components/modal.js';
 
-let currentUserId = {}
-
-// получаем данные профиля
+// получаем и присваиваем данные профиля
 getUserInfo()
 	.then(userData => {
-		userName.textContent = userData.name;
-		userBio.textContent = userData.about;
-		avatar.src = userData.avatar;
-		currentUserId = userData['_id'];
+		setProfileParams(userData)
+		// получаем и вставляем элементы галереи по умолчанию
+		getInitialPlaces()
+			.then(places => {
+				renderGallery(places)
+			})
+			.catch(err => console.log(err));
 	})
-	.catch((err) => console.log(err));
+	.catch(err => console.log(err));
 
-// получаем и вставляем элементы галереи по умолчанию
-getInitialPlaces()
-	.then(places => {
-		places.forEach(place => {
-			gallery.append(createPlace(place, currentUserId));
-		})
-	})
-	.catch((err) => console.log(err));
-
-/*Promise.all([getInitialPlaces, getUserInfo])
-	.then(getInitialPlaces.userData => )*/
 
 // находим кнопки открытия попапов с формами
 const buttonOpenPopupAvatarChange = profile.querySelector('.profile__button-edit_el_avatar');

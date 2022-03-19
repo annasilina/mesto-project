@@ -31,7 +31,7 @@ const getUserInfo = () => {
 }
 
 const sendUserInfo = (name, about) => {
-	return fetch(`${config.baseURL}/users/me`,{
+	return fetch(`${config.baseURL}/users/me`, {
 		method: 'PATCH',
 		headers: config.headers,
 		body: JSON.stringify({
@@ -42,7 +42,7 @@ const sendUserInfo = (name, about) => {
 }
 
 const sendNewCard = (name, link) => {
-	return fetch(`${config.baseURL}/cards`,{
+	return fetch(`${config.baseURL}/cards`, {
 		method: 'POST',
 		headers: config.headers,
 		body: JSON.stringify({
@@ -53,7 +53,7 @@ const sendNewCard = (name, link) => {
 }
 
 const sendAvatar = (link) => {
-	return fetch(`${config.baseURL}/users/me/avatar`,{
+	return fetch(`${config.baseURL}/users/me/avatar`, {
 		method: 'PATCH',
 		headers: config.headers,
 		body: JSON.stringify({
@@ -63,7 +63,7 @@ const sendAvatar = (link) => {
 }
 
 const removePlace = (placeId) => {
-	return fetch(`${config.baseURL}/cards/${placeId}`,{
+	return fetch(`${config.baseURL}/cards/${placeId}`, {
 		method: 'DELETE',
 		headers: {
 			authorization: config.headers.authorization
@@ -72,7 +72,7 @@ const removePlace = (placeId) => {
 }
 
 const putLikeAtPlace = (placeId) => {
-	return fetch(`${config.baseURL}/cards/likes/${placeId}`,{
+	return fetch(`${config.baseURL}/cards/likes/${placeId}`, {
 		method: 'PUT',
 		headers: {
 			authorization: config.headers.authorization
@@ -81,22 +81,13 @@ const putLikeAtPlace = (placeId) => {
 }
 
 const deleteLikeAtPlace = (placeId) => {
-	return fetch(`${config.baseURL}/cards/likes/${placeId}`,{
+	return fetch(`${config.baseURL}/cards/likes/${placeId}`, {
 		method: 'DELETE',
 		headers: {
 			authorization: config.headers.authorization
 		}
 	}).then((res) => checkResponse(res))
 }
-
-const getLikesCount = (placeId) => {
-	return fetch(`${config.baseURL}/cards/likes/${placeId}`, {
-		headers: {
-			authorization: config.headers.authorization
-		}
-	}).then((res) => checkResponse(res));
-}
-
 export {
 	getInitialPlaces,
 	getUserInfo,
@@ -105,6 +96,5 @@ export {
 	sendUserInfo,
 	removePlace,
 	putLikeAtPlace,
-	deleteLikeAtPlace,
-	getLikesCount
+	deleteLikeAtPlace
 }

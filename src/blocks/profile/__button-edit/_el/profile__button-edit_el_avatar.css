@@ -9,7 +9,7 @@
 	opacity: 0;
 }
 
-.profile__button-edit_el_avatar:hover{
+.profile__button-edit_el_avatar:hover {
 	background-color: rgba(0, 0, 0, .8);
 	opacity: 1;
 	transition: opacity .3s linear;

@@ -92,7 +92,7 @@ function setEventListeners(form, config) {
 	// к форме
 
 	findInputs(form, config).forEach(input => {
-		input.addEventListener('input', function() {
+		input.addEventListener('input', function () {
 
 			checkInput(form, input, config); // проверяем каждый инпут и если некорреткный - выводим для него ошибку
 			setButtonState(form, config); // устанавливаем статус кнопки в зависимости от валидности инпутов при каждом
@@ -114,4 +114,4 @@ function enableValidation(config) {
 	});
 }
 
-export { setButtonState, resetFormData, enableValidation };
+export {setButtonState, resetFormData, enableValidation};

@@ -1,8 +1,16 @@
-import { openPopupPlaceShow } from './modal.js';
-import { removePlace } from './api.js';
+import {openPopupPlaceShow} from './modal.js';
+import {deleteLikeAtPlace, putLikeAtPlace, removePlace} from './api.js';
+import {currentUserId} from './profile';
 
 // находим галерею мест
 const gallery = document.querySelector('.gallery');
+
+// функция рендера галереи
+function renderGallery(places) {
+	places.forEach(place => {
+		gallery.append(createPlace(place, currentUserId));
+	})
+}
 
 // функция создания элемента галереи
 function createPlace(placeData, currentUserId) {
@@ -20,37 +28,51 @@ function createPlace(placeData, currentUserId) {
 		placeButtonDelete.classList.add('gallery__button-delete_active');
 	}
 
-	if (isLiked(placeData, currentUserId)) {
-		placeButtonLike.classList.add('gallery__button-like_active');
-	}
-
 	placePhoto.src = placeData.link;
-	placePhoto.alt =  placeData.name;
+	placePhoto.alt = placeData.name;
 	placeCaption.textContent = placeData.name;
-	placeLikeCounter.textContent = placeData.likes.length;
 
-	likePlace(placeButtonLike);
-	deletePlace(placeButtonDelete, placeData);
+	renderLikes(placeData.likes, currentUserId, placeButtonLike, placeLikeCounter);
+	handleLikeToggle(placeButtonLike, placeLikeCounter, placeData, currentUserId);
+	handlePlaceDelete(placeButtonDelete, placeData);
 	openPopupPlaceShow(placePhoto, placeCaption);
 
 	return placeElement;
 }
 
-// работаем с кнопками в галерее
-
-function isLiked(place, currentUserId) {
-	return place.likes.find((user) => user['_id'] === currentUserId);
+function renderLikes(likes, currentUserId, placeButtonLike, placeLikeCounter) {
+	if (isLiked(likes, currentUserId)) {
+		placeButtonLike.classList.add('gallery__button-like_active');
+	}
+	placeLikeCounter.textContent = likes.length;
 }
 
-//
-function likePlace(buttonLike) {
-	buttonLike.addEventListener('click', function (evt) {
-		evt.target.classList.toggle('gallery__button-like_active');
+// работаем с кнопками в галерее
+function isLiked(likes, currentUserId) {
+	return likes.find(user => user['_id'] === currentUserId);
+}
+
+function handleLikeToggle(placeButtonLike, placeLikeCounter, placeData, currentUserId) {
+	placeButtonLike.addEventListener('click', function (evt) {
+		if (isLiked(placeData.likes, currentUserId)) {
+			evt.target.classList.remove('gallery__button-like_active');
+			deleteLikeAtPlace(placeData['_id'])
+				.then(newPlaceData => {
+					renderLikes(newPlaceData.likes, currentUserId, placeButtonLike, placeLikeCounter);
+				})
+				.catch(err => console.log(err))
+		} else {
+			putLikeAtPlace(placeData['_id'])
+				.then(newPlaceData => {
+					renderLikes(newPlaceData.likes, currentUserId, placeButtonLike, placeLikeCounter);
+				})
+				.catch(err => console.log(err))
+		}
 	})
 }
 
 // функция для обработки кнопки удаления элемента галереи
-function deletePlace(buttonDelete, place) {
+function handlePlaceDelete(buttonDelete, place) {
 	buttonDelete.addEventListener('click', function (evt) {
 		evt.target.parentElement.remove();
 
@@ -65,5 +87,4 @@ function addNewPlace(placeElement) {
 	gallery.prepend(placeElement);
 }
 
-
-export { gallery, createPlace, addNewPlace }
+export {gallery, createPlace, addNewPlace, renderGallery}

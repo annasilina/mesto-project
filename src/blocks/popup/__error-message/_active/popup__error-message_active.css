@@ -1,7 +1,7 @@
 .popup__error-message_active {
 	display: inline-block;
 	margin-bottom: .4rem;
-	color: #FF0000;
+	color: #f00;
 	font-family: inherit;
 	font-weight: 400;
 	font-size: .75rem;

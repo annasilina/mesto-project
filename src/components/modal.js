@@ -1,8 +1,8 @@
-import { formConfig } from './constants.js';
-import { setButtonState, resetFormData } from './validate.js';
-import { addNewPlace, createPlace } from './card.js';
-import { userBio, userName, avatar } from './profile.js';
-import { sendAvatar, sendNewCard, sendUserInfo } from './api.js';
+import {formConfig} from './constants.js';
+import {resetFormData, setButtonState} from './validate.js';
+import {addNewPlace, createPlace} from './card.js';
+import {avatar, userBio, userName} from './profile.js';
+import {sendAvatar, sendNewCard, sendUserInfo} from './api.js';
 
 //находим все попапы
 const popups = document.querySelectorAll('.popup');
@@ -39,7 +39,7 @@ function openPopup(popup) {
 }
 
 // функция для закрытия попапов
-function  closePopup(popup) {
+function closePopup(popup) {
 	popup.classList.remove('popup_opened'); //закрываем попап
 
 	document.removeEventListener('keyup', closePopupByEcs);
