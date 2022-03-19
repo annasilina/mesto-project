@@ -39,6 +39,9 @@ getInitialPlaces()
 	})
 	.catch((err) => console.log(err));
 
+/*Promise.all([getInitialPlaces, getUserInfo])
+	.then(getInitialPlaces.userData => )*/
+
 // находим кнопки открытия попапов с формами
 const buttonOpenPopupAvatarChange = profile.querySelector('.profile__button-edit_el_avatar');
 const buttonOpenPopupProfileEdit = profile.querySelector('.profile__button-edit_el_info');
