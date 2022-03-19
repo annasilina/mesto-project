@@ -1,19 +1,14 @@
 import { formConfig } from './constants.js';
 import { setButtonState, resetFormData } from './validate.js';
 import { addNewPlace, createPlace } from './card.js';
+import { profile, userBio, userName, avatar } from './profile';
 
 //находим все попапы
 const popups = document.querySelectorAll('.popup');
 
-// находим профиль и элементы имени и подписи пользователя
-const profile = document.querySelector('.profile');
-const userName = profile.querySelector('.profile__user-name');
-const userBio = profile.querySelector('.profile__user-bio');
-
 // находим попап-форму редактирования аватара и поле ввода ссылки на картинку
 const popupAvatarChange = document.querySelector('.popup_type_avatar-change');
 const formAvatarChange = popupAvatarChange.querySelector('.popup__form');
-const avatar = profile.querySelector('.profile__photo');
 const avatarInput = formAvatarChange.elements.avatarLink;
 
 // находим попап и форму редактирования профиля и поля ввода имени и подписи пользователя

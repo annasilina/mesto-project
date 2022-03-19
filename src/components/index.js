@@ -1,5 +1,6 @@
 import '../pages/index.css';
-import { initialPlaces, gallery, createPlace } from './card.js';
+import { getInitialPlaces, getUserInfo } from './api.js';
+import { gallery, createPlace } from './card.js';
 import { formConfig } from './constants.js';
 import { enableValidation } from './validate.js';
 import {
@@ -16,18 +17,25 @@ import {
 	submitFormAvatarChange,
 	submitFormPlaceAdd,
 } from '/src/components/modal.js';
+import { avatar, userBio, userName } from './profile.js';
 
+// рендерим и вставляем элементы галереи по умолчанию
+getInitialPlaces().then(places => {
+	places.forEach(place => {
+		gallery.append(createPlace(place));
+	});
+})
+
+getUserInfo().then(userData => {
+	userName.textContent = userData.name;
+	userBio.textContent = userData.about;
+	avatar.setAttribute('src', userData.avatar);
+})
 
 // находим кнопки открытия попапов с формами
 const buttonOpenPopupAvatarChange = profile.querySelector('.profile__button-edit_el_avatar');
 const buttonOpenPopupProfileEdit = profile.querySelector('.profile__button-edit_el_info');
 const buttonOpenPopupPlaceAdd = profile.querySelector('.profile__button-add');
-
-
-// рендерим и вставляем элементы галереи по умолчанию
-initialPlaces.forEach(place => {
-	gallery.append(createPlace(place));
-});
 
 // обработчики кнопок открытия попапов редактирования профиля, аватарки и добавления места
 buttonOpenPopupProfileEdit.addEventListener('click', openPopupProfileEdit);
@@ -47,8 +55,6 @@ popups.forEach(popup => {
 		}
 	});
 });
-
-
 
 // обработчик отправки формы обновления аватара
 formAvatarChange.addEventListener('submit', submitFormAvatarChange);
