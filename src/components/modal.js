@@ -88,17 +88,16 @@ function openPopupPlaceShow(photo, caption) {
 	});
 }
 
-
-
 // функция отправки формы обновления аватара
 function submitFormAvatarChange(evt) {
 	evt.preventDefault();
 
-	avatar.src = avatarInput.value;
-	avatarInput.value = '';
-
 	dataLoading(true, formAvatarChange, formConfig);
 	sendAvatar(avatar.src)
+		.then(() => {
+			avatar.src = avatarInput.value;
+			avatarInput.value = '';
+		})
 		.catch(err => console.log(err))
 		.finally(() => dataLoading(false, formAvatarChange, formConfig));
 
@@ -109,11 +108,12 @@ function submitFormAvatarChange(evt) {
 function submitFormProfileEdit(evt) {
 	evt.preventDefault();
 
-	userName.textContent = userNameInput.value;
-	userBio.textContent = userBioInput.value;
-
 	dataLoading(true, formProfileEdit, formConfig);
 	sendUserInfo(userNameInput.value, userBioInput.value)
+		.then(() => {
+			userName.textContent = userNameInput.value;
+			userBio.textContent = userBioInput.value;
+		})
 		.catch(err => console.log(err))
 		.finally(() => dataLoading(false, formProfileEdit, formConfig));
 
