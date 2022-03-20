@@ -14,16 +14,16 @@ function checkResponse(res) {
 	return Promise.reject(`ошибка: ${res.status}`);
 }
 
-const getInitialPlaces = () => {
-	return fetch(`${config.baseURL}/cards`, {
+const getUserInfo = () => {
+	return fetch(`${config.baseURL}/users/me`, {
 		headers: {
 			authorization: config.headers.authorization
 		}
 	}).then((res) => checkResponse(res));
 }
 
-const getUserInfo = () => {
-	return fetch(`${config.baseURL}/users/me`, {
+const getInitialPlaces = () => {
+	return fetch(`${config.baseURL}/cards`, {
 		headers: {
 			authorization: config.headers.authorization
 		}

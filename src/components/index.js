@@ -19,7 +19,7 @@ import {
 } from '/src/components/modal.js';
 
 // получаем и присваиваем данные профиля
-getUserInfo()
+/*getUserInfo()
 	.then(userData => {
 		setProfileParams(userData)
 		// получаем и вставляем элементы галереи по умолчанию
@@ -29,8 +29,14 @@ getUserInfo()
 			})
 			.catch(err => console.log(err));
 	})
-	.catch(err => console.log(err));
+	.catch(err => console.log(err));*/
 
+Promise.all([getUserInfo(), getInitialPlaces()])
+	.then(([userData, places]) => {
+		setProfileParams(userData);
+		renderGallery(places);
+	})
+	.catch(err => console.log(err));
 
 // находим кнопки открытия попапов с формами
 const buttonOpenPopupAvatarChange = profile.querySelector('.profile__button-edit_el_avatar');
