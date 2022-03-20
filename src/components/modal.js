@@ -98,12 +98,11 @@ function submitFormAvatarChange(evt) {
 	sendAvatar(avatarInput.value)
 		.then(() => {
 			avatar.src = avatarInput.value;
-			avatarInput.value = '';
+
+			closePopup(popupAvatarChange);
 		})
 		.catch(err => console.log(err))
 		.finally(() => dataLoading(false, formAvatarChange, formConfig));
-
-	closePopup(popupAvatarChange);
 }
 
 // функция отправки формы редактирования профиля
@@ -115,11 +114,11 @@ function submitFormProfileEdit(evt) {
 		.then(() => {
 			userName.textContent = userNameInput.value;
 			userBio.textContent = userBioInput.value;
+
+			closePopup(popupProfileEdit);
 		})
 		.catch(err => console.log(err))
 		.finally(() => dataLoading(false, formProfileEdit, formConfig));
-
-	closePopup(popupProfileEdit);
 }
 
 // функция отправки формы с добавлением нового элемента в галерею
@@ -130,12 +129,12 @@ function submitFormPlaceAdd(evt) {
 	sendNewCard(placeNameInput.value, placeLinkInput.value)
 		.then((placeData) => {
 			let currentUserId = placeData.owner['_id'];
-			addNewPlace(createPlace(placeData, currentUserId))
+
+			addNewPlace(createPlace(placeData, currentUserId));
+			closePopup(popupPlaceAdd);
 		})
 		.catch(err => console.log(err))
 		.finally(() => dataLoading(false, formPlaceAdd, formConfig));
-
-	closePopup(popupPlaceAdd);
 }
 
 export {
