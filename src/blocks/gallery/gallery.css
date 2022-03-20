@@ -1,9 +1,0 @@
-.gallery {
-	width: 100%;
-	display: grid;
-	grid-template-columns: repeat(auto-fit, 282px);
-	gap: 1rem;
-	justify-content: center;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
