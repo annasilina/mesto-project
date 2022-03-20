@@ -1,5 +1,5 @@
 import {formConfig} from './constants.js';
-import {resetFormData, setButtonState} from './validate.js';
+import {resetFormData, setButtonState, dataLoading} from './validate.js';
 import {addNewPlace, createPlace} from './card.js';
 import {avatar, userBio, userName} from './profile.js';
 import {sendAvatar, sendNewCard, sendUserInfo} from './api.js';
@@ -88,6 +88,8 @@ function openPopupPlaceShow(photo, caption) {
 	});
 }
 
+
+
 // функция отправки формы обновления аватара
 function submitFormAvatarChange(evt) {
 	evt.preventDefault();
@@ -95,8 +97,11 @@ function submitFormAvatarChange(evt) {
 	avatar.src = avatarInput.value;
 	avatarInput.value = '';
 
+	dataLoading(true, formAvatarChange, formConfig);
 	sendAvatar(avatar.src)
-		.catch(err => console.log(err));
+		.catch(err => console.log(err))
+		.finally(() => dataLoading(false, formAvatarChange, formConfig));
+
 	closePopup(popupAvatarChange);
 }
 
@@ -107,9 +112,11 @@ function submitFormProfileEdit(evt) {
 	userName.textContent = userNameInput.value;
 	userBio.textContent = userBioInput.value;
 
-	// noinspection JSIgnoredPromiseFromCall
+	dataLoading(true, formProfileEdit, formConfig);
 	sendUserInfo(userNameInput.value, userBioInput.value)
-		.catch(err => console.log(err));
+		.catch(err => console.log(err))
+		.finally(() => dataLoading(false, formProfileEdit, formConfig));
+
 	closePopup(popupProfileEdit);
 }
 
@@ -117,13 +124,14 @@ function submitFormProfileEdit(evt) {
 function submitFormPlaceAdd(evt) {
 	evt.preventDefault();
 
+	dataLoading(true, formPlaceAdd, formConfig);
 	sendNewCard(placeNameInput.value, placeLinkInput.value)
 		.then((placeData) => {
 			let currentUserId = placeData.owner['_id'];
-
 			addNewPlace(createPlace(placeData, currentUserId))
 		})
-		.catch(err => console.log(err));
+		.catch(err => console.log(err))
+		.finally(() => dataLoading(false, formPlaceAdd, formConfig));
 
 	closePopup(popupPlaceAdd);
 }

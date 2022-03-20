@@ -86,6 +86,18 @@ function setButtonState(form, config) {
 	}
 }
 
+//
+function dataLoading(isLoading, form, config) {
+	const buttonSave = findButtonSubmit(form, config);
+
+	if (isLoading) {
+		buttonSave.textContent = 'Сохранение...';
+		buttonSave.disabled = true;
+	} else {
+		buttonSave.textContent = 'Сохранить';
+	}
+}
+
 // функция проверки валидности полей ввода в формах
 function setEventListeners(form, config) {
 	setButtonState(form, config); // устанавливаем статус кнопки в зависимости от данных в инпуте при первом обращении
@@ -114,4 +126,4 @@ function enableValidation(config) {
 	});
 }
 
-export {setButtonState, resetFormData, enableValidation};
+export {setButtonState, resetFormData, enableValidation, dataLoading};
