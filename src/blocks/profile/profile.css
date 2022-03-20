@@ -3,6 +3,8 @@
 	margin: auto;
 	padding: 2.5rem 0 3.2rem;
 	display: flex;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 @media screen and (max-width: 690px) {
