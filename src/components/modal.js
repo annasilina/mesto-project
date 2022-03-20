@@ -93,7 +93,7 @@ function submitFormAvatarChange(evt) {
 	evt.preventDefault();
 
 	dataLoading(true, formAvatarChange, formConfig);
-	sendAvatar(avatar.src)
+	sendAvatar(avatarInput.value)
 		.then(() => {
 			avatar.src = avatarInput.value;
 			avatarInput.value = '';
