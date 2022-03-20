@@ -56,6 +56,8 @@ function closePopupByEcs(evt) {
 
 // функция открытия попапа редактирования профиля
 function openPopupProfileEdit() {
+	resetFormData(formProfileEdit, formConfig);
+
 	userNameInput.value = userName.textContent;
 	userBioInput.value = userBio.textContent;
 

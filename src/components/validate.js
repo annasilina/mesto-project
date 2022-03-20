@@ -95,6 +95,7 @@ function dataLoading(isLoading, form, config) {
 		buttonSave.disabled = true;
 	} else {
 		buttonSave.textContent = 'Сохранить';
+		buttonSave.disabled = false;
 	}
 }
 
