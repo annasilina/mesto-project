@@ -55,30 +55,30 @@ function isLiked(likes, currentUserId) {
 function handleLikeToggle(placeButtonLike, placeLikeCounter, placeData, currentUserId) {
 	placeButtonLike.addEventListener('click', function (evt) {
 		if (evt.target.classList.contains('gallery__button-like_active')) {
-			evt.target.classList.remove('gallery__button-like_active');
 			deleteLikeAtPlace(placeData['_id'])
 				.then(newPlaceData => {
+					evt.target.classList.remove('gallery__button-like_active');
 					renderLikes(newPlaceData.likes, currentUserId, placeButtonLike, placeLikeCounter);
 				})
-				.catch(err => console.log(err))
+				.catch(err => console.log(err));
 		} else {
-			evt.target.classList.add('gallery__button-like_active');
 			putLikeAtPlace(placeData['_id'])
 				.then(newPlaceData => {
+					evt.target.classList.add('gallery__button-like_active');
 					renderLikes(newPlaceData.likes, currentUserId, placeButtonLike, placeLikeCounter);
 				})
-				.catch(err => console.log(err))
+				.catch(err => console.log(err));
 		}
 	});
 }
 
 // функция для обработки кнопки удаления элемента галереи
-function handlePlaceDelete(buttonDelete, place) {
+function handlePlaceDelete(buttonDelete, placeData) {
 	buttonDelete.addEventListener('click', function (evt) {
-		evt.target.parentElement.remove();
-
-		removePlace(place['_id'])
-			.then()
+		removePlace(placeData['_id'])
+			.then(() => {
+				evt.target.parentElement.remove();
+			})
 			.catch((err) => console.log(err));
 	});
 }
