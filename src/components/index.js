@@ -19,17 +19,6 @@ import {
 } from '/src/components/modal.js';
 
 // получаем и присваиваем данные профиля
-/*getUserInfo()
-	.then(userData => {
-		setProfileParams(userData)
-		// получаем и вставляем элементы галереи по умолчанию
-		getInitialPlaces()
-			.then(places => {
-				renderGallery(places)
-			})
-			.catch(err => console.log(err));
-	})
-	.catch(err => console.log(err));*/
 
 Promise.all([getUserInfo(), getInitialPlaces()])
 	.then(([userData, places]) => {
