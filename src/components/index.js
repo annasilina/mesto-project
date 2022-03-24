@@ -18,7 +18,7 @@ import {
 	submitFormProfileEdit,
 } from './modal.js';
 
-// получаем и присваиваем данные профиля и начальные карточки
+// получаем и присваиваем данные профиля и рендерим начальные карточки
 Promise.all([getUserInfo(), getInitialPlaces()])
 	.then(([userData, places]) => {
 		setProfileParams(userData); // устанавливаем данные профиля
@@ -36,7 +36,7 @@ buttonOpenPopupProfileEdit.addEventListener('click', openPopupProfileEdit);
 buttonOpenPopupPlaceAdd.addEventListener('click', openPopupPlaceAdd);
 buttonOpenPopupAvatarChange.addEventListener('click', openPopupAvatarChange)
 
-//вешаем обработчик на клик по кнопке закрытия попапа и оверлей для каждого попапа
+//вешаем обработчик на клики по кнопке закрытия попапа и оверлей для каждого попапа
 popups.forEach(popup => {
 	popup.addEventListener('click', (evt) => {
 		if (evt.target.classList.contains('popup_opened')) { //оверлей
