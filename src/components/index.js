@@ -49,12 +49,6 @@ popups.forEach(popup => {
 	});
 });
 
-function foo(text) {
-	console.log(text);
-}
-
-foo('проверка');
-
 // обработчик отправки формы обновления аватара
 formAvatarChange.addEventListener('submit', submitFormAvatarChange);
 
