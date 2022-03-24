@@ -1,3 +1,4 @@
+// базовый объект-конфиг для запросов к серверу
 const config = {
 	baseURL: 'https://nomoreparties.co/v1/plus-cohort7',
 	headers: {
@@ -6,6 +7,7 @@ const config = {
 	}
 }
 
+// функция проверки ответа на запрос
 function checkResponse(res) {
 	if (res.ok) {
 		return res.json();
@@ -14,6 +16,7 @@ function checkResponse(res) {
 	return Promise.reject(`ошибка: ${res.status}`);
 }
 
+// функция получения данных пользователя с сервера
 const getUserInfo = () => {
 	return fetch(`${config.baseURL}/users/me`, {
 		headers: {
@@ -22,6 +25,7 @@ const getUserInfo = () => {
 	}).then((res) => checkResponse(res));
 }
 
+// функция получения первичных карточек с сервера
 const getInitialPlaces = () => {
 	return fetch(`${config.baseURL}/cards`, {
 		headers: {
@@ -30,6 +34,7 @@ const getInitialPlaces = () => {
 	}).then((res) => checkResponse(res));
 }
 
+// функция отправки данных пользователя на сервер
 const sendUserInfo = (name, about) => {
 	return fetch(`${config.baseURL}/users/me`, {
 		method: 'PATCH',
@@ -41,6 +46,7 @@ const sendUserInfo = (name, about) => {
 	}).then((res) => checkResponse(res));
 }
 
+// функция отправки данных новой карточки на сервер
 const sendNewCard = (name, link) => {
 	return fetch(`${config.baseURL}/cards`, {
 		method: 'POST',
@@ -52,6 +58,7 @@ const sendNewCard = (name, link) => {
 	}).then((res) => checkResponse(res));
 }
 
+// функция отправки данных нового аватара пользователя на сервер
 const sendAvatar = (link) => {
 	return fetch(`${config.baseURL}/users/me/avatar`, {
 		method: 'PATCH',
@@ -62,6 +69,7 @@ const sendAvatar = (link) => {
 	}).then((res) => checkResponse(res))
 }
 
+// функция удаления данных карточки с сервера
 const removePlace = (placeId) => {
 	return fetch(`${config.baseURL}/cards/${placeId}`, {
 		method: 'DELETE',
@@ -71,6 +79,7 @@ const removePlace = (placeId) => {
 	}).then((res) => checkResponse(res));
 }
 
+// функция отправки данных для нового лайка на сервер
 const putLikeAtPlace = (placeId) => {
 	return fetch(`${config.baseURL}/cards/likes/${placeId}`, {
 		method: 'PUT',
@@ -80,6 +89,7 @@ const putLikeAtPlace = (placeId) => {
 	}).then((res) => checkResponse(res));
 }
 
+// функция удаления данных лайка с сервера
 const deleteLikeAtPlace = (placeId) => {
 	return fetch(`${config.baseURL}/cards/likes/${placeId}`, {
 		method: 'DELETE',
@@ -88,6 +98,7 @@ const deleteLikeAtPlace = (placeId) => {
 		}
 	}).then((res) => checkResponse(res))
 }
+
 export {
 	getInitialPlaces,
 	getUserInfo,

@@ -7,42 +7,40 @@ import {sendAvatar, sendNewCard, sendUserInfo} from './api.js';
 //находим все попапы
 const popups = document.querySelectorAll('.popup');
 
-// находим попап-форму редактирования аватара и поле ввода ссылки на картинку
+// находим попап и форму редактирования аватара, в ней - поле ввода для ссылки на картинку
 const popupAvatarChange = document.querySelector('.popup_type_avatar-change');
 const formAvatarChange = popupAvatarChange.querySelector('.popup__form');
 const avatarInput = formAvatarChange.elements.avatarLink;
 
-// находим попап и форму редактирования профиля и поля ввода имени и подписи пользователя
+// находим попап и форму редактирования профиля, в ней - поля ввода имени и подписи пользователя
 const popupProfileEdit = document.querySelector('.popup_type_profile-edit');
 const formProfileEdit = popupProfileEdit.querySelector('.popup__form');
 const userNameInput = formProfileEdit.elements.userName;
 const userBioInput = formProfileEdit.elements.userBio;
 
-// находим попап и форму добавления карточки места в галерею и поля ввода для фото и названия места
+// находим попап и форму добавления карточки места в галерею, в ней - поля ввода для фото и названия места
 const popupPlaceAdd = document.querySelector('.popup_type_place-add');
 const formPlaceAdd = popupPlaceAdd.querySelector('.popup__form');
 const placeLinkInput = formPlaceAdd.elements.placeLink;
 const placeNameInput = formPlaceAdd.elements.placeName;
 
-// находим попап просмотра увеличенной фотографии места и его элементы
+// находим попап просмотра увеличенной фотографии места и его элементы (фото и подпись к нему)
 const popupPlaceShow = document.querySelector('.popup_type_place-show');
 const placePhoto = popupPlaceShow.querySelector('.popup__place-photo');
 const placeCaption = popupPlaceShow.querySelector('.popup__place-caption')
-
-// общие функции для попопов (открытие/закрытие, зачищение данных в формах)
 
 // функция для открытия попапов
 function openPopup(popup) {
 	popup.classList.add('popup_opened');
 
-	document.addEventListener('keyup', closePopupByEcs);
+	document.addEventListener('keyup', closePopupByEcs); // вешаем обработчик кнопки Esc
 }
 
 // функция для закрытия попапов
 function closePopup(popup) {
-	popup.classList.remove('popup_opened'); //закрываем попап
+	popup.classList.remove('popup_opened');
 
-	document.removeEventListener('keyup', closePopupByEcs);
+	document.removeEventListener('keyup', closePopupByEcs); // снимаем обработчик кнопки Esc
 }
 
 //функция закрытия попапа по нажатию кнопки escape
@@ -56,41 +54,45 @@ function closePopupByEcs(evt) {
 
 // функция открытия попапа редактирования профиля
 function openPopupProfileEdit() {
-	resetFormData(formProfileEdit, formConfig);
+	resetFormData(formProfileEdit, formConfig); // обнуляем введенные при прошлом открытии попапа данные и ошибки,
+	// если они были
 
+	// устанавливаем текущие данные из профиля на странице
 	userNameInput.value = userName.textContent;
 	userBioInput.value = userBio.textContent;
 
-	setButtonState(formProfileEdit, formConfig);
-	openPopup(popupProfileEdit);
+	setButtonState(formProfileEdit, formConfig); // устанавливаем стейт кнопки сабмита
+	openPopup(popupProfileEdit); // открываем попап
 }
 
-// функция открытия попапа редактирования аватапа
+// функция открытия попапа редактирования аватара
 function openPopupAvatarChange() {
-	resetFormData(formAvatarChange, formConfig)
-	setButtonState(formAvatarChange, formConfig)
-	openPopup(popupAvatarChange);
+	resetFormData(formAvatarChange, formConfig); // обнуляем введенные при прошлом открытии попапа данные и ошибки,
+	// если они были
+	setButtonState(formAvatarChange, formConfig); // устанавливаем стейт кнопки сабмита
+	openPopup(popupAvatarChange); // открываем попап
 }
 
 // функция открытия попапа добавления места
 function openPopupPlaceAdd() {
-	resetFormData(formPlaceAdd, formConfig)
-	setButtonState(formPlaceAdd, formConfig)
-	openPopup(popupPlaceAdd);
+	resetFormData(formPlaceAdd, formConfig); // обнуляем введенные при прошлом открытии попапа данные и ошибки,
+	// если они были
+	setButtonState(formPlaceAdd, formConfig); // устанавливаем стейт кнопки сабмита
+	openPopup(popupPlaceAdd); // открываем попап
 }
 
 // функция открытия попапа просмотра фотографий карточки места
 function openPopupPlaceShow(photo, caption) {
 	photo.addEventListener('click', () => {
-		openPopup(popupPlaceShow);
-
 		placePhoto.src = photo.src;
 		placePhoto.alt = photo.alt;
 		placeCaption.textContent = caption.textContent;
+
+		openPopup(popupPlaceShow);
 	});
 }
 
-// функция отправки формы обновления аватара
+// функция отправки данных из формы обновления аватара
 function submitFormAvatarChange(evt) {
 	evt.preventDefault();
 
@@ -105,7 +107,7 @@ function submitFormAvatarChange(evt) {
 		.finally(() => dataLoading(false, formAvatarChange, formConfig));
 }
 
-// функция отправки формы редактирования профиля
+// функция отправки данных из формы редактирования профиля
 function submitFormProfileEdit(evt) {
 	evt.preventDefault();
 
@@ -121,7 +123,7 @@ function submitFormProfileEdit(evt) {
 		.finally(() => dataLoading(false, formProfileEdit, formConfig));
 }
 
-// функция отправки формы с добавлением нового элемента в галерею
+// функция отправки данных из формы с добавлением нового элемента в галерею
 function submitFormPlaceAdd(evt) {
 	evt.preventDefault();
 

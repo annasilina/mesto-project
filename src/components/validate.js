@@ -74,7 +74,7 @@ function disableButton(button, config) {
 	button.classList.add(config.buttonSubmitInactiveClass);
 }
 
-// функция активации/деактивации кнопок сохранения в форме в зависимости от валидности инпутов
+// функция установки стейта кнопок сохранения в форме в зависимости от валидности инпутов
 function setButtonState(form, config) {
 	const inputList = findInputs(form, config);
 	const buttonSave = findButtonSubmit(form, config);
@@ -86,7 +86,7 @@ function setButtonState(form, config) {
 	}
 }
 
-//
+// функция отрисовки стейта кнопки на время сохранения данных, введенных пользователем
 function dataLoading(isLoading, form, config) {
 	const buttonSave = findButtonSubmit(form, config);
 

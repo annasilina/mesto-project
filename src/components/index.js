@@ -18,12 +18,11 @@ import {
 	submitFormProfileEdit,
 } from '/src/components/modal.js';
 
-// получаем и присваиваем данные профиля
-
+// получаем и присваиваем данные профиля и начальные карточки
 Promise.all([getUserInfo(), getInitialPlaces()])
 	.then(([userData, places]) => {
-		setProfileParams(userData);
-		renderGallery(places);
+		setProfileParams(userData); // устанавливаем данные профиля
+		renderGallery(places); // рендерим карточки
 	})
 	.catch(err => console.log(err));
 
@@ -32,20 +31,19 @@ const buttonOpenPopupAvatarChange = profile.querySelector('.profile__button-edit
 const buttonOpenPopupProfileEdit = profile.querySelector('.profile__button-edit_el_info');
 const buttonOpenPopupPlaceAdd = profile.querySelector('.profile__button-add');
 
-// обработчики кнопок открытия попапов редактирования профиля, аватарки и добавления места
+// слушаем кнопки открытия попапов с формами
 buttonOpenPopupProfileEdit.addEventListener('click', openPopupProfileEdit);
 buttonOpenPopupPlaceAdd.addEventListener('click', openPopupPlaceAdd);
 buttonOpenPopupAvatarChange.addEventListener('click', openPopupAvatarChange)
 
-
-//обработчик закрытия попапов по клику на кнопку закрытия и overlay
+//вешаем обработчик на клик по кнопке закрытия попапа и оверлей для каждого попапа
 popups.forEach(popup => {
 	popup.addEventListener('click', (evt) => {
-		if (evt.target.classList.contains('popup_opened')) {
+		if (evt.target.classList.contains('popup_opened')) { //оверлей
 			closePopup(popup);
 		}
 
-		if (evt.target.classList.contains('popup__button-close')) {
+		if (evt.target.classList.contains('popup__button-close')) { //попап
 			closePopup(popup);
 		}
 	});
