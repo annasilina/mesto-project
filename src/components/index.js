@@ -16,7 +16,7 @@ import {
 	submitFormAvatarChange,
 	submitFormPlaceAdd,
 	submitFormProfileEdit,
-} from '/src/components/modal.js';
+} from './modal.js';
 
 // получаем и присваиваем данные профиля и начальные карточки
 Promise.all([getUserInfo(), getInitialPlaces()])
@@ -48,6 +48,12 @@ popups.forEach(popup => {
 		}
 	});
 });
+
+function foo(text) {
+	console.log(text);
+}
+
+foo('проверка');
 
 // обработчик отправки формы обновления аватара
 formAvatarChange.addEventListener('submit', submitFormAvatarChange);
