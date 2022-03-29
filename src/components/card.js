@@ -56,6 +56,8 @@ function isLiked(likes, currentUserId) {
 	return likes.find(user => user['_id'] === currentUserId);
 }
 
+const rus = {};
+
 // функция управления снятием/постановкой лайка по нажатию на кнопку лайка
 function handleLikeToggle(placeButtonLike, placeLikeCounter, placeData, currentUserId) {
 	placeButtonLike.addEventListener('click', function (evt) {
