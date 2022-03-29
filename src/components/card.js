@@ -1,5 +1,5 @@
-import {openPopupPlaceShow} from './modal.js';
-import {deleteLikeAtPlace, putLikeAtPlace, removePlace} from './api.js';
+/*import {openPopupPlaceShow} from './modal.js';*/
+// import {deleteLikeAtPlace, putLikeAtPlace, removePlace} from './Api.js';
 import {currentUserId} from './profile';
 import {api} from './index.js';
 
@@ -61,14 +61,14 @@ function isLiked(likes, currentUserId) {
 function handleLikeToggle(placeButtonLike, placeLikeCounter, placeData, currentUserId) {
 	placeButtonLike.addEventListener('click', function (evt) {
 		if (evt.target.classList.contains('gallery__button-like_active')) {
-			deleteLikeAtPlace(placeData['_id'])
+			api.deleteLikeAtPlace(placeData['_id'])
 				.then(newPlaceData => {
 					evt.target.classList.remove('gallery__button-like_active');
 					renderLikes(newPlaceData.likes, currentUserId, placeButtonLike, placeLikeCounter);
 				})
 				.catch(err => console.log(err));
 		} else {
-			putLikeAtPlace(placeData['_id'])
+			api.putLikeAtPlace(placeData['_id'])
 				.then(newPlaceData => {
 					evt.target.classList.add('gallery__button-like_active');
 					renderLikes(newPlaceData.likes, currentUserId, placeButtonLike, placeLikeCounter);
@@ -81,7 +81,7 @@ function handleLikeToggle(placeButtonLike, placeLikeCounter, placeData, currentU
 // функция для удаления элемента галереи по кнопке удаления
 function handlePlaceDelete(buttonDelete, placeData) {
 	buttonDelete.addEventListener('click', function (evt) {
-		removePlace(placeData['_id'])
+		api.removePlace(placeData['_id'])
 			.then(() => {
 				evt.target.parentElement.remove();
 			})

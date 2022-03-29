@@ -98,7 +98,7 @@ function submitFormAvatarChange(evt) {
 	evt.preventDefault();
 
 	dataLoading(true, formAvatarChange, formConfig);
-	sendAvatar(avatarInput.value)
+	api.sendAvatar(avatarInput.value)
 		.then(() => {
 			avatar.src = avatarInput.value;
 
@@ -113,7 +113,7 @@ function submitFormProfileEdit(evt) {
 	evt.preventDefault();
 
 	dataLoading(true, formProfileEdit, formConfig);
-	sendUserInfo(userNameInput.value, userBioInput.value)
+	api.sendUserInfo(userNameInput.value, userBioInput.value)
 		.then(() => {
 			userName.textContent = userNameInput.value;
 			userBio.textContent = userBioInput.value;
@@ -129,7 +129,7 @@ function submitFormPlaceAdd(evt) {
 	evt.preventDefault();
 
 	dataLoading(true, formPlaceAdd, formConfig);
-	sendNewCard(placeNameInput.value, placeLinkInput.value)
+	api.sendNewCard(placeNameInput.value, placeLinkInput.value)
 		.then((placeData) => {
 			let currentUserId = placeData.owner['_id'];
 

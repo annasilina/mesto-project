@@ -1,5 +1,6 @@
 import '../pages/index.css';
-import {getInitialPlaces, getUserInfo} from './api.js';
+// import {getInitialPlaces, getUserInfo} from './Api.js';
+import Api from './Api.js';
 import {renderGallery} from './card.js';
 import {profile, setProfileParams} from './profile.js';
 import {formConfig} from './constants.js';
