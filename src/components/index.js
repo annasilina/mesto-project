@@ -18,8 +18,19 @@ import {
 	submitFormProfileEdit,
 } from './modal.js';
 
+// базовый объект-конфиг для api-запросов
+const configApi = {
+	baseURL: 'https://nomoreparties.co/v1/plus-cohort7',
+	headers: {
+		authorization: '963eab40-f1b1-4bf3-8893-fd8fa8464a41',
+		'Content-Type': 'application/json'
+	}
+}
+
+export const api = new Api(configApi);
+
 // получаем и присваиваем данные профиля и рендерим начальные карточки
-Promise.all([getUserInfo(), getInitialPlaces()])
+Promise.all([api.getUserInfo(), api.getInitialPlaces()])
 	.then(([userData, places]) => {
 		setProfileParams(userData); // устанавливаем данные профиля
 		renderGallery(places); // рендерим карточки

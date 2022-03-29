@@ -1,6 +1,7 @@
 import {openPopupPlaceShow} from './modal.js';
 import {deleteLikeAtPlace, putLikeAtPlace, removePlace} from './api.js';
 import {currentUserId} from './profile';
+import {api} from './index.js';
 
 // находим галерею в разметке
 const gallery = document.querySelector('.gallery');
@@ -55,8 +56,6 @@ function renderLikes(likes, currentUserId, placeButtonLike, placeLikeCounter) {
 function isLiked(likes, currentUserId) {
 	return likes.find(user => user['_id'] === currentUserId);
 }
-
-const rus = {};
 
 // функция управления снятием/постановкой лайка по нажатию на кнопку лайка
 function handleLikeToggle(placeButtonLike, placeLikeCounter, placeData, currentUserId) {
