@@ -1,6 +1,6 @@
 import {formConfig} from './constants.js';
 import {resetFormData, setButtonState, dataLoading} from './validate.js';
-import {addNewPlace} from './card.js';
+import {addNewCard} from './card.js';
 import {avatar, userBio, userName} from './profile.js';
 // import {sendAvatar, sendNewCard, sendUserInfo} from './Api.js';
 import {api} from './index.js';

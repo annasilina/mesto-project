@@ -1,80 +1,101 @@
 /*import {openPopupPlaceShow} from './modal.js';*/
 // import {deleteLikeAtPlace, putLikeAtPlace, removePlace} from './Api.js';
 import {currentUserId} from './profile';
+import {api} from "./index";
 /*import {api} from './index.js';*/
 
 // находим галерею в разметке
 const gallery = document.querySelector('.gallery');
 
 // Section - функция рендера галереи
-function renderGallery(places) {
-	places.forEach(place => {
-		gallery.append(new Card(place, '#place-template').createPlace(currentUserId)); // сделать НОРМАЛЬНО
+function renderGallery(items) {
+	items.forEach(item => {
+		gallery.append(new Card(item, handleLikeToggle, '#place-template').createCard(currentUserId)); // сделать НОРМАЛЬНО
 	})
 }
 
+const handleLikeToggle = (card) => {
+	if (card.getLikeStatus()) {
+		api.deleteLikeAtPlace(card._id)
+			.then((newCardData) => {
+				card.renderLikes(newCardData);
+			})
+			.catch(err => console.log(err));
+	} else {
+		api.putLikeAtPlace(card._id)
+			.then((newCardData) => {
+				card.renderLikes(newCardData);
+			})
+			.catch(err => console.log(err));
+	}
+}
+
 export default class Card {
-	constructor(placeData, /*handleLikeToggle, handlePlaceDelete, openPopupPlaceShow,*/ selector) {
-		this._id = placeData._id;
-		this._name = placeData.name;
-		this._link = placeData.link;
-		this._ownerId = placeData.owner._id;
-		this._likes = placeData.likes;
+	constructor(cardData, handleLikeToggle, /*handlePlaceDelete, openPopupPlaceShow,*/ selector) {
+		this._id = cardData._id;
+		this._name = cardData.name;
+		this._link = cardData.link;
+		this._ownerId = cardData.owner._id;
+		this._likes = cardData.likes;
 		this._selector = selector;
-		/*this._handleLikeToggle = handleLikeToggle;
-		this._handlePlaceDelete = handlePlaceDelete;
+		this._handleLikeToggle = handleLikeToggle;
+		/*this._handlePlaceDelete = handlePlaceDelete;
 		this._openPopupPlaceShow = openPopupPlaceShow;*/
 	}
 
 	_getElement = () => {
-		this._placeTemplate = document.querySelector(this._selector).content
-		this._placeElement = this._placeTemplate.querySelector('.gallery__place').cloneNode(true);
+		this._cardTemplate = document.querySelector(this._selector).content
+		this._cardElement = this._cardTemplate.querySelector('.gallery__place').cloneNode(true);
 
-		return this._placeElement;
+		return this._cardElement;
 	}
 
-	_isLiked = (currentUserId) => {
-		return this._likes.find(user => user._id === currentUserId);
+	renderLikes = (cardData) => {
+		this._cardButtonLike.classList.toggle('gallery__button-like_active');
+		this._cardLikeCounter.textContent = cardData.likes.length;
+		this._isLiked = !this._isLiked;
 	}
 
-	renderLikes = (currentUserId) => {
-		if (this._isLiked(currentUserId)) {
-			this._placeButtonLike.classList.add('gallery__button-like_active'); // если среди лайкнувших есть текущий
-			// пользователь
-			// - показываем его лайк
-		}
-
-		this._placeLikeCounter.textContent = this._likes.length;
+	getLikeStatus = () => {
+		return this._isLiked;
 	}
 
-	/*_setEventListeners = () => {
-		this._placeButtonLike.addEventListener('click', () => {this._handleLikeToggle()});
-		this._placeButtonDelete.addEventListener('click', () => {this._handlePlaceDelete()});
-		this._placePhoto.addEventListener('click', () => {this._openPopupPlaceShow()});
-	}*/
+	_setEventListeners = () => {
+		this._cardButtonLike.addEventListener('click', () => {
+			this._handleLikeToggle(this);
+		});
+		/*this._cardButtonDelete.addEventListener('click', () => {this._handlePlaceDelete()});
+		this._cardPhoto.addEventListener('click', () => {this._openPopupPlaceShow()});*/
+	}
 
-	createPlace = (currentUserId) => {
-		this._placeElement = this._getElement();
-		this._placeCaption = this._placeElement.querySelector('.gallery__place-caption');
-		this._placePhoto = this._placeElement.querySelector('.gallery__place-photo');
-		this._placeLikeCounter = this._placeElement.querySelector('.gallery__like-counter');
-		this._placeButtonLike = this._placeElement.querySelector('.gallery__button-like');
-		this._placeButtonDelete = this._placeElement.querySelector('.gallery__button-delete');
+	createCard = (currentUserId) => {
+		this._cardElement = this._getElement();
+		this._cardCaption = this._cardElement.querySelector('.gallery__place-caption');
+		this._cardPhoto = this._cardElement.querySelector('.gallery__place-photo');
+		this._cardLikeCounter = this._cardElement.querySelector('.gallery__like-counter');
+		this._cardButtonLike = this._cardElement.querySelector('.gallery__button-like');
+		this._cardButtonDelete = this._cardElement.querySelector('.gallery__button-delete');
+		this._isLiked = this._likes.find(user => user._id === currentUserId);
 
 		if (this._ownerId === currentUserId) {
-			this._placeButtonDelete.classList.add('gallery__button-delete_active'); // если карточка добавления текущим
+			this._cardButtonDelete.classList.add('gallery__button-delete_active'); // если карточка добавления текущим
 			// юзером -
 			// добавляем кнопку удаления
 		}
 
-		//заполняем карточку
-		this._placePhoto.src = this._link;
-		this._placePhoto.alt = this._name;
-		this._placeCaption.textContent = this._name;
-		this.renderLikes(currentUserId);
-		/*this._setEventListeners();*/
+		if (this._isLiked) {
+			this._cardButtonLike.classList.add('gallery__button-like_active');
+		}
 
-		return this._placeElement;
+		//заполняем карточку
+		this._cardPhoto.src = this._link;
+		this._cardPhoto.alt = this._name;
+		this._cardCaption.textContent = this._name;
+		this._cardLikeCounter.textContent = this._likes.length;
+
+		this._setEventListeners();
+
+		return this._cardElement;
 	}
 
 }
@@ -124,26 +145,8 @@ function isLiked(likes, currentUserId) {
 }
 */
 
-// функция управления снятием/постановкой лайка по нажатию на кнопку лайка
-/*function handleLikeToggle(placeButtonLike, placeLikeCounter, placeData, currentUserId) {
-	placeButtonLike.addEventListener('click', function (evt) {
-		if (evt.target.classList.contains('gallery__button-like_active')) {
-			api.deleteLikeAtPlace(placeData['_id'])
-				.then(newPlaceData => {
-					evt.target.classList.remove('gallery__button-like_active');
-					renderLikes(newPlaceData.likes, currentUserId, placeButtonLike, placeLikeCounter);
-				})
-				.catch(err => console.log(err));
-		} else {
-			api.putLikeAtPlace(placeData['_id'])
-				.then(newPlaceData => {
-					evt.target.classList.add('gallery__button-like_active');
-					renderLikes(newPlaceData.likes, currentUserId, placeButtonLike, placeLikeCounter);
-				})
-				.catch(err => console.log(err));
-		}
-	});
-}*/
+
+
 
 // функция для удаления элемента галереи по кнопке удаления
 /*function handlePlaceDelete(buttonDelete, placeData) {
@@ -157,8 +160,8 @@ function isLiked(likes, currentUserId) {
 }*/
 
 // Section - функция для добавления нового элемента галереи
-function addNewPlace(placeElement) {
-	gallery.prepend(placeElement);
+function addNewCard(cardElement) {
+	gallery.prepend(cardElement);
 }
 
-export {gallery, addNewPlace, renderGallery}
+export {gallery, addNewCard, renderGallery}

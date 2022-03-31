@@ -2,7 +2,7 @@ import '../pages/index.css';
 // import {getInitialPlaces, getUserInfo} from './Api.js';
 import Api from './Api.js';
 import {renderGallery} from './card.js';
-import {profile, setProfileParams} from './profile.js';
+import {profile, setProfileParams, currentUserId} from './profile.js';
 import {formConfig} from './constants.js';
 import {enableValidation} from './validate.js';
 import {
@@ -60,6 +60,7 @@ popups.forEach(popup => {
 		}
 	});
 });
+
 
 // обработчик отправки формы обновления аватара
 formAvatarChange.addEventListener('submit', submitFormAvatarChange);
