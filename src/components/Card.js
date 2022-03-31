@@ -1,34 +1,5 @@
 /*import {openPopupPlaceShow} from './modal.js';*/
-// import {deleteLikeAtPlace, putLikeAtPlace, removePlace} from './Api.js';
-import {currentUserId} from './profile';
-import {api} from "./index";
-/*import {api} from './index.js';*/
-
-// находим галерею в разметке
-const gallery = document.querySelector('.gallery');
-
-// Section - функция рендера галереи
-function renderGallery(items) {
-	items.forEach(item => {
-		gallery.append(new Card(item, handleLikeToggle, '#place-template').createCard(currentUserId)); // сделать НОРМАЛЬНО
-	})
-}
-
-const handleLikeToggle = (card) => {
-	if (card.getLikeStatus()) {
-		api.deleteLikeAtPlace(card._id)
-			.then((newCardData) => {
-				card.renderLikes(newCardData);
-			})
-			.catch(err => console.log(err));
-	} else {
-		api.putLikeAtPlace(card._id)
-			.then((newCardData) => {
-				card.renderLikes(newCardData);
-			})
-			.catch(err => console.log(err));
-	}
-}
+/*import {api} from "./index";*/
 
 export default class Card {
 	constructor(cardData, handleLikeToggle, /*handlePlaceDelete, openPopupPlaceShow,*/ selector) {

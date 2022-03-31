@@ -8,4 +8,9 @@ const formConfig = {
 	errorMessageClass: 'popup__error-message_active'
 }
 
-export {formConfig}
+const userInfo = document.querySelector('.profile');
+const userName = userInfo.querySelector('.profile__user-name');
+const userBio = userInfo.querySelector('.profile__user-bio');
+const avatar = userInfo.querySelector('.profile__photo');
+
+export {formConfig,userInfo, avatar, userBio, userName}

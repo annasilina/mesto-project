@@ -1,9 +1,11 @@
 import '../pages/index.css';
 // import {getInitialPlaces, getUserInfo} from './Api.js';
 import Api from './Api.js';
-import {renderGallery} from './card.js';
-import {profile, setProfileParams, currentUserId} from './profile.js';
-import {formConfig} from './constants.js';
+import Card from './Card.js';
+import Section from './Section.js';
+import UserInfo from "./UserInfo.js";
+// import {userInfo, setProfileParams, currentUserId} from './UserInfo.js';
+import {formConfig, userInfo, avatar, userBio, userName} from './constants.js';
 import {enableValidation} from './validate.js';
 import {
 	closePopup,
@@ -19,6 +21,7 @@ import {
 	submitFormProfileEdit,
 } from './modal.js';
 
+
 // базовый объект-конфиг для api-запросов
 const configApi = {
 	baseURL: 'https://nomoreparties.co/v1/plus-cohort7',
@@ -30,18 +33,35 @@ const configApi = {
 
 export const api = new Api(configApi);
 
+const createNewCard = (item, currentUserId) => {
+	const card = new Card(item, handleLikeToggle, '#place-template');
+	const element = card.createCard(currentUserId);
+	return element;
+}
+
+const renderInitialItems = (initialItems, currentUserId) => {
+	const section = new Section({
+		items: initialItems,
+		renderer: (item) => section.setItem(createNewCard(item, currentUserId))
+	}, '.gallery');
+
+	section.renderItems();
+}
+
+
 // получаем и присваиваем данные профиля и рендерим начальные карточки
 Promise.all([api.getUserInfo(), api.getInitialPlaces()])
-	.then(([userData, places]) => {
-		setProfileParams(userData); // устанавливаем данные профиля
-		renderGallery(places); // рендерим карточки
+	.then(([userData, initialItems]) => {
+		const currentUserId = userData._id;
+		userDataObject.setUserInfo(userData); // устанавливаем данные профиля
+		renderInitialItems(initialItems, currentUserId); // рендерим карточки
 	})
 	.catch(err => console.log(err));
 
 // находим кнопки открытия попапов с формами
-const buttonOpenPopupAvatarChange = profile.querySelector('.profile__button-edit_el_avatar');
-const buttonOpenPopupProfileEdit = profile.querySelector('.profile__button-edit_el_info');
-const buttonOpenPopupPlaceAdd = profile.querySelector('.profile__button-add');
+const buttonOpenPopupAvatarChange = userInfo.querySelector('.profile__button-edit_el_avatar');
+const buttonOpenPopupProfileEdit = userInfo.querySelector('.profile__button-edit_el_info');
+const buttonOpenPopupPlaceAdd = userInfo.querySelector('.profile__button-add');
 
 // слушаем кнопки открытия попапов с формами
 buttonOpenPopupProfileEdit.addEventListener('click', openPopupProfileEdit);
