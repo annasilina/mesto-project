@@ -2,7 +2,7 @@
 /*import {api} from "./index";*/
 
 export default class Card {
-	constructor(cardData, handleLikeToggle, /*handlePlaceDelete, openPopupPlaceShow,*/ selector) {
+	constructor(cardData, handleLikeToggle, /*handlePlaceDelete, openPopupPlaceShow,*/selector) {
 		this._id = cardData._id;
 		this._name = cardData.name;
 		this._link = cardData.link;
@@ -68,56 +68,7 @@ export default class Card {
 
 		return this._cardElement;
 	}
-
 }
-
-
-/*// функция создания элемента галереи
-function createPlace(placeData, currentUserId) {
-	const placePhoto = placeElement.querySelector('.gallery__place-photo');
-	const placeCaption = placeElement.querySelector('.gallery__place-caption');
-	const placeLikeCounter = placeElement.querySelector('.gallery__like-counter');
-	const placeButtonLike = placeElement.querySelector('.gallery__button-like');
-	const placeButtonDelete = placeElement.querySelector('.gallery__button-delete');
-
-	let ownerId = placeData.owner['_id']; //проверяем оунера карточки
-
-	if (ownerId === currentUserId) {
-		placeButtonDelete.classList.add('gallery__button-delete_active'); // если карточка добавления текущим юзером -
-		// добавляем кнопку удаления
-	}
-
-	//заполняем карточку
-	placePhoto.src = placeData.link;
-	placePhoto.alt = placeData.name;
-	placeCaption.textContent = placeData.name;
-
-	renderLikes(placeData.likes, currentUserId, placeButtonLike, placeLikeCounter); // показываем лайки
-	handleLikeToggle(placeButtonLike, placeLikeCounter, placeData, currentUserId); // запускаем работу кнопки лайка
-	handlePlaceDelete(placeButtonDelete, placeData); // запускаем работу кнопки удаления
-	openPopupPlaceShow(placePhoto, placeCaption); // запускаем работу открытия фотографии при клику на карточку
-
-	return placeElement;
-}*/
-
-// функция рендера лайков на карточке
-/*function renderLikes(likes, currentUserId, placeButtonLike, placeLikeCounter) {
-	if (isLiked(likes, currentUserId)) {
-		placeButtonLike.classList.add('gallery__button-like_active'); // если среди лайкнувших есть текущий пользователь
-		// - показываем его лайк
-	}
-	placeLikeCounter.textContent = likes.length;
-}*/
-
-// функция проверки наличия лайка от текущего пользователя на карточке
-/*
-function isLiked(likes, currentUserId) {
-	return likes.find(user => user['_id'] === currentUserId);
-}
-*/
-
-
-
 
 // функция для удаления элемента галереи по кнопке удаления
 /*function handlePlaceDelete(buttonDelete, placeData) {
@@ -129,10 +80,3 @@ function isLiked(likes, currentUserId) {
 			.catch((err) => console.log(err));
 	});
 }*/
-
-// Section - функция для добавления нового элемента галереи
-function addNewCard(cardElement) {
-	gallery.prepend(cardElement);
-}
-
-export {gallery, addNewCard, renderGallery}

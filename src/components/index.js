@@ -33,6 +33,24 @@ const configApi = {
 
 export const api = new Api(configApi);
 
+const userDataObject = new UserInfo(userName, userBio, avatar);
+
+const handleLikeToggle = (card) => {
+	if (card.getLikeStatus()) {
+		api.deleteLikeAtPlace(card._id)
+			.then((newCardData) => {
+				card.renderLikes(newCardData);
+			})
+			.catch(err => console.log(err));
+	} else {
+		api.putLikeAtPlace(card._id)
+			.then((newCardData) => {
+				card.renderLikes(newCardData);
+			})
+			.catch(err => console.log(err));
+	}
+}
+
 const createNewCard = (item, currentUserId) => {
 	const card = new Card(item, handleLikeToggle, '#place-template');
 	const element = card.createCard(currentUserId);
