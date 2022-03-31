@@ -24,11 +24,15 @@ export default class Card {
 	renderLikes = (cardData) => {
 		this._cardButtonLike.classList.toggle('gallery__button-like_active');
 		this._cardLikeCounter.textContent = cardData.likes.length;
-		this._isLiked = !this._isLiked;
+		this._likeStatus = !this._likeStatus;
 	}
 
 	getLikeStatus = () => {
-		return this._isLiked;
+		return this._likeStatus;
+	}
+
+	_isLiked = (currentUserId) => {
+		return this._likes.find(user => user._id === currentUserId);
 	}
 
 	_setEventListeners = () => {
@@ -46,7 +50,8 @@ export default class Card {
 		this._cardLikeCounter = this._cardElement.querySelector('.gallery__like-counter');
 		this._cardButtonLike = this._cardElement.querySelector('.gallery__button-like');
 		this._cardButtonDelete = this._cardElement.querySelector('.gallery__button-delete');
-		this._isLiked = this._likes.find(user => user._id === currentUserId);
+
+		this._likeStatus = this._isLiked(currentUserId);
 
 		if (this._ownerId === currentUserId) {
 			this._cardButtonDelete.classList.add('gallery__button-delete_active'); // если карточка добавления текущим
@@ -54,7 +59,7 @@ export default class Card {
 			// добавляем кнопку удаления
 		}
 
-		if (this._isLiked) {
+		if (this._likeStatus) {
 			this._cardButtonLike.classList.add('gallery__button-like_active');
 		}
 
