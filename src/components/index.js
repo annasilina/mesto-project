@@ -58,7 +58,7 @@ const handleLikeToggle = (card) => {
 const createNewCard = (item, currentUserId) => {
 	const cardObject = new Card(item, handleLikeToggle, '#place-template');
 	const cardElement = cardObject.createCard(currentUserId);
-	
+
 	return cardElement;
 }
 
