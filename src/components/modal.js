@@ -9,18 +9,18 @@ import {api} from './index.js';
 const popups = document.querySelectorAll('.popup');
 
 // находим попап и форму редактирования аватара, в ней - поле ввода для ссылки на картинку
-const popupAvatarChange = document.querySelector('.popup_type_avatar-change');
+const popupAvatarChange = document.querySelector('.popup_type_avatar-change'); // remove to constants
 const formAvatarChange = popupAvatarChange.querySelector('.popup__form');
 const avatarInput = formAvatarChange.elements.avatarLink;
 
 // находим попап и форму редактирования профиля, в ней - поля ввода имени и подписи пользователя
-const popupProfileEdit = document.querySelector('.popup_type_profile-edit');
+const popupProfileEdit = document.querySelector('.popup_type_profile-edit'); // remove to constants
 const formProfileEdit = popupProfileEdit.querySelector('.popup__form');
 const userNameInput = formProfileEdit.elements.userName;
 const userBioInput = formProfileEdit.elements.userBio;
 
 // находим попап и форму добавления карточки места в галерею, в ней - поля ввода для фото и названия места
-const popupPlaceAdd = document.querySelector('.popup_type_place-add');
+const popupPlaceAdd = document.querySelector('.popup_type_place-add');  // remove to constants
 const formPlaceAdd = popupPlaceAdd.querySelector('.popup__form');
 const placeLinkInput = formPlaceAdd.elements.placeLink;
 const placeNameInput = formPlaceAdd.elements.placeName;
@@ -54,7 +54,7 @@ function closePopupByEcs(evt) {
 }
 
 // функция открытия попапа редактирования профиля
-function openPopupProfileEdit() {
+function openPopupProfileEdit() {  //open popup
 	resetFormData(formProfileEdit, formConfig); // обнуляем введенные при прошлом открытии попапа данные и ошибки,
 	// если они были
 
@@ -83,15 +83,7 @@ function openPopupPlaceAdd() {
 }
 
 // функция открытия попапа просмотра фотографий карточки места
-function openPopupPlaceShow(photo, caption) {
-	photo.addEventListener('click', () => {
-		placePhoto.src = photo.src;
-		placePhoto.alt = photo.alt;
-		placeCaption.textContent = caption.textContent;
 
-		openPopup(popupPlaceShow);
-	});
-}
 
 // функция отправки данных из формы обновления аватара
 function submitFormAvatarChange(evt) {
@@ -149,7 +141,7 @@ export {
 	openPopupAvatarChange,
 	openPopupProfileEdit,
 	openPopupPlaceAdd,
-	openPopupPlaceShow,
+	// openPopupPlaceShow,
 	submitFormProfileEdit,
 	submitFormAvatarChange,
 	submitFormPlaceAdd
