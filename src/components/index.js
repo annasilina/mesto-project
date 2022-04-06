@@ -1,44 +1,64 @@
 import '../pages/index.css';
-// import {getInitialPlaces, getUserInfo} from './Api.js';
 import Api from './Api.js';
 import Card from './Card.js';
 import Section from './Section.js';
 import UserInfo from "./UserInfo.js";
-// import {userInfo, setProfileParams, currentUserId} from './UserInfo.js';
-import {formConfig, userInfo, avatar, userBio, userName} from './constants.js';
-import {enableValidation} from './validate.js';
+import FormValidator from './FormValidator.js';
 import {
 	closePopup,
-	formAvatarChange,
-	formPlaceAdd,
-	formProfileEdit,
 	openPopupAvatarChange,
 	openPopupPlaceAdd,
 	openPopupProfileEdit,
-	popups,
 	submitFormAvatarChange,
 	submitFormPlaceAdd,
 	submitFormProfileEdit,
 } from './modal.js';
+import {
+	formConfig,
+	apiConfig,
+	userInfo,
+	avatar,
+	userBio,
+	userName,
+	popups,
+	formAvatarChange,
+	formProfileEdit,
+	formPlaceAdd,
+} from './constants.js';
 
+// создаем объект с запросами к серверу
+export const api = new Api(apiConfig);
 
-// базовый объект-конфиг для api-запросов
-const configApi = {
-	baseURL: 'https://nomoreparties.co/v1/plus-cohort7',
-	headers: {
-		authorization: '963eab40-f1b1-4bf3-8893-fd8fa8464a41',
-		'Content-Type': 'application/json'
-	}
-}
-
-export const api = new Api(configApi);
-
+// создаем объект с данными пользователя
 const userDataObject = new UserInfo(userName, userBio, avatar);
 
-const cardSection = new Section({
+// создаем обекты-валидаторы для каждой формы на странице
+export const formAvatarChangeValidator = new FormValidator(formConfig, formAvatarChange);
+export const formProfileEditValidator = new FormValidator(formConfig, formProfileEdit);
+export const formPlaceAddValidator = new FormValidator(formConfig, formPlaceAdd);
+
+// создаем объект для отрисовки секции с карточками (галереи)
+export const cardSection = new Section({
 	renderer: (item, currentUserId) => cardSection.setItem(createNewCard(item, currentUserId))
 }, '.gallery');
 
+// получаем и присваиваем данные профиля и рендерим начальные карточки
+Promise.all([api.getUserInfo(), api.getInitialPlaces()])
+	.then(([userData, initialItems]) => {
+		const currentUserId = userData._id;
+		userDataObject.setUserInfo(userData); // устанавливаем данные профиля
+		cardSection.renderItems(initialItems, currentUserId); // рендерим карточки
+	})
+	.catch(err => console.log(err));
+
+// функция создания нового элемента карточки
+export const createNewCard = (item, currentUserId) => {
+	const cardObject = new Card(item, handleLikeToggle, '#place-template');
+	const cardElement = cardObject.createCard(currentUserId);
+
+	return cardElement;
+}
+// функция отработки постановки/снятия лайка
 const handleLikeToggle = (card) => {
 	if (card.getLikeStatus()) {
 		api.deleteLikeAtPlace(card._id)
@@ -54,32 +74,6 @@ const handleLikeToggle = (card) => {
 			.catch(err => console.log(err));
 	}
 }
-
-const createNewCard = (item, currentUserId) => {
-	const cardObject = new Card(item, handleLikeToggle, '#place-template');
-	const cardElement = cardObject.createCard(currentUserId);
-
-	return cardElement;
-}
-
-/*const renderInitialItems = (currentUserId) => {
-	const section = new Section({
-		items: initialItems,
-		renderer: (item) => section.setItem(createNewCard(item, currentUserId))
-	}, '.gallery');
-
-	section.renderItems();
-}*/
-
-
-// получаем и присваиваем данные профиля и рендерим начальные карточки
-Promise.all([api.getUserInfo(), api.getInitialPlaces()])
-	.then(([userData, initialItems]) => {
-		const currentUserId = userData._id;
-		userDataObject.setUserInfo(userData); // устанавливаем данные профиля
-		cardSection.renderItems(initialItems, currentUserId); // рендерим карточки
-	})
-	.catch(err => console.log(err));
 
 // находим кнопки открытия попапов с формами
 const buttonOpenPopupAvatarChange = userInfo.querySelector('.profile__button-edit_el_avatar');
@@ -104,6 +98,10 @@ popups.forEach(popup => {
 	});
 });
 
+//запускаем валидацию для каждой формы на странице
+formAvatarChangeValidator.enableValidation();
+formProfileEditValidator.enableValidation();
+formPlaceAddValidator.enableValidation();
 
 // обработчик отправки формы обновления аватара
 formAvatarChange.addEventListener('submit', submitFormAvatarChange);
@@ -114,5 +112,3 @@ formProfileEdit.addEventListener('submit', submitFormProfileEdit);
 // обработчик отправки формы добавления нового элемента в галерею
 formPlaceAdd.addEventListener('submit', submitFormPlaceAdd);
 
-// запускаем валидацию форм на странице
-enableValidation(formConfig);
