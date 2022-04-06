@@ -35,6 +35,10 @@ export const api = new Api(configApi);
 
 const userDataObject = new UserInfo(userName, userBio, avatar);
 
+const cardSection = new Section({
+	renderer: (item, currentUserId) => cardSection.setItem(createNewCard(item, currentUserId))
+}, '.gallery');
+
 const handleLikeToggle = (card) => {
 	if (card.getLikeStatus()) {
 		api.deleteLikeAtPlace(card._id)
@@ -52,19 +56,20 @@ const handleLikeToggle = (card) => {
 }
 
 const createNewCard = (item, currentUserId) => {
-	const card = new Card(item, handleLikeToggle, '#place-template');
-	const element = card.createCard(currentUserId);
-	return element;
+	const cardObject = new Card(item, handleLikeToggle, '#place-template');
+	const cardElement = cardObject.createCard(currentUserId);
+	
+	return cardElement;
 }
 
-const renderInitialItems = (initialItems, currentUserId) => {
+/*const renderInitialItems = (currentUserId) => {
 	const section = new Section({
 		items: initialItems,
 		renderer: (item) => section.setItem(createNewCard(item, currentUserId))
 	}, '.gallery');
 
 	section.renderItems();
-}
+}*/
 
 
 // получаем и присваиваем данные профиля и рендерим начальные карточки
@@ -72,7 +77,7 @@ Promise.all([api.getUserInfo(), api.getInitialPlaces()])
 	.then(([userData, initialItems]) => {
 		const currentUserId = userData._id;
 		userDataObject.setUserInfo(userData); // устанавливаем данные профиля
-		renderInitialItems(initialItems, currentUserId); // рендерим карточки
+		cardSection.renderItems(initialItems, currentUserId); // рендерим карточки
 	})
 	.catch(err => console.log(err));
 
