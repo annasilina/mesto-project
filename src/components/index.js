@@ -62,16 +62,6 @@ const createNewCard = (item, currentUserId) => {
 	return cardElement;
 }
 
-/*const renderInitialItems = (currentUserId) => {
-	const section = new Section({
-		items: initialItems,
-		renderer: (item) => section.setItem(createNewCard(item, currentUserId))
-	}, '.gallery');
-
-	section.renderItems();
-}*/
-
-
 // получаем и присваиваем данные профиля и рендерим начальные карточки
 Promise.all([api.getUserInfo(), api.getInitialPlaces()])
 	.then(([userData, initialItems]) => {
