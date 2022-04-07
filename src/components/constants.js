@@ -27,9 +27,6 @@ const buttonOpenPopupAvatarChange = userInfo.querySelector('.profile__button-edi
 const buttonOpenPopupProfileEdit = userInfo.querySelector('.profile__button-edit_el_info');
 const buttonOpenPopupPlaceAdd = userInfo.querySelector('.profile__button-add');
 
-//находим все попапы
-const popups = document.querySelectorAll('.popup');
-
 // находим попап и форму редактирования аватара, в ней - поле ввода для ссылки на картинку
 const popupAvatarChange = document.querySelector('.popup_type_avatar-change');
 const formAvatarChange = popupAvatarChange.querySelector('.popup__form');

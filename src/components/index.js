@@ -121,7 +121,10 @@ const popupPlaceShow = new PopupWithImage({
 	popupSelector: '.popup_type_place-show',
 });
 
-
+popupNewPlace.setEventListeners();
+popupProfileEdit.setEventListeners();
+popupAvatarEdit.setEventListeners();
+popupPlaceShow.setEventListeners();
 
 // обработчик отправки формы обновления аватара
 formAvatarChange.addEventListener('submit', submitFormAvatarChange);

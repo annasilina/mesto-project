@@ -131,7 +131,6 @@ function submitFormPlaceAdd(evt) {
 }
 
 export {
-	closePopup,
 	openPopupAvatarChange,
 	openPopupProfileEdit,
 	openPopupPlaceAdd,
