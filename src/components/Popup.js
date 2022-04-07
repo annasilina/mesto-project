@@ -1,15 +1,15 @@
 export default class Popup {
     constructor(popupSelector) {
-        this._selector = document.querySelector(popupSelector);
+        this._popup = document.querySelector(popupSelector);
     }
 
     open() {
-        this._selector.classList.add('popup_opened');
+        this._popup.classList.add('popup_opened');
         document.addEventListener('keyup', this._handleEscClose.bind(this));
     }
 
     close() {
-        this._selector.classList.remove('popup_opened');
+        this._popup.classList.remove('popup_opened');
         document.removeEventListener('keyup', this._handleEscClose.bind(this));
     }
 
@@ -20,7 +20,7 @@ export default class Popup {
     }
 
     setEventListeners() {
-        this._selector.addEventListener('click', (evt) => {
+        this._popup.addEventListener('click', (evt) => {
             if (evt.target.classList.contains('popup_opened')) { //оверлей
                 this.close();
             }

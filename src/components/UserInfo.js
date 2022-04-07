@@ -5,8 +5,12 @@ export default class UserInfo{
 		this._avatar = avatar;
 	}
 
+	getUserInfo() {
+
+	}
 // функция установки данных профиля
 	setUserInfo(userData) {
+
 		this._userName.textContent = userData.name;
 		this._userBio.textContent = userData.about;
 		this._avatar.src = userData.avatar;

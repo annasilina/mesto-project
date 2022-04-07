@@ -114,21 +114,7 @@ function submitFormProfileEdit(evt) {
 		.finally(() => formProfileEditValidator.dataLoading(false));
 }
 
-// функция отправки данных из формы с добавлением нового элемента в галерею
-function submitFormPlaceAdd(evt) {
-	evt.preventDefault();
 
-	formPlaceAddValidator.dataLoading(true);
-	api.sendNewCard(placeNameInput.value, placeLinkInput.value)
-		.then((placeData) => {
-			const currentUserId = placeData.owner._id;
-
-			cardSection.addItem(createNewCard(placeData, currentUserId));
-			closePopup(popupPlaceAdd);
-		})
-		.catch(err => console.log(err))
-		.finally(() => formPlaceAddValidator.dataLoading(false));
-}
 
 export {
 	openPopupAvatarChange,
@@ -136,5 +122,4 @@ export {
 	openPopupPlaceAdd,
 	submitFormProfileEdit,
 	submitFormAvatarChange,
-	submitFormPlaceAdd
 }

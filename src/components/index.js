@@ -21,7 +21,7 @@ import {
 	formPlaceAdd,
 	buttonOpenPopupAvatarChange,
 	buttonOpenPopupProfileEdit,
-	buttonOpenPopupPlaceAdd,
+	buttonOpenPopupPlaceAdd, placeNameInput, placeLinkInput, popupPlaceAdd, userNameInput, userBioInput,
 } from './constants.js';
 import PopupWithForm from './PopupWithForm';
 import  PopupWithImage from './PopupWithImage'
@@ -105,25 +105,45 @@ buttonOpenPopupAvatarChange.addEventListener('click', () => {
 })
 
 // создаем обьект с селектором для попапов
-const popupNewPlace = new PopupWithForm({
-	popupSelector: '.popup_type_place-add',
+const popupNewPlace = new PopupWithForm(
+	'.popup_type_place-add',
+	{handleSubmitForm: (cardData) => {
+		formPlaceAddValidator.dataLoading(true);
+		api.sendNewCard(cardData.placeName, cardData.placeLink)
+			.then((cardData) => {
+				const currentUserId = cardData.owner._id;
+
+				cardSection.addItem(createNewCard(cardData, currentUserId));
+				popupNewPlace.close();
+			})
+			.catch(err => console.log(err))
+			.finally(() => formPlaceAddValidator.dataLoading(false));
+		}
 });
 
-const popupProfileEdit = new PopupWithForm({
-	popupSelector: '.popup_type_profile-edit',
-});
+/*const popupProfileEdit = new PopupWithForm(
+	'.popup_type_profile-edit',
+	{handleSubmitForm: (userData) => {
+		formProfileEditValidator.dataLoading(true);
+			api.sendUserInfo(userNameInput.value, userBioInput.value)
+				.then(() => {
+					userName.textContent = userNameInput.value;
+					userBio.textContent = userBioInput.value;
 
-const popupAvatarEdit = new PopupWithForm({
-	popupSelector: '.popup_type_avatar-change',
-});
+					closePopup(popupProfileEdit);
+				})
+				.catch(err => console.log(err))
+				.finally(() => formProfileEditValidator.dataLoading(false));
+		}
+	});
 
-const popupPlaceShow = new PopupWithImage({
-	popupSelector: '.popup_type_place-show',
-});
+const popupAvatarEdit = new PopupWithForm('.popup_type_avatar-change');*/
+
+const popupPlaceShow = new PopupWithImage('.popup_type_place-show');
 
 popupNewPlace.setEventListeners();
-popupProfileEdit.setEventListeners();
-popupAvatarEdit.setEventListeners();
+/*popupProfileEdit.setEventListeners();
+popupAvatarEdit.setEventListeners();*/
 popupPlaceShow.setEventListeners();
 
 // обработчик отправки формы обновления аватара
@@ -131,7 +151,4 @@ formAvatarChange.addEventListener('submit', submitFormAvatarChange);
 
 // обработчик отправки формы редактирования профиля
 formProfileEdit.addEventListener('submit', submitFormProfileEdit);
-
-// обработчик отправки формы добавления нового элемента в галерею
-formPlaceAdd.addEventListener('submit', submitFormPlaceAdd);
 
