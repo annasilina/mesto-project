@@ -1,12 +1,17 @@
 export default class UserInfo{
 	constructor(name, bio, avatar){
-		this._userName = name;
-		this._userBio = bio;
+		this._name = name;
+		this._bio = bio;
 		this._avatar = avatar;
 	}
 
 	getUserInfo() {
-
+		const currentProfileData = {
+			userName: this._name.textContent,
+			userBio: this._bio.textContent,
+			avatarLink: this._avatar.src,
+		};
+		return currentProfileData;
 	}
 // функция установки данных профиля
 	setUserInfo(userData) {

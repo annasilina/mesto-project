@@ -15,7 +15,7 @@ import {
 	formPlaceAdd,
 	buttonOpenPopupAvatarChange,
 	buttonOpenPopupProfileEdit,
-	buttonOpenPopupPlaceAdd, placeNameInput, placeLinkInput, popupPlaceAdd, userNameInput, userBioInput,
+	buttonOpenPopupPlaceAdd,
 } from './constants.js';
 import PopupWithForm from './PopupWithForm';
 import  PopupWithImage from './PopupWithImage'
@@ -115,6 +115,7 @@ const popupNewPlace = new PopupWithForm(
 		}
 });
 
+
 const popupProfileEdit = new PopupWithForm(
 	'.popup_type_profile-edit',
 	{handleSubmitForm: (newInfo) => {
@@ -129,7 +130,21 @@ const popupProfileEdit = new PopupWithForm(
 		}
 	});
 
-const popupAvatarEdit = new PopupWithForm('.popup_type_avatar-change');*/
+const popupAvatarEdit = new PopupWithForm(
+	'.popup_type_avatar-change',
+	{handleSubmitForm: (newImage) => {
+		formAvatarChangeValidator.dataLoading(true);
+		api.sendAvatar(newImage.avatarLink)
+			.then((newImage) => {
+				// avatar.src = avatarInput.value;
+
+				userDataObject.setUserInfo(newImage)
+				popupAvatarEdit.close();
+				})
+				.catch(err => console.log(err))
+				.finally(() => formAvatarChangeValidator.dataLoading(false));
+		}
+	});
 
 const popupPlaceShow = new PopupWithImage('.popup_type_place-show');
 
