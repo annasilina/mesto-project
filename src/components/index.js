@@ -5,14 +5,8 @@ import Section from './Section.js';
 import UserInfo from "./UserInfo.js";
 import FormValidator from './FormValidator.js';
 import {
-	submitFormAvatarChange,
-	submitFormPlaceAdd,
-	submitFormProfileEdit,
-} from './modal.js';
-import {
 	formConfig,
 	apiConfig,
-	/*userInfo,*/
 	avatar,
 	userBio,
 	userName,
@@ -94,8 +88,8 @@ buttonOpenPopupPlaceAdd.addEventListener('click', () => {
 
 buttonOpenPopupProfileEdit.addEventListener('click', () => {
 	formProfileEditValidator.resetFormData();
+	popupProfileEdit.open(userDataObject.getUserInfo());
 	formProfileEditValidator.setButtonState();
-	popupProfileEdit.open();
 });
 
 buttonOpenPopupAvatarChange.addEventListener('click', () => {
@@ -121,19 +115,17 @@ const popupNewPlace = new PopupWithForm(
 		}
 });
 
-/*const popupProfileEdit = new PopupWithForm(
+const popupProfileEdit = new PopupWithForm(
 	'.popup_type_profile-edit',
-	{handleSubmitForm: (userData) => {
+	{handleSubmitForm: (newInfo) => {
 		formProfileEditValidator.dataLoading(true);
-			api.sendUserInfo(userNameInput.value, userBioInput.value)
-				.then(() => {
-					userName.textContent = userNameInput.value;
-					userBio.textContent = userBioInput.value;
-
-					closePopup(popupProfileEdit);
-				})
-				.catch(err => console.log(err))
-				.finally(() => formProfileEditValidator.dataLoading(false));
+		api.sendUserInfo(newInfo.userName, newInfo.userBio)
+			.then((userInfo) => {
+				userDataObject.setUserInfo(userInfo);
+				popupProfileEdit.close();
+			})
+			.catch(err => console.log(err))
+			.finally(() => formProfileEditValidator.dataLoading(false));
 		}
 	});
 
@@ -142,13 +134,7 @@ const popupAvatarEdit = new PopupWithForm('.popup_type_avatar-change');*/
 const popupPlaceShow = new PopupWithImage('.popup_type_place-show');
 
 popupNewPlace.setEventListeners();
-/*popupProfileEdit.setEventListeners();
-popupAvatarEdit.setEventListeners();*/
+popupProfileEdit.setEventListeners();
+popupAvatarEdit.setEventListeners();
 popupPlaceShow.setEventListeners();
-
-// обработчик отправки формы обновления аватара
-formAvatarChange.addEventListener('submit', submitFormAvatarChange);
-
-// обработчик отправки формы редактирования профиля
-formProfileEdit.addEventListener('submit', submitFormProfileEdit);
 
