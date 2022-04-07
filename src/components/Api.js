@@ -86,14 +86,3 @@ export default class Api {
 		}).then((res) => this._checkResponse(res))
 	}
 }
-
-// export {
-// 	getInitialPlaces,
-// 	getUserInfo,
-// 	sendNewCard,
-// 	sendAvatar,
-// 	sendUserInfo,
-// 	removePlace,
-// 	putLikeAtPlace,
-// 	deleteLikeAtPlace
-// }

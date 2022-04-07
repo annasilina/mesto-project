@@ -1,6 +1,3 @@
-/*import {openPopupPlaceShow} from './modal.js';*/
-/*import {api} from "./index";*/
-
 export default class Card {
 	constructor(cardData, handleLikeToggle, /*handlePlaceDelete,*/ handleCardClick, selector) {
 		this._id = cardData._id;

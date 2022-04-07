@@ -138,7 +138,7 @@ const popupAvatarEdit = new PopupWithForm(
 			.then((newImage) => {
 				// avatar.src = avatarInput.value;
 
-				userDataObject.setUserInfo(newImage)
+				userDataObject.setUserInfo(newImage);
 				popupAvatarEdit.close();
 				})
 				.catch(err => console.log(err))
