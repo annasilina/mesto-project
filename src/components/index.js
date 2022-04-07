@@ -5,10 +5,6 @@ import Section from './Section.js';
 import UserInfo from "./UserInfo.js";
 import FormValidator from './FormValidator.js';
 import {
-	closePopup,
-	/*openPopupAvatarChange,
-	openPopupPlaceAdd,
-	openPopupProfileEdit,*/
 	submitFormAvatarChange,
 	submitFormPlaceAdd,
 	submitFormProfileEdit,
@@ -20,7 +16,6 @@ import {
 	avatar,
 	userBio,
 	userName,
-	popups,
 	formAvatarChange,
 	formProfileEdit,
 	formPlaceAdd,
@@ -85,15 +80,10 @@ const handleLikeToggle = (card) => {
 	}
 }
 
-// give information for popup full size
-const clickCard = (name, link) => {
+// функция открытия попапа с картинкой
+const handleCardClick = (name, link) => {
 	popupPlaceShow.open(name, link);
 }
-// get information for popup full size from object class Card
-const handleCardClick = (fullImage) => {
-	clickCard(fullImage._name, fullImage._link);
-}
-
 
 // слушаем кнопки открытия попапов с формами
 buttonOpenPopupPlaceAdd.addEventListener('click', () => {
@@ -131,35 +121,6 @@ const popupPlaceShow = new PopupWithImage({
 	popupSelector: '.popup_type_place-show',
 });
 
-
-
-
-
-
-
-
-
-
-// находим кнопки открытия попапов с формами
-// todo константы кнопок перенёс в ф-л константы
-// const buttonOpenPopupAvatarChange = userInfo.querySelector('.profile__button-edit_el_avatar');
-// const buttonOpenPopupProfileEdit = userInfo.querySelector('.profile__button-edit_el_info');
-// const buttonOpenPopupPlaceAdd = userInfo.querySelector('.profile__button-add');
-
-
-
-//вешаем обработчик на клики по кнопке закрытия попапа и оверлей для каждого попапа
-popups.forEach(popup => {
-	popup.addEventListener('click', (evt) => {
-		if (evt.target.classList.contains('popup_opened')) { //оверлей
-			closePopup(popup);
-		}
-
-		if (evt.target.classList.contains('popup__button-close')) { //попап
-			closePopup(popup);
-		}
-	});
-});
 
 
 // обработчик отправки формы обновления аватара

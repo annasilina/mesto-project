@@ -2,7 +2,7 @@
 /*import {api} from "./index";*/
 
 export default class Card {
-	constructor(cardData, handleLikeToggle, /*handlePlaceDelete,*/ openPopupPlaceShow, selector) {
+	constructor(cardData, handleLikeToggle, /*handlePlaceDelete,*/ handleCardClick, selector) {
 		this._id = cardData._id;
 		this._name = cardData.name;
 		this._link = cardData.link;
@@ -11,7 +11,7 @@ export default class Card {
 		this._selector = selector;
 		this._handleLikeToggle = handleLikeToggle;
 		/*this._handlePlaceDelete = handlePlaceDelete;*/
-		this._openPopupPlaceShow = openPopupPlaceShow;
+		this._handleCardClick = handleCardClick;
 	}
 
 	_getElement = () => {
@@ -41,7 +41,7 @@ export default class Card {
 		});
 		// add listener for open popup full size
 		this._cardPhoto.addEventListener('click', () =>{
-			this._openPopupPlaceShow(this);
+			this._handleCardClick(this._name, this._link);
 		})
 		/*this._cardButtonDelete.addEventListener('click', () => {this._handlePlaceDelete()});
 		this._cardPhoto.addEventListener('click', () => {this._openPopupPlaceShow()});*/

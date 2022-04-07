@@ -12,8 +12,10 @@ export default class Popup {
         this.selector.classList.remove('popup_opened');
     }
 
-    _handleEscClose() {
-
+    _handleEscClose(evt) {
+        if (evt.key === 'Escape') {
+            this.close();
+        }
     }
 
     setEventListeners() {
@@ -21,3 +23,4 @@ export default class Popup {
     }
     return
 }
+
