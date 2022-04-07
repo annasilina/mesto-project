@@ -42,6 +42,11 @@ export const formAvatarChangeValidator = new FormValidator(formConfig, formAvata
 export const formProfileEditValidator = new FormValidator(formConfig, formProfileEdit);
 export const formPlaceAddValidator = new FormValidator(formConfig, formPlaceAdd);
 
+//запускаем валидацию для каждой формы на странице
+formAvatarChangeValidator.enableValidation();
+formProfileEditValidator.enableValidation();
+formPlaceAddValidator.enableValidation();
+
 // создаем объект для отрисовки секции с карточками (галереи)
 export const cardSection = new Section({
 	renderer: (item, currentUserId) => cardSection.setItem(createNewCard(item, currentUserId))
@@ -92,14 +97,20 @@ const handleCardClick = (fullImage) => {
 
 // слушаем кнопки открытия попапов с формами
 buttonOpenPopupPlaceAdd.addEventListener('click', () => {
-	popupNewPlace.open()
+	formPlaceAddValidator.resetFormData();
+	formPlaceAddValidator.setButtonState();
+	popupNewPlace.open();
 });
 
 buttonOpenPopupProfileEdit.addEventListener('click', () => {
+	formProfileEditValidator.resetFormData();
+	formProfileEditValidator.setButtonState();
 	popupProfileEdit.open();
 });
 
 buttonOpenPopupAvatarChange.addEventListener('click', () => {
+	formAvatarChangeValidator.resetFormData();
+	formAvatarChangeValidator.setButtonState();
 	popupAvatarEdit.open();
 })
 
@@ -150,10 +161,6 @@ popups.forEach(popup => {
 	});
 });
 
-//запускаем валидацию для каждой формы на странице
-formAvatarChangeValidator.enableValidation();
-formProfileEditValidator.enableValidation();
-formPlaceAddValidator.enableValidation();
 
 // обработчик отправки формы обновления аватара
 formAvatarChange.addEventListener('submit', submitFormAvatarChange);
