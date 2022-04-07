@@ -24,7 +24,12 @@ import {
 	formAvatarChange,
 	formProfileEdit,
 	formPlaceAdd,
+	buttonOpenPopupAvatarChange,
+	buttonOpenPopupProfileEdit,
+	buttonOpenPopupPlaceAdd,
 } from './constants.js';
+import PopupWithForm from './PopupWithForm';
+import  PopupWithImage from './PopupWithImage'
 
 // создаем объект с запросами к серверу
 export const api = new Api(apiConfig);
@@ -75,15 +80,62 @@ const handleLikeToggle = (card) => {
 	}
 }
 
-// находим кнопки открытия попапов с формами
-const buttonOpenPopupAvatarChange = userInfo.querySelector('.profile__button-edit_el_avatar');
-const buttonOpenPopupProfileEdit = userInfo.querySelector('.profile__button-edit_el_info');
-const buttonOpenPopupPlaceAdd = userInfo.querySelector('.profile__button-add');
+// give information for popup full size
+const clickCard = (name, link) => {
+	popupPlaceShow.open(name, link);
+}
+// get information for popup full size from object class Card
+const handleCardClick = (fullImage) => {
+	clickCard(fullImage._name, fullImage._link);
+}
+
 
 // слушаем кнопки открытия попапов с формами
-buttonOpenPopupProfileEdit.addEventListener('click', openPopupProfileEdit);
-buttonOpenPopupPlaceAdd.addEventListener('click', openPopupPlaceAdd);
-buttonOpenPopupAvatarChange.addEventListener('click', openPopupAvatarChange)
+buttonOpenPopupPlaceAdd.addEventListener('click', () => {
+	popupNewPlace.open()
+});
+
+buttonOpenPopupProfileEdit.addEventListener('click', () => {
+	popupProfileEdit.open();
+});
+
+buttonOpenPopupAvatarChange.addEventListener('click', () => {
+	popupAvatarEdit.open();
+})
+
+// создаем обьект с селектором для попапов
+const popupNewPlace = new PopupWithForm({
+	popupSelector: '.popup_type_place-add',
+});
+
+const popupProfileEdit = new PopupWithForm({
+	popupSelector: '.popup_type_profile-edit',
+});
+
+const popupAvatarEdit = new PopupWithForm({
+	popupSelector: '.popup_type_avatar-change',
+});
+
+const popupPlaceShow = new PopupWithImage({
+	popupSelector: '.popup_type_place-show',
+});
+
+
+
+
+
+
+
+
+
+
+// находим кнопки открытия попапов с формами
+// todo константы кнопок перенёс в ф-л константы
+// const buttonOpenPopupAvatarChange = userInfo.querySelector('.profile__button-edit_el_avatar');
+// const buttonOpenPopupProfileEdit = userInfo.querySelector('.profile__button-edit_el_info');
+// const buttonOpenPopupPlaceAdd = userInfo.querySelector('.profile__button-add');
+
+
 
 //вешаем обработчик на клики по кнопке закрытия попапа и оверлей для каждого попапа
 popups.forEach(popup => {

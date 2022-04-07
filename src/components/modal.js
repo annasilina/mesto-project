@@ -75,15 +75,7 @@ function openPopupPlaceAdd() {
 }
 
 // функция открытия попапа просмотра фотографий карточки места
-function openPopupPlaceShow(photo, caption) {
-	photo.addEventListener('click', () => {
-		placePhoto.src = photo.src;
-		placePhoto.alt = photo.alt;
-		placeCaption.textContent = caption.textContent;
 
-		openPopup(popupPlaceShow);
-	});
-}
 
 // функция отправки данных из формы обновления аватара
 function submitFormAvatarChange(evt) {
@@ -137,7 +129,7 @@ export {
 	openPopupAvatarChange,
 	openPopupProfileEdit,
 	openPopupPlaceAdd,
-	openPopupPlaceShow,
+	// openPopupPlaceShow,
 	submitFormProfileEdit,
 	submitFormAvatarChange,
 	submitFormPlaceAdd

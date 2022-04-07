@@ -22,6 +22,11 @@ const userName = userInfo.querySelector('.profile__user-name');
 const userBio = userInfo.querySelector('.profile__user-bio');
 const avatar = userInfo.querySelector('.profile__photo');
 
+// находим кнопки открытия попапов с формами - перенес!!!
+const buttonOpenPopupAvatarChange = userInfo.querySelector('.profile__button-edit_el_avatar');
+const buttonOpenPopupProfileEdit = userInfo.querySelector('.profile__button-edit_el_info');
+const buttonOpenPopupPlaceAdd = userInfo.querySelector('.profile__button-add');
+
 //находим все попапы
 const popups = document.querySelectorAll('.popup');
 
@@ -68,5 +73,8 @@ export {
 	placeNameInput,
 	popupPlaceShow,
 	placePhoto,
-	placeCaption
+	placeCaption,
+	buttonOpenPopupAvatarChange,
+	buttonOpenPopupProfileEdit,
+	buttonOpenPopupPlaceAdd
 }
