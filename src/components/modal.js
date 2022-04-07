@@ -135,7 +135,6 @@ export {
 	openPopupAvatarChange,
 	openPopupProfileEdit,
 	openPopupPlaceAdd,
-	// openPopupPlaceShow,
 	submitFormProfileEdit,
 	submitFormAvatarChange,
 	submitFormPlaceAdd

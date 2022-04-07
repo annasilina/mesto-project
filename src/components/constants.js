@@ -59,7 +59,6 @@ export {
 	avatar,
 	userBio,
 	userName,
-	popups,
 	popupAvatarChange,
 	formAvatarChange,
 	avatarInput,
