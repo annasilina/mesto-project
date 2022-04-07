@@ -1,8 +1,14 @@
 import {
-	avatar, avatarInput, placeCaption, placeLinkInput, placeNameInput,
-	placePhoto,
+	avatar,
+	avatarInput,
+	/*placeCaption,*/
+	placeLinkInput,
+	placeNameInput,
+	/*placePhoto,*/
 	popupAvatarChange,
-	popupPlaceAdd, popupPlaceShow, popupProfileEdit,
+	popupPlaceAdd,
+	/*popupPlaceShow,*/
+	popupProfileEdit,
 	userBio,
 	userBioInput,
 	userName,

@@ -6,9 +6,9 @@ import UserInfo from "./UserInfo.js";
 import FormValidator from './FormValidator.js';
 import {
 	closePopup,
-	openPopupAvatarChange,
+	/*openPopupAvatarChange,
 	openPopupPlaceAdd,
-	openPopupProfileEdit,
+	openPopupProfileEdit,*/
 	submitFormAvatarChange,
 	submitFormPlaceAdd,
 	submitFormProfileEdit,
@@ -16,7 +16,7 @@ import {
 import {
 	formConfig,
 	apiConfig,
-	userInfo,
+	/*userInfo,*/
 	avatar,
 	userBio,
 	userName,
@@ -58,7 +58,7 @@ Promise.all([api.getUserInfo(), api.getInitialPlaces()])
 
 // функция создания нового элемента карточки
 export const createNewCard = (item, currentUserId) => {
-	const cardObject = new Card(item, handleLikeToggle, '#place-template');
+	const cardObject = new Card(item, handleLikeToggle, handleCardClick, '#place-template');
 	const cardElement = cardObject.createCard(currentUserId);
 
 	return cardElement;
