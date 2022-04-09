@@ -6,14 +6,14 @@ export default class UserInfo{
 	}
 
 	getUserInfo() {
-		const currentProfileData = {
+		const currentUserInfo = {
 			userName: this._name.textContent,
 			userBio: this._bio.textContent,
 			avatarLink: this._avatar.src,
 		};
-		return currentProfileData;
+		return currentUserInfo;
 	}
-// функция установки данных профиля
+
 	setUserInfo(userData) {
 		this._name.textContent = userData.name;
 		this._bio.textContent = userData.about;

@@ -81,14 +81,4 @@ export default class FormValidator {
 		this._formElement.reset();
 		this._resetAllErrors();
 	}
-
-	dataLoading(isLoading) {
-		if (isLoading) {
-			this._buttonSubmit.disabled = true;
-			this._buttonSubmit.textContent = 'Сохранение...';
-		} else {
-			this._buttonSubmit.disabled = false;
-			this._buttonSubmit.textContent = 'Сохранить';
-		}
-	}
 }

@@ -17,6 +17,7 @@ const apiConfig = {
 	}
 }
 
+// находим профиль и его элементы (имя, подпись, аватар)
 const userInfo = document.querySelector('.profile');
 const userName = userInfo.querySelector('.profile__user-name');
 const userBio = userInfo.querySelector('.profile__user-bio');
