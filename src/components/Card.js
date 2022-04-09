@@ -1,5 +1,5 @@
 export default class Card {
-	constructor(cardData, handleLikeToggle, /*handlePlaceDelete,*/ handleCardClick, selector) {
+	constructor(cardData, handleLikeToggle, handleCardClick, handleCardDelete, selector) {
 		this._id = cardData._id;
 		this._name = cardData.name;
 		this._link = cardData.link;
@@ -7,8 +7,8 @@ export default class Card {
 		this._likes = cardData.likes;
 		this._selector = selector;
 		this._handleLikeToggle = handleLikeToggle;
-		/*this._handlePlaceDelete = handlePlaceDelete;*/
 		this._handleCardClick = handleCardClick;
+		this._handleCardDelete = handleCardDelete;
 	}
 
 	_getElement = () => {
@@ -37,11 +37,12 @@ export default class Card {
 			this._handleLikeToggle(this);
 		});
 		// add listener for open popup full size
-		this._cardPhoto.addEventListener('click', () =>{
+		this._cardPhoto.addEventListener('click', () => {
 			this._handleCardClick(this._name, this._link);
 		})
-		/*this._cardButtonDelete.addEventListener('click', () => {this._handlePlaceDelete()});
-		this._cardPhoto.addEventListener('click', () => {this._openPopupPlaceShow()});*/
+		this._cardButtonDelete.addEventListener('click', () => {
+			this._handleCardDelete(this, this._cardButtonDelete);
+		});
 	}
 
 	createCard = (currentUserId) => {
@@ -76,13 +77,3 @@ export default class Card {
 	}
 }
 
-// функция для удаления элемента галереи по кнопке удаления
-/*function handlePlaceDelete(buttonDelete, placeData) {
-	buttonDelete.addEventListener('click', function (evt) {
-		api.removePlace(placeData['_id'])
-			.then(() => {
-				evt.target.parentElement.remove();
-			})
-			.catch((err) => console.log(err));
-	});
-}*/

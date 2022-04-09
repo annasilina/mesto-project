@@ -21,7 +21,7 @@ export default class Api {
 	}
 
 	// функция получения первичных карточек с сервера
-	getInitialPlaces = () => {
+	getInitialCards = () => {
 		return fetch(`${this._url}/cards`, {
 			headers: this._headers
 		}).then((res) => this._checkResponse(res));
@@ -63,24 +63,24 @@ export default class Api {
 	}
 
 	// функция удаления данных карточки с сервера
-	removePlace = (placeId) => {
-		return fetch(`${this._url}/cards/${placeId}`, {
+	removeCard = (cardId) => {
+		return fetch(`${this._url}/cards/${cardId}`, {
 			method: 'DELETE',
 			headers: this._headers
 		}).then((res) => this._checkResponse(res));
 	}
 
 	// функция отправки данных для нового лайка на сервер
-	putLikeAtPlace = (placeId) => {
-		return fetch(`${this._url}/cards/likes/${placeId}`, {
+	putLikeAtCard = (cardId) => {
+		return fetch(`${this._url}/cards/likes/${cardId}`, {
 			method: 'PUT',
 			headers: this._headers
 		}).then((res) => this._checkResponse(res));
 	}
 
 	// функция удаления данных лайка с сервера
-	deleteLikeAtPlace = (placeId) => {
-		return fetch(`${this._url}/cards/likes/${placeId}`, {
+	deleteLikeAtCard = (cardId) => {
+		return fetch(`${this._url}/cards/likes/${cardId}`, {
 			method: 'DELETE',
 			headers: this._headers
 		}).then((res) => this._checkResponse(res))

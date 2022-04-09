@@ -42,7 +42,7 @@ export const cardSection = new Section({
 }, '.gallery');
 
 // получаем и присваиваем данные профиля и рендерим начальные карточки
-Promise.all([api.getUserInfo(), api.getInitialPlaces()])
+Promise.all([api.getUserInfo(), api.getInitialCards()])
 	.then(([userData, initialItems]) => {
 		const currentUserId = userData._id;
 		userDataObject.setUserInfo(userData); // устанавливаем данные профиля
@@ -52,7 +52,7 @@ Promise.all([api.getUserInfo(), api.getInitialPlaces()])
 
 // функция создания нового элемента карточки
 export const createNewCard = (item, currentUserId) => {
-	const cardObject = new Card(item, handleLikeToggle, handleCardClick, '#place-template');
+	const cardObject = new Card(item, handleLikeToggle, handleCardClick, handleCardDelete, '#place-template');
 	const cardElement = cardObject.createCard(currentUserId);
 
 	return cardElement;
@@ -60,13 +60,13 @@ export const createNewCard = (item, currentUserId) => {
 // функция отработки постановки/снятия лайка
 const handleLikeToggle = (card) => {
 	if (card.getLikeStatus()) {
-		api.deleteLikeAtPlace(card._id)
+		api.deleteLikeAtCard(card._id)
 			.then((newCardData) => {
 				card.renderLikes(newCardData);
 			})
 			.catch(err => console.log(err));
 	} else {
-		api.putLikeAtPlace(card._id)
+		api.putLikeAtCard(card._id)
 			.then((newCardData) => {
 				card.renderLikes(newCardData);
 			})
@@ -78,6 +78,16 @@ const handleLikeToggle = (card) => {
 const handleCardClick = (name, link) => {
 	popupPlaceShow.open(name, link);
 }
+
+// функция для удаления элемента галереи по кнопке удаления
+const handleCardDelete = (card, buttonElement)  => {
+		api.removeCard(card._id)
+			.then(() => {
+				buttonElement.parentElement.remove();
+			})
+			.catch((err) => console.log(err));
+	}
+
 
 // слушаем кнопки открытия попапов с формами
 buttonOpenPopupPlaceAdd.addEventListener('click', () => {
