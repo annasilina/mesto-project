@@ -33,10 +33,9 @@ export default class PopupWithForm extends Popup {
             this._handleSubmitForm(this._getInputValues());
             }
         );
-
     }
 
-    dataLoading(isLoading, text) {
+    loadingData(isLoading, text) {
         if (isLoading) {
             this._buttonSubmit.disabled = true;
             this._buttonSubmit.textContent = text;

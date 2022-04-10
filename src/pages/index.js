@@ -1,11 +1,11 @@
-import '../pages/index.css';
-import Api from './Api.js';
-import Card from './Card.js';
-import Section from './Section.js';
-import UserInfo from "./UserInfo.js";
-import FormValidator from './FormValidator.js';
-import PopupWithForm from './PopupWithForm';
-import  PopupWithImage from './PopupWithImage'
+import './index.css';
+import Api from '../components/Api.js';
+import Card from '../components/Card.js';
+import Section from '../components/Section.js';
+import UserInfo from "../components/UserInfo.js";
+import FormValidator from '../components/FormValidator.js';
+import PopupWithForm from '../components/PopupWithForm';
+import  PopupWithImage from '../components/PopupWithImage'
 import {
 	formConfig,
 	apiConfig,
@@ -18,7 +18,7 @@ import {
 	buttonOpenPopupAvatarChange,
 	buttonOpenPopupProfileEdit,
 	buttonOpenPopupPlaceAdd,
-} from './constants.js';
+} from '../utils/constants.js';
 
 // переменные для отработки удаления карточки
 let buttonDelete;
@@ -39,7 +39,7 @@ const cardSection = new Section({
 const popupNewPlace = new PopupWithForm(
 	'.popup_type_place-add',
 	{handleSubmitForm: (cardData) => {
-			popupNewPlace.dataLoading(true, 'Сохранение...');
+			popupNewPlace.loadingData(true, 'Сохранение...');
 			api.sendNewCard(cardData.placeName, cardData.placeLink)
 				.then((cardData) => {
 					const currentUserId = cardData.owner._id;
@@ -48,7 +48,7 @@ const popupNewPlace = new PopupWithForm(
 					popupNewPlace.close();
 				})
 				.catch(err => console.log(err))
-				.finally(() => popupNewPlace.dataLoading(false, 'Создать'));
+				.finally(() => popupNewPlace.loadingData(false, 'Создать'));
 		}
 	});
 
@@ -56,14 +56,14 @@ const popupNewPlace = new PopupWithForm(
 const popupProfileEdit = new PopupWithForm(
 	'.popup_type_profile-edit',
 	{handleSubmitForm: (newInfo) => {
-			popupProfileEdit.dataLoading(true, 'Cохранение...');
+			popupProfileEdit.loadingData(true, 'Cохранение...');
 			api.sendUserInfo(newInfo.userName, newInfo.userBio)
 				.then((userInfo) => {
 					userDataObject.setUserInfo(userInfo);
 					popupProfileEdit.close();
 				})
 				.catch(err => console.log(err))
-				.finally(() => popupProfileEdit.dataLoading(false, 'Сохранить'));
+				.finally(() => popupProfileEdit.loadingData(false, 'Сохранить'));
 		}
 	});
 
@@ -71,7 +71,7 @@ const popupProfileEdit = new PopupWithForm(
 const popupAvatarEdit = new PopupWithForm(
 	'.popup_type_avatar-change',
 	{handleSubmitForm: (newImage) => {
-			popupAvatarEdit.dataLoading(true, 'Cохранение...');
+			popupAvatarEdit.loadingData(true, 'Cохранение...');
 			api.sendAvatar(newImage.avatarLink)
 				.then((newImage) => {
 					// avatar.src = avatarInput.value;
@@ -80,21 +80,21 @@ const popupAvatarEdit = new PopupWithForm(
 					popupAvatarEdit.close();
 				})
 				.catch(err => console.log(err))
-				.finally(() => popupAvatarEdit.dataLoading(false, 'Сохранить'));
+				.finally(() => popupAvatarEdit.loadingData(false, 'Сохранить'));
 		}
 	});
 
 // создаем объект попапа для подтверждения удаления карточки
 const popupConfirmDelete = new PopupWithForm('.popup_type_card-delete',
 	{handleSubmitForm: () => {
-			popupConfirmDelete.dataLoading(true, 'Удаление...')
+			popupConfirmDelete.loadingData(true, 'Удаление...')
 			api.removeCard(cardIdDelete)
 				.then(() => {
 					buttonDelete.parentElement.remove();
 					popupConfirmDelete.close();
 				})
 				.catch((err) => console.log(err))
-				.finally(() => popupConfirmDelete.dataLoading(false, 'Да'));
+				.finally(() => popupConfirmDelete.loadingData(false, 'Да'));
 		}
 	});
 
@@ -149,14 +149,14 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
 
 // функция создания нового элемента карточки
 const createNewCard = (item, currentUserId) => {
-	const cardObject = new Card(item, handleLikeToggle, handleCardClick, handleCardDelete, '#place-template');
+	const cardObject = new Card(item, likeToggleHandle, clickCardHandle, deleteCardHandle, '#place-template');
 	const cardElement = cardObject.createCard(currentUserId);
 
 	return cardElement;
 }
 
 // функция отработки постановки/снятия лайка
-const handleLikeToggle = (card) => {
+const likeToggleHandle = (card) => {
 	if (card.getLikeStatus()) {
 		api.deleteLikeAtCard(card._id)
 			.then((newCardData) => {
@@ -173,12 +173,12 @@ const handleLikeToggle = (card) => {
 }
 
 // функция открытия попапа с картинкой
-const handleCardClick = (name, link) => {
+const clickCardHandle = (name, link) => {
 	popupPlaceShow.open(name, link);
 }
 
 // функция для открытия попапа-подтверждения по клику на кнопку удаления карточки
-const handleCardDelete = (button, id)  => {
+const deleteCardHandle = (button, id)  => {
 	popupConfirmDelete.open();
 	buttonDelete = button;
 	cardIdDelete = id;
