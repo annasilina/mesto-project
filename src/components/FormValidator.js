@@ -36,6 +36,11 @@ export default class FormValidator {
 		});
 	}
 
+	resetFormData() {
+		this._formElement.reset();
+		this._resetAllErrors();
+	}
+
 	_checkInput(input) {
 		const inputError = this._findErrorBlock(input);
 
@@ -75,10 +80,5 @@ export default class FormValidator {
 
 	enableValidation() {
 		this._setEventListeners();
-	}
-
-	resetFormData() {
-		this._formElement.reset();
-		this._resetAllErrors();
 	}
 }

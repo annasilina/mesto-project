@@ -9,10 +9,11 @@ export default class Section {
     };
 
     renderItems = (items, currentUserId) => {
-        items.forEach((item) => this._renderer(item, currentUserId));
+        items.forEach((item) => this.setItem(this._renderer(item, currentUserId)));
     };
 
-    addItem = (item) => {
-        this._container.prepend(item);
+    addItem = (item, currentUserId) => {
+        const card = this._renderer(item, currentUserId)
+        this._container.prepend(card);
     };
 }
