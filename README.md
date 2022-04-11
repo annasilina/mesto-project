@@ -40,7 +40,9 @@ _____
 - Мониторы (1280px)
 ----
 Проект выложен на GitHub Pages - https://annasilina.github.io/mesto-project/
+
 Проект создан в концепции "парного программирования".
+
 Почта и GitHub напарника: 
 - evgeniymarchal@yandex.ru
 - https://github.com/harwUk-cedbyk-8qysze
