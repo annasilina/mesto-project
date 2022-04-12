@@ -4,17 +4,14 @@ import Card from '../components/Card.js';
 import Section from '../components/Section.js';
 import UserInfo from "../components/UserInfo.js";
 import FormValidator from '../components/FormValidator.js';
-import PopupWithForm from '../components/PopupWithForm';
-import  PopupWithImage from '../components/PopupWithImage'
+import PopupWithForm from '../components/PopupWithForm.js';
+import  PopupWithImage from '../components/PopupWithImage.js'
 import {
 	formConfig,
 	apiConfig,
 	avatar,
 	userBio,
 	userName,
-	formAvatarChange,
-	formProfileEdit,
-	formPlaceAdd,
 	buttonOpenPopupAvatarChange,
 	buttonOpenPopupProfileEdit,
 	buttonOpenPopupPlaceAdd,
@@ -47,60 +44,48 @@ const cardSection = new Section({
 const popupNewPlace = new PopupWithForm(
 	'.popup_type_place-add',
 	{handleSubmitForm: (cardData) => {
-		popupNewPlace.renderLoading(true, 'Сохранение...');
-		api.sendNewCard(cardData.placeName, cardData.placeLink)
-			.then((cardData) => {
-				const currentUserId = cardData.owner._id;
+		popupNewPlace.renderLoading(true, 'Создание...');
 
-				cardSection.addItem(cardData, currentUserId);
-				popupNewPlace.close();
+		return api.sendNewCard(cardData.placeName, cardData.placeLink)
+			.then((cardData) => {
+				cardSection.addItem(cardData, userDataObject._id);
 			})
-			.catch(err => console.log(err))
-			.finally(() => popupNewPlace.renderLoading(false, 'Создать'));
+			.catch(err => console.log(err));
 		}
 	});
 
 // создаем объект попапа с обновлением имени и подписи
 const popupProfileEdit = new PopupWithForm(
 	'.popup_type_profile-edit',
-	{handleSubmitForm: (newInfo) => {
+	{handleSubmitForm: (newUserInfo) => {
 		popupProfileEdit.renderLoading(true, 'Cохранение...');
-		api.sendUserInfo(newInfo.userName, newInfo.userBio)
-			.then((userInfo) => {
-				userDataObject.setUserInfo(userInfo);
-				popupProfileEdit.close();
-			})
-			.catch(err => console.log(err))
-			.finally(() => popupProfileEdit.renderLoading(false, 'Сохранить'));
+
+		return api.sendUserInfo(newUserInfo.userName, newUserInfo.userBio)
+			.then((newUserInfo) => userDataObject.setUserInfo(newUserInfo))
+			.catch(err => console.log(err));
 		}
 	});
 
 // создаем объект попапа с обновлением аватара
 const popupAvatarEdit = new PopupWithForm(
 	'.popup_type_avatar-change',
-	{handleSubmitForm: (newImage) => {
+	{handleSubmitForm: (newUserAvatar) => {
 			popupAvatarEdit.renderLoading(true, 'Cохранение...');
-			api.sendAvatar(newImage.avatarLink)
-				.then((newImage) => {
-					userDataObject.setUserInfo(newImage);
-					popupAvatarEdit.close();
-				})
-				.catch(err => console.log(err))
-				.finally(() => popupAvatarEdit.renderLoading(false, 'Сохранить'));
+
+			return api.sendAvatar(newUserAvatar.avatarLink)
+				.then((newUserAvatar) => userDataObject.setUserInfo(newUserAvatar))
+				.catch(err => console.log(err));
 		}
 	});
 
 // создаем объект попапа для подтверждения удаления карточки
 const popupConfirmDelete = new PopupWithForm('.popup_type_card-delete',
 	{handleSubmitForm: () => {
-		popupConfirmDelete.renderLoading(true, 'Удаление...')
-		api.removeCard(cardIdDelete)
-			.then(() => {
-				cardDelete.deleteCard();
-				popupConfirmDelete.close();
-			})
-			.catch((err) => console.log(err))
-			.finally(() => popupConfirmDelete.renderLoading(false, 'Да'));
+		popupConfirmDelete.renderLoading(true, 'Удаление...');
+
+		return api.removeCard(cardIdDelete)
+			.then(() => cardDelete.deleteCard())
+			.catch((err) => console.log(err));
 		}
 	});
 
@@ -130,7 +115,6 @@ const enableAllValidation = (formConfig) => {
 // Включение валидации
 enableAllValidation(formConfig);
 
-
 // слушаем кнопки открытия попапов с формами
 buttonOpenPopupPlaceAdd.addEventListener('click', () => {
 	formValidators['formPlaceAdd'].resetFormData();
@@ -150,13 +134,11 @@ buttonOpenPopupAvatarChange.addEventListener('click', () => {
 	popupAvatarEdit.open();
 });
 
-
 // получаем и присваиваем данные профиля и рендерим начальные карточки
 Promise.all([api.getUserInfo(), api.getInitialCards()])
 	.then(([userData, initialItems]) => {
-		const currentUserId = userData._id;
 		userDataObject.setUserInfo(userData); // устанавливаем данные профиля
-		cardSection.renderItems(initialItems, currentUserId); // рендерим карточки
+		cardSection.renderItems(initialItems, userData._id); // рендерим карточки
 	})
 	.catch(err => console.log(err));
 
