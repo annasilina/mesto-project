@@ -28,28 +28,12 @@ const buttonOpenPopupAvatarChange = userInfo.querySelector('.profile__button-edi
 const buttonOpenPopupProfileEdit = userInfo.querySelector('.profile__button-edit_el_info');
 const buttonOpenPopupPlaceAdd = userInfo.querySelector('.profile__button-add');
 
-// находим попап и форму редактирования аватара, в ней - поле ввода для ссылки на картинку
-const popupAvatarChange = document.querySelector('.popup_type_avatar-change');
-const formAvatarChange = popupAvatarChange.querySelector('.popup__form');
-
-// находим попап и форму редактирования профиля, в ней - поля ввода имени и подписи пользователя
-const popupProfileEdit = document.querySelector('.popup_type_profile-edit');
-const formProfileEdit = popupProfileEdit.querySelector('.popup__form');
-
-// находим попап и форму добавления карточки места в галерею
-const popupPlaceAdd = document.querySelector('.popup_type_place-add');
-const formPlaceAdd = popupPlaceAdd.querySelector('.popup__form');
-
-
 export {
 	formConfig,
 	apiConfig,
 	avatar,
 	userBio,
 	userName,
-	formAvatarChange,
-	formProfileEdit,
-	formPlaceAdd,
 	buttonOpenPopupAvatarChange,
 	buttonOpenPopupProfileEdit,
 	buttonOpenPopupPlaceAdd
