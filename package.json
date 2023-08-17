@@ -7,7 +7,7 @@
     "build": "webpack --mode production",
     "dev": "webpack serve --mode development",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "npm run build && scp -Сr ./dist/* sadorei@51.250.27.70:/home/sadorei/mesto-frontend"
   },
   "repository": {
     "type": "git",
